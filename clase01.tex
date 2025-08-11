@@ -1,6 +1,7 @@
 \documentclass{beamer}
 
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} % Agregado para un mejor manejo de tipos en español
 \usepackage[spanish]{babel}
 \usepackage{amsmath}
 \usepackage[nosetup]{evan}
@@ -234,8 +235,8 @@ $$
 $$
 \begin{aligned}
     10 y_U + 9 y_V &\leq x_M \quad \text{(materia prima)} \\
-    1 y_U + 1 y_V &\leq x_A \quad \text{(mano de obra A)} \\
-    2 y_U + 1 y_V &\leq x_B \quad \text{(mano de obra B)} \\
+    y_U + y_V &\leq x_A \quad \text{(mano de obra A)} \\
+    2 y_U + y_V &\leq x_B \quad \text{(mano de obra B)} \\
 \end{aligned}
 $$
 \end{frame}
