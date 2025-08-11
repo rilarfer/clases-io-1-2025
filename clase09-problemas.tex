@@ -1,0 +1,205 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+
+\begin{document}
+
+\section*{Solución utilizando el Método de la Gran M}
+
+\subsection*{Reformulación a la forma estándar}
+
+El problema original es:
+
+\[
+\text{Minimizar } Z = 2x_1 + 3x_2 + x_3
+\]
+\[
+\text{sujeto a:}
+\]
+\[
+x_1 + 4x_2 + 2x_3 \geq 8
+\]
+\[
+3x_1 + 2x_2 \geq 6
+\]
+\[
+x_1 \geq 0, \, x_2 \geq 0, \, x_3 \geq 0
+\]
+
+Para convertir las restricciones a la forma estándar, agregamos variables de holgura negativas \(S_1\) y \(S_2\), y variables artificiales \(A_1\) y \(A_2\):
+
+\[
+x_1 + 4x_2 + 2x_3 - S_1 + A_1 = 8
+\]
+\[
+3x_1 + 2x_2 - S_2 + A_2 = 6
+\]
+
+La función objetivo se convierte en:
+
+\[
+Z = 2x_1 + 3x_2 + x_3 + M(A_1 + A_2)
+\]
+
+donde \(M\) es una constante suficientemente grande, y las variables artificiales deben ser eliminadas para alcanzar una solución factible.
+
+\subsection*{Tabla inicial del Método Simplex}
+
+La tabla inicial para el método simplex es la siguiente:
+
+\[
+\begin{array}{|c|c|c|c|c|c|c|c|c|}
+\hline
+\text{Básica} & x_1 & x_2 & x_3 & S_1 & S_2 & A_1 & A_2 & \text{Solución} \\
+\hline
+A_1 & 1 & 4 & 2 & -1 & 0 & 1 & 0 & 8 \\
+A_2 & 3 & 2 & 0 & 0 & -1 & 0 & 1 & 6 \\
+\hline
+Z & 0 & 0 & 0 & M & M & -M & -M & -8M - 6M \\
+\hline
+\end{array}
+\]
+
+El objetivo es eliminar las variables \(A_1\) y \(A_2\) de la función objetivo. Para hacerlo, sumamos \(M\) veces las ecuaciones de las restricciones a la función objetivo para que los coeficientes de \(A_1\) y \(A_2\) en \(Z\) sean cero.
+
+\subsection*{Primera Iteración}
+
+Actualizamos la fila de \(Z\) sumando \(M\) veces las filas de \(A_1\) y \(A_2\) a la función objetivo:
+
+\[
+Z = (2 + M)(x_1) + (3 + 4M)(x_2) + (1 + 2M)(x_3) - M(S_1) - M(S_2)
+\]
+
+La tabla actualizada es:
+
+\[
+\begin{array}{|c|c|c|c|c|c|c|c|c|}
+\hline
+\text{Básica} & x_1 & x_2 & x_3 & S_1 & S_2 & A_1 & A_2 & \text{Solución} \\
+\hline
+A_1 & 1 & 4 & 2 & -1 & 0 & 1 & 0 & 8 \\
+A_2 & 3 & 2 & 0 & 0 & -1 & 0 & 1 & 6 \\
+\hline
+Z & -M-2 & -4M-3 & -2M-1 & M & M & 0 & 0 & -14M \\
+\hline
+\end{array}
+\]
+
+\textbf{Paso 1: Selección de la variable entrante}
+
+La variable \(x_1\) es la entrante, ya que tiene el valor más negativo en la fila de \(Z\): \(-M - 2\).
+
+\textbf{Paso 2: Selección de la variable saliente}
+
+Para seleccionar la variable saliente, calculamos las razones:
+
+\[
+\frac{8}{1} = 8, \quad \frac{6}{3} = 2
+\]
+
+La variable saliente es \(A_2\), ya que el resultado es el menor (\(2\)).
+
+\textbf{Paso 3: Actualización de la tabla simplex}
+
+Realizamos operaciones en las filas para hacer que el coeficiente de \(x_1\) en la fila de \(A_2\) sea \(1\), y los demás coeficientes de \(x_1\) sean \(0\).
+
+La tabla actualizada es:
+
+\[
+\begin{array}{|c|c|c|c|c|c|c|c|c|}
+\hline
+\text{Básica} & x_1 & x_2 & x_3 & S_1 & S_2 & A_1 & A_2 & \text{Solución} \\
+\hline
+A_1 & 0 & \frac{10}{3} & 2 & -1 & 0 & 1 & -\frac{1}{3} & 2 \\
+x_1 & 1 & \frac{2}{3} & 0 & 0 & -\frac{1}{3} & 0 & \frac{1}{3} & 2 \\
+\hline
+Z & 0 & \frac{4}{3} - 3M & -1 - 2M & M & M - \frac{1}{3} & 0 & M + \frac{2}{3} & -4M \\
+\hline
+\end{array}
+\]
+
+\subsection*{Segunda Iteración}
+
+\textbf{Paso 1: Selección de la variable entrante}
+
+La variable \(x_2\) es la entrante, ya que tiene el valor más negativo en la fila de \(Z\): \(\frac{4}{3} - 3M\).
+
+\textbf{Paso 2: Selección de la variable saliente}
+
+Calculamos las razones:
+
+\[
+\frac{2}{\frac{10}{3}} = \frac{6}{10} = 0.6, \quad \frac{2}{\frac{2}{3}} = 3
+\]
+
+La variable saliente es \(A_1\), ya que el resultado es el menor (\(0.6\)).
+
+\textbf{Paso 3: Actualización de la tabla simplex}
+
+La tabla actualizada es:
+
+\[
+\begin{array}{|c|c|c|c|c|c|c|c|c|}
+\hline
+\text{Básica} & x_1 & x_2 & x_3 & S_1 & S_2 & A_1 & A_2 & \text{Solución} \\
+\hline
+x_2 & 0 & 1 & \frac{3}{5} & -\frac{3}{10} & 0 & \frac{1}{10} & -\frac{1}{10} & \frac{6}{5} \\
+x_1 & 1 & 0 & -\frac{2}{5} & \frac{1}{5} & -\frac{1}{3} & -\frac{1}{10} & \frac{1}{3} & \frac{8}{5} \\
+\hline
+Z & 0 & 0 & -\frac{1}{5} - 2M & M - \frac{2}{5} & M - \frac{1}{3} & M + \frac{3}{5} & -3M \\
+\hline
+\end{array}
+\]
+
+\subsection*{Tercera Iteración}
+
+\textbf{Paso 1: Selección de la variable entrante}
+
+La variable \(x_3\) es la entrante, ya que tiene el valor más negativo en la fila de \(Z\): \(-\frac{1}{5} - 2M\).
+
+\textbf{Paso 2: Selección de la variable saliente}
+
+Calculamos las razones:
+
+\[
+\frac{6/5}{3/5} = 2, \quad \frac{8/5}{2/5} = 4
+\]
+
+La variable saliente es \(x_2\), ya que el resultado es el menor (\(2\)).
+
+\textbf{Paso 3: Actualización de la tabla simplex}
+
+La tabla actualizada es:
+
+\[
+\begin{array}{|c|c|c|c|c|c|c|c|c|}
+\hline
+\text{Básica} & x_1 & x_2 & x_3 & S_1 & S_2 & A_1 & A_2 & \text{Solución} \\
+\hline
+x_3 & 0 & 1 & 1 & \frac{3}{5} & 0 & \frac{1}{5} & -\frac{1}{10} & 2 \\
+x_1 & 1 & 0 & 0 & \frac{1}{5} & -\frac{1}{3} & 0 & \frac{1}{3} & 2 \\
+\hline
+Z & 0 & 0 & 0 & M & M & 0 & 0 & -M \\
+\hline
+\end{array}
+\]
+
+Como ahora todos los valores de \(Z\) son mayores o iguales a cero, hemos alcanzado la solución óptima.
+
+\subsection*{Solución óptima}
+
+La solución óptima es:
+
+\[
+x_1 = 2, \quad x_2 = 0, \quad x_3 = 2
+\]
+
+El valor óptimo de la función objetivo es:
+
+\[
+Z = 2(2) + 3(0) + 1(2) = 4 + 0 + 2 = 6
+\]
+
+De hecho es no acotado, revisar.
+\end{document}

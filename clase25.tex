@@ -1,0 +1,96 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\geometry{a4paper, margin=1in}
+\usepackage{comment}
+
+\title{Problema de Transporte para Explicación}
+\author{Ricardo Largaespada}
+\date{\today}
+
+\newmdenv[
+  backgroundcolor=blue!5,
+  linecolor=blue,
+  linewidth=1pt,
+  roundcorner=5pt,
+  skipabove=\baselineskip,
+  skipbelow=\baselineskip
+]{problem}
+
+\begin{document}
+
+\maketitle
+
+\vspace{-1cm}
+
+\begin{problem}
+\textbf{Problema: Distribución de Suministros desde Almacenes a Centros de Distribución}
+
+Una empresa cuenta con cuatro almacenes (A1, A2, A3, A4) que deben abastecer a cinco centros de distribución (C1, C2, C3, C4, C5). Cada almacén tiene una capacidad de suministro, y cada centro de distribución tiene una demanda específica. Los costos en la tabla a continuación representan el costo de transporte por unidad (en dólares) desde cada almacén hacia cada centro de distribución.
+
+\[
+\begin{array}{|c|c|c|c|c|c|c|}
+\hline
+           & \text{C1} & \text{C2} & \text{C3} & \text{C4} & \text{C5} & \text{Capacidad} \\
+\hline
+\text{A1}  & 4         & 6         & 8         & 10        & 9         & 30        \\
+\text{A2}  & 5         & 3         & 7         & 8         & 6         & 40        \\
+\text{A3}  & 6         & 4         & 3         & 5         & 7         & 50        \\
+\text{A4}  & 8         & 6         & 4         & 3         & 5         & 30        \\
+\hline
+\text{Demanda} & 20    & 30        & 25        & 40        & 35        &           \\
+\hline
+\end{array}
+\]
+
+\begin{itemize}
+    \item \textbf{Objetivo}: Minimizar el costo total de transporte mientras se cumple con la capacidad de los almacenes y la demanda de los centros de distribución.
+\end{itemize}
+
+\end{problem}
+
+\vspace{-0.5cm}
+\begin{comment}
+\begin{problem}
+\textbf{Solución Inicial}
+
+Para obtener una solución inicial, puedes utilizar cualquiera de los métodos, como el \textbf{Método de la Esquina Noroeste}, el \textbf{Método de Costo Mínimo} o el \textbf{Método de Aproximación de Vogel}.
+
+\begin{itemize}
+    \item \textbf{Ejemplo: Método de la Esquina Noroeste}
+        \begin{enumerate}
+            \item Asigna 20 unidades de A1 a C1 (costo: $20 \times 4 = 80$).
+            \item Asigna 10 unidades de A1 a C2 (costo: $10 \times 6 = 60$).
+            \item Asigna 20 unidades de A2 a C2 (costo: $20 \times 3 = 60$).
+            \item Asigna 25 unidades de A2 a C3 (costo: $25 \times 7 = 175$).
+            \item Asigna 20 unidades de A3 a C4 (costo: $20 \times 5 = 100$).
+            \item Asigna 20 unidades de A3 a C5 (costo: $20 \times 7 = 140$).
+            \item Asigna 20 unidades de A4 a C4 (costo: $20 \times 3 = 60$).
+            \item Asigna 15 unidades de A4 a C5 (costo: $15 \times 5 = 75$).
+        \end{enumerate}
+    \item \textbf{Costo Total Inicial}:
+        \[
+        80 + 60 + 60 + 175 + 100 + 140 + 60 + 75 = 750 \text{ dólares}
+        \]
+\end{itemize}
+
+\end{problem}
+
+\vspace{-0.5cm}
+
+\begin{problem}
+\textbf{Optimización}
+
+1. \textbf{Método de Distribución de Costos Modificados (MODI)}: 
+   \begin{itemize}
+       \item Calcula los valores de \( u_i \) y \( v_j \) para cada fila y columna, respectivamente.
+       \item Determina los valores \( c_{ij} - u_i - v_j \) para las celdas no asignadas.
+       \item Identifica si existen valores negativos, lo que indicaría una posible mejora en la solución.
+   \end{itemize}
+
+\end{problem}
+\end{comment}
+\end{document}

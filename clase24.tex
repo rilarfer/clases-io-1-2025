@@ -1,0 +1,105 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\geometry{a4paper, margin=1in}
+
+\title{Solución Básica Factible en Transporte}
+\author{Ricardo Largaespada}
+\date{5 de noviembre 2024}
+
+\newmdenv[
+  backgroundcolor=blue!5,
+  linecolor=blue,
+  linewidth=1pt,
+  roundcorner=5pt,
+  skipabove=\baselineskip,
+  skipbelow=\baselineskip
+]{problem}
+
+\begin{document}
+
+\maketitle
+
+\vspace{-1cm}
+\begin{problem}
+Una empresa tiene tres fábricas (F1, F2, F3) y cuatro almacenes (A1, A2, A3, A4). La capacidad de cada fábrica y la demanda de cada almacén se muestran en la siguiente tabla:
+
+\[
+\begin{array}{|c|c|c|c|c|c|}
+\hline
+           & \text{A1} & \text{A2} & \text{A3} & \text{A4} & \text{Capacidad} \\
+\hline
+\text{F1}  & 2  & 3  & 11 & 7  & 50        \\
+\text{F2}  & 1  & 4  & 2  & 8  & 60        \\
+\text{F3}  & 7  & 5  & 9  & 3  & 25        \\
+\hline
+\text{Demanda} & 30 & 20 & 70 & 15 &           \\
+\hline
+\end{array}
+\]
+
+Calcula la solución inicial básica factible utilizando:
+\begin{itemize}
+    \item Método de la Esquina Noroeste.
+    \item Método del Costo Mínimo.
+    \item Método de Aproximación de Vogel.
+\end{itemize}
+\end{problem}
+
+\vspace{-.5cm}
+
+\begin{problem}
+Una compañía produce un producto en dos plantas (P1, P2) y lo envía a tres centros de distribución (C1, C2, C3). Los costos de transporte, las capacidades de las plantas y la demanda de los centros de distribución se presentan a continuación:
+
+\[
+\begin{array}{|c|c|c|c|c|}
+\hline
+           & \text{C1} & \text{C2} & \text{C3} & \text{Capacidad} \\
+\hline
+\text{P1}  & 4  & 6  & 8  & 40        \\
+\text{P2}  & 2  & 5  & 7  & 50        \\
+\hline
+\text{Demanda} & 30 & 40 & 20 &           \\
+\hline
+\end{array}
+\]
+
+Calcula la solución inicial básica factible para este problema de transporte utilizando:
+\begin{itemize}
+    \item Método de la Esquina Noroeste.
+    \item Método del Costo Mínimo.
+    \item Método de Aproximación de Vogel.
+\end{itemize}
+\end{problem}
+
+\vspace{-.5cm}
+
+\begin{problem}
+Una cadena de supermercados cuenta con tres centros de distribución (CD1, CD2, CD3) y necesita abastecer a cinco tiendas (T1, T2, T3, T4, T5). La capacidad de cada centro y la demanda de cada tienda se muestra en la tabla, junto con los costos de transporte.
+
+\[
+\begin{array}{|c|c|c|c|c|c|c|}
+\hline
+           & \text{T1} & \text{T2} & \text{T3} & \text{T4} & \text{T5} & \text{Capacidad} \\
+\hline
+\text{CD1} & 6  & 4  & 8  & 6  & 3  & 70        \\
+\text{CD2} & 3  & 8  & 5  & 9  & 4  & 55        \\
+\text{CD3} & 7  & 6  & 4  & 7  & 8  & 60        \\
+\hline
+\text{Demanda} & 30 & 20 & 50 & 40 & 45 &           \\
+\hline
+\end{array}
+\]
+
+Calcula la solución inicial básica factible utilizando:
+\begin{itemize}
+    \item Método de la Esquina Noroeste.
+    \item Método del Costo Mínimo.
+    \item Método de Aproximación de Vogel.
+\end{itemize}
+\end{problem}
+
+\end{document}

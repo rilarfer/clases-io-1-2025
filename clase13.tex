@@ -1,0 +1,895 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage[nosetup]{evan}
+\usetheme{Madrid}
+%\usetheme{Goddard}
+\hypersetup{colorlinks,allcolors=.,urlcolor=magenta}
+\usepackage[table]{xcolor} % Para definir colores en tablas
+\usepackage{graphicx} % Para redimensionar la tabla
+
+\title{Investigación de Operaciones I}
+\subtitle{Unidad 2: Aspectos de Dualidad y Análisis de Sensibilidad}
+\author[Ricardo Largaespada]{Ricardo Jesús Largaespada Fernández}
+\institute[UNI]{Ingeniería de Sistemas, DACTIC, UNI}
+\date{07 de Octubre, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Agenda}
+\tableofcontents
+\end{frame}
+
+\begin{frame}
+\frametitle{Objetivos de la Unidad 2}
+\begin{itemize}
+    \item \textbf{Conceptual}: Relacionar un problema de Programación Lineal con su respectivo Problema Dual, comparando las relaciones entre ambos, que permita la determinación de la solución de uno de ellos a partir del otro.
+    \item \textbf{Procedimental}: Formular planteamientos post óptimos a un problema de Programación Lineal, realizando el análisis de sensibilidad y obteniendo soluciones a ejecutarse en una empresa a mediano y largo plazo con la mayor eficiencia y confiabilidad posible.
+    \item \textbf{Actitudinal}: Valorar los resultados obtenidos del análisis de sensibilidad, proponiendo distintas formas de mejorar las actividades de una empresa en forma eficiente y científica.
+\end{itemize}
+\end{frame}
+
+\section{Dual de un Problema Lineal}
+\begin{frame}
+\frametitle{Dual de un programa Lineal.}
+\begin{itemize}
+\item Obtención del dual.\\
+\item Relaciones Primal - Dual
+\end{itemize}
+\pause
+\textbf{Objetivos de Aprendizaje}
+    \begin{enumerate}
+        \item Comprender el concepto de dualidad en programación lineal y ser capaz de identificar el dual de un programa lineal dado.
+        \item Analizar las relaciones entre el programa primal y su dual, identificando cómo los cambios en uno afectan al otro y viceversa.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Límites Superiores de un Problema de Maximización}
+    \textbf{Considera el siguiente PL:}
+    \[
+    z^* = \max \quad 4x_1 + 5x_2 + 8x_3 \\
+    \text{s.a.} \quad x_1 + 2x_2 + 3x_3 \leq 6 \\
+    2x_1 + x_2 + 2x_3 \leq 4 \\
+    x_1 \geq 0, \quad x_2 \geq 0, \quad x_3 \geq 0.
+    \]
+    
+    \vspace{0.3cm}
+    \textbf{Supón que el PL es muy difícil de resolver.}
+    \begin{itemize}
+        \item Tu amigo propone una solución \(\hat{x} = \left(\frac{1}{2}, 1, 1\right)\) con \(\hat{z} = 15\).
+        \item Si conocemos \( z^* \), podemos comparar \(\hat{z}\) con \( z^* \).
+        \item ¿Cómo evaluar el rendimiento de \(\hat{x}\) \textbf{\textcolor{blue}{sin}} resolver el PL?
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    \textbf{Si encontramos un \textcolor{blue}{límite superior} de \( z^* \), eso funcionaría!}
+    \begin{itemize}
+        \item \( z^* \) no puede ser mayor que el límite superior.
+        \item Entonces, si \(\hat{z}\) está cerca del límite superior, \(\hat{x}\) es bastante bueno.
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Límites Superiores de un Problema de Maximización}
+    \textbf{¿Cómo encontrar un límite superior de \( z^* \) para el siguiente problema?}
+    \[
+    z^* = \max \quad 4x_1 + 5x_2 + 8x_3 \\
+    \text{s.a.} \quad x_1 + 2x_2 + 3x_3 \leq 6 \\
+    2x_1 + x_2 + 2x_3 \leq 4 \\
+    x_1 \geq 0, \quad x_2 \geq 0, \quad x_3 \geq 0.
+    \]
+    
+    \vspace{0.3cm}
+    \textbf{¿Qué tal esto? Multipliquemos la primera restricción por 2, y la segunda por 1, y luego sumémoslas:}
+    \[
+    2(x_1 + 2x_2 + 3x_3) + (2x_1 + x_2 + 2x_3) \leq 2 \times 6 + 4 \\
+    \Rightarrow 4x_1 + 5x_2 + 8x_3 \leq 16.
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Compara esto con la función objetivo, sabemos que} \( z^* \leq 16 \).
+    \begin{itemize}
+        \item Tal vez \( z^* \) sea exactamente 16 (y el límite superior sea \textcolor{blue}{ajustado}). Sin embargo, no lo sabemos con certeza.
+        \item \(\hat{z} = 15\) está cerca de \( z^* = 16 \), entonces \(\hat{x}\) es bastante bueno.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Límites Superiores de un Problema de Maximización}
+    \textbf{¿Cómo encontrar un límite superior de \( z^* \) para este problema?}
+    \[
+    z^* = \max \quad \textcolor{blue}{3x_1} + \textcolor{blue}{4x_2} + 8x_3 \\
+    \text{s.a.} \quad x_1 + 2x_2 + 3x_3 \leq 6 \\
+    2x_1 + x_2 + 2x_3 \leq 4 \\
+    x_1 \geq 0, \quad x_2 \geq 0, \quad x_3 \geq 0.
+    \]
+
+    \vspace{0.3cm}
+    \textbf{16 también es un límite superior:}
+    \[
+    3x_1 + 4x_2 + 8x_3 \\
+    \leq 4x_1 + 5x_2 + 8x_3 \quad \text{(porque \( x_1 \geq 0, \, x_2 \geq 0 \))} \\
+    = 2(x_1 + 2x_2 + 3x_3) + (2x_1 + x_2 + 2x_3) \\
+    \leq 2 \times 6 + 4 = 16.
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Es muy probable que 16 no sea un límite superior \textcolor{blue}{ajustado} y que haya uno mejor. ¿Cómo mejorar nuestro límite superior?}
+\end{frame}
+
+\begin{frame}{¿Mejores Límites Superiores?}
+    \[
+    z^* = \max \quad \textcolor{blue}{3x_1} + \textcolor{blue}{4x_2} + 8x_3 \\
+    \text{s.a.} \quad x_1 + 2x_2 + 3x_3 \leq 6 \\
+    2x_1 + x_2 + 2x_3 \leq 4 \\
+    x_1 \geq 0, \quad x_2 \geq 0, \quad x_3 \geq 0.
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Cambiar los \textcolor{blue}{coeficientes} multiplicados en las dos restricciones modifica el límite superior propuesto.}
+    \begin{itemize}
+        \item Diferentes coeficientes dan lugar a diferentes \textcolor{blue}{combinaciones lineales}.
+    \end{itemize}
+
+    \vspace{0.3cm}
+    \textbf{Llamemos a los dos coeficientes \( y_1 \) y \( y_2 \), respectivamente:}
+    
+    \[
+    \begin{array}{cccc}
+    x_1 + & 2x_2 + & 3x_3 \leq 6 & \quad (\times y_1) \\
+    2x_1 + & x_2 + & 2x_3 \leq 4 & \quad (\times y_2) \\
+    \hline
+    (y_1 + 2y_2)x_1 + & (2y_1 + y_2)x_2 + & (3y_1 + 2y_2)x_3 \leq 6y_1 + 4y_2
+    \end{array}
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Necesitamos} \( y_1 \geq 0 \) y \( y_2 \geq 0 \) para preservar el “\(\leq\)”.
+
+    \vspace{0.3cm}
+    \textbf{¿Cuándo tenemos} \( z^* \leq 6y_1 + 4y_2 \)?
+\end{frame}
+
+\begin{frame}{Buscando el Límite Superior Más Bajo}
+    \textbf{Entonces buscamos dos variables \( y_1 \) y \( y_2 \) tales que:}
+    \begin{itemize}
+        \item \( y_1 \geq 0 \) y \( y_2 \geq 0 \).
+        \item \( 3 \leq y_1 + 2y_2, \, 4 \leq 2y_1 + y_2, \, 8 \leq 3y_1 + 2y_2 \).
+        \item Entonces \( z^* \leq 6y_1 + 4y_2 \).
+    \end{itemize}
+
+    \vspace{0.3cm}
+    \textbf{Para intentar nuestro \textcolor{blue}{mejor} esfuerzo en encontrar un límite superior, minimizamos \( 6y_1 + 4y_2 \).}
+    \begin{itemize}
+        \item Estamos resolviendo \textbf{\textcolor{blue}{otro}} problema lineal.
+    \end{itemize}
+
+    \vspace{0.3cm}
+    \[
+    \begin{array}{lll}
+    \text{max} & 3x_1 + 4x_2 + 8x_3 & \\
+    \text{s.a.} & x_1 + 2x_2 + 3x_3 \leq 6 & \\
+    & 2x_1 + x_2 + 2x_3 \leq 4 & \\
+    & x_1 \geq 0, \, x_2 \geq 0, \, x_3 \geq 0. &
+    \end{array}
+    \quad \Rightarrow \quad
+    \begin{array}{lll}
+    \text{min} & 6y_1 + 4y_2 & \\
+    \text{s.a.} & y_1 + 2y_2 \geq 3 & \\
+    & 2y_1 + y_2 \geq 4 & \\
+    & 3y_1 + 2y_2 \geq 8 & \\
+    & y_1 \geq 0, \, y_2 \geq 0. &
+    \end{array}
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Llamamos al problema lineal original el \textcolor{blue}{PL primal} y al nuevo su \textcolor{blue}{PL dual}.}
+
+    \vspace{0.3cm}
+    \textbf{Esta idea se aplica a \textcolor{blue}{cualquier} PL. Veamos más ejemplos.}
+\end{frame}
+
+\begin{frame}{Variables No Positivas o Variables Libres}
+    \textbf{Supongamos que las variables no son todas no negativas:}
+    \[
+    z^* = \max \quad 3x_1 + \textcolor{blue}{4x_2} + 8x_3 \\
+    \text{s.a.} \quad x_1 + 2x_2 + 3x_3 \leq 6 \\
+    2x_1 + x_2 + 2x_3 \leq 4 \\
+    x_1 \geq 0, \quad x_2 \leq 0, \quad x_3 \quad \text{\textcolor{blue}{libre}}.
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Si queremos:}
+    \[
+    3x_1 + \quad \textcolor{blue}{4x_2} + \quad 8x_3 \\
+    \leq \quad (y_1 + 2y_2)x_1 \quad + \quad (2y_1 + y_2)x_2 \quad + \quad (3y_1 + 2y_2)x_3,
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Ahora necesitamos:}
+    \[
+    \begin{array}{lcl}
+    y_1 + 2y_2 & \geq & 3 \quad \text{porque} \quad x_1 \geq 0, \\
+    2y_1 + y_2 & \leq & 4 \quad \text{porque} \quad x_2 \leq 0, \\
+    3y_1 + 2y_2 & = & 8 \quad \text{porque} \quad x_3 \quad \text{es \textcolor{blue}{libre}}.
+    \end{array}
+    \]
+\end{frame}
+
+\begin{frame}{Variables No Positivas o Variables Libres}
+    \textbf{Entonces, los PL primal y dual son:}
+    \[
+    \begin{array}{lll}
+    \text{max} & 3x_1 + \textcolor{blue}{4x_2} + 8x_3 & \\
+    \text{s.a.} & x_1 + 2x_2 + 3x_3 \leq 6 & \\
+    & 2x_1 + x_2 + 2x_3 \leq 4 & \\
+    & x_1 \geq 0, \, x_2 \leq 0, \, x_3 \quad \text{\textcolor{blue}{libre}}. &
+    \end{array}
+    \quad \text{y} \quad
+    \begin{array}{lll}
+    \text{min} & 6y_1 + 4y_2 & \\
+    \text{s.a.} & y_1 + 2y_2 \geq 3 & \\
+    & 2y_1 + y_2 \leq 4 & \\
+    & 3y_1 + 2y_2 = 8 & \\
+    & y_1 \geq 0, \, y_2 \geq 0. &
+    \end{array}
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Algunas observaciones:}
+    \begin{itemize}
+        \item \textbf{Primal max} \(\Rightarrow\) \textbf{Dual min}.
+        \item \textbf{Objetivo primal} \(\Rightarrow\) \textbf{RHS dual}.
+        \item \textbf{RHS primal} \(\Rightarrow\) \textbf{Objetivo dual}.
+    \end{itemize}
+
+    \vspace{0.3cm}
+    \textbf{Además:}
+    \begin{itemize}
+        \item Variable primal \(\geq 0\) \(\Rightarrow\) Restricción dual \(\geq\).
+        \item Variable primal \(\leq 0\) \(\Rightarrow\) Restricción dual \(\leq\).
+        \item Variable libre primal \(\Rightarrow\) Restricción dual \(\textcolor{blue}{=}\).
+    \end{itemize}
+
+    \vspace{0.3cm}
+    \textbf{¿Qué pasa si tenemos restricciones primal \(\geq\) o \(\textcolor{blue}{=}\)?}
+\end{frame}
+
+\begin{frame}{Restricciones de No Menor Que y de Igualdad}
+    \textbf{Supongamos que las restricciones no son todas “\(\leq\)”:}
+    \[
+    z^* = \max \quad 3x_1 + \textcolor{blue}{4x_2} + 8x_3 \\
+    \text{s.a.} \quad x_1 + 2x_2 + 3x_3 \quad \text{\textcolor{blue}{$\geq$}} \quad 6 \\
+    2x_1 + x_2 + 2x_3 \quad \text{\textcolor{blue}{$=$}} \quad 4 \\
+    x_1 \geq 0, \quad x_2 \leq 0, \quad x_3 \quad \text{libre}.
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Para obtener:}
+    \[
+    y_1(x_1 + 2x_2 + 3x_3) + y_2(2x_1 + x_2 + 2x_3) \leq 6y_1 + 4y_2,
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Ahora necesitamos que} \( y_1 \leq 0 \). \( y_2 \) puede tener cualquier signo (es decir, libre).
+\end{frame}
+
+\begin{frame}{Restricciones de No Menor Que y de Igualdad}
+    \textbf{Entonces, los PL primal y dual son:}
+    \[
+    \begin{array}{lll}
+    \text{max} & 3x_1 + \textcolor{blue}{4x_2} + 8x_3 & \\
+    \text{s.a.} & x_1 + 2x_2 + 3x_3 \quad \text{\textcolor{blue}{$\geq$}} \quad 6 & \\
+    & 2x_1 + x_2 + 2x_3 \quad \text{\textcolor{blue}{$=$}} \quad 4 & \\
+    & x_1 \geq 0, \, x_2 \leq 0, \, x_3 \quad \text{libre}. &
+    \end{array}
+    \quad \text{y} \quad
+    \begin{array}{lll}
+    \text{min} & 6y_1 + 4y_2 & \\
+    \text{s.a.} & y_1 + 2y_2 \geq 3 & \\
+    & 2y_1 + y_2 \leq 4 & \\
+    & 3y_1 + 2y_2 = 8 & \\
+    & y_1 \leq 0, \, y_2 \quad \text{libre}. &
+    \end{array}
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Algunas observaciones adicionales:}
+    \begin{itemize}
+        \item Restricción primal “\(\leq\)” \(\Rightarrow\) Variable dual “\(\geq 0\)”.
+        \item Restricción primal “\(\geq\)” \(\Rightarrow\) Variable dual “\(\leq 0\)”.
+        \item Restricción primal “\(\textcolor{blue}{=}\)” \(\Rightarrow\) Variable dual libre.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{La Regla General}
+    \textbf{En general, si el PL primal es:}
+    \[
+    \begin{array}{lll}
+    \text{max} & c_1x_1 + c_2x_2 + c_3x_3 & \\
+    \text{s.a.} & A_{11}x_1 + A_{12}x_2 + A_{13}x_3 \quad \text{\textcolor{blue}{$\geq$}} \quad b_1 & \\
+    & A_{21}x_1 + A_{22}x_2 + A_{23}x_3 \quad \text{\textcolor{blue}{$\leq$}} \quad b_2 & \\
+    & A_{31}x_1 + A_{32}x_2 + A_{33}x_3 \quad \text{\textcolor{blue}{$=$}} \quad b_3 & \\
+    & x_1 \geq 0, \, x_2 \leq 0, \, x_3 \quad \text{libre}. &
+    \end{array}
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Su PL dual es:}
+    \[
+    \begin{array}{lll}
+    \text{min} & b_1y_1 + b_2y_2 + b_3y_3 & \\
+    \text{s.a.} & A_{11}y_1 + A_{21}y_2 + A_{31}y_3 \quad \text{\textcolor{blue}{$\geq$}} \quad c_1 & \\
+    & A_{12}y_1 + A_{22}y_2 + A_{32}y_3 \quad \text{\textcolor{blue}{$\leq$}} \quad c_2 & \\
+    & A_{13}y_1 + A_{23}y_2 + A_{33}y_3 \quad \text{\textcolor{blue}{$=$}} \quad c_3 & \\
+    & y_1 \leq 0, \, y_2 \geq 0, \, y_3 \quad \text{libre}. &
+    \end{array}
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Nota que la matriz de coeficientes de las restricciones está \textcolor{blue}{“traspuesta”}.}
+\end{frame}
+
+\begin{frame}{Representación Matricial}
+    \textbf{En general, si el PL primal es:}
+    \[
+    \begin{array}{lll}
+    \text{max} & c_1x_1 + c_2x_2 + c_3x_3 & \\
+    \text{s.a.} & A_{11}x_1 + A_{12}x_2 + A_{13}x_3 \quad = \quad b_1 & \\
+    & A_{21}x_1 + A_{22}x_2 + A_{23}x_3 \quad = \quad b_2 & \\
+    & A_{31}x_1 + A_{32}x_2 + A_{33}x_3 \quad = \quad b_3 & \\
+    & x_1 \geq 0, \, x_2 \geq 0, \, x_3 \geq 0, &
+    \end{array}
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Está en la \textcolor{blue}{forma estándar}, su PL dual es:}
+    \[
+    \begin{array}{lll}
+    \text{min} & b_1y_1 + b_2y_2 + b_3y_3 & \\
+    \text{s.a.} & A_{11}y_1 + A_{21}y_2 + A_{31}y_3 \quad \geq \quad c_1 & \\
+    & A_{12}y_1 + A_{22}y_2 + A_{32}y_3 \quad \geq \quad c_2 & \\
+    & A_{13}y_1 + A_{23}y_2 + A_{33}y_3 \quad \geq \quad c_3. &
+    \end{array}
+    \]
+
+    \vspace{0.3cm}
+    \textbf{En la representación matricial:}
+    \[
+    \begin{array}{lll}
+    \text{max} & c^T x & \\
+    \text{s.a.} & Ax = b & \\
+    & x \geq 0 &
+    \end{array}
+    \quad \text{y} \quad
+    \begin{array}{lll}
+    \text{min} & y^T b & \\
+    \text{s.a.} & y^T A \geq c^T. &
+    \end{array}
+    \]
+\end{frame}
+
+\begin{frame}{El PL Dual para un PL Primal de Minimización}
+    \textbf{Para un PL de minimización, su PL dual es \textcolor{blue}{maximizar el límite inferior}.}
+    \textbf{Las reglas para las direcciones de las variables y restricciones están \textcolor{blue}{invertidas}:}
+    
+    \vspace{0.3cm}
+    \[
+    \begin{array}{lll}
+    \text{min} & 3x_1 + \textcolor{blue}{4x_2} + 8x_3 & \\
+    \text{s.a.} & x_1 + 2x_2 + 3x_3 \quad \text{\textcolor{blue}{$\geq$}} \quad 6 & \\
+    & 2x_1 + x_2 + 2x_3 \quad \text{\textcolor{blue}{$\leq$}} \quad 4 & \\
+    & x_1 \geq 0, \, x_2 \leq 0, \, x_3 \quad \text{libre}. &
+    \end{array}
+    \quad \Rightarrow \quad
+    \begin{array}{lll}
+    \text{max} & 6y_1 + 4y_2 & \\
+    \text{s.a.} & y_1 + 2y_2 \leq 3 & \\
+    & 2y_1 + y_2 \geq 4 & \\
+    & 3y_1 + 2y_2 = 8 & \\
+    & y_1 \geq 0, \, y_2 \leq 0. &
+    \end{array}
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Nota que:}
+    \[
+    3x_1 + 4x_2 + 8x_3 \\
+    \geq (y_1 + 2y_2)x_1 + (2y_1 + y_2)x_2 + (3y_1 + 2y_2)x_3 \\
+    \geq (x_1 + 2x_2 + 3x_3)y_1 + (2x_1 + x_2 + 2x_3)y_2 \\
+    \geq 6y_1 + 4y_2.
+    \]
+\end{frame}
+
+\begin{frame}{La Regla General, Unicidad y Simetría}
+    \textbf{La regla general para encontrar el PL dual:}
+
+    \vspace{0.3cm}
+    \[
+    \begin{array}{|c|c|c|c|c|}
+    \hline
+    \textbf{Función Obj.} & \text{max} & \text{min} & \textbf{Función Obj.} \\
+    \hline
+    & \leq & \geq & \\
+    \textbf{Restricción}& \geq & \leq & \textbf{Variable}\\
+    & = & \text{urs.} & \\
+    \hline
+    & \geq 0 & \geq 0 & \\
+    \textbf{Variable}& \leq 0 & \leq 0 & \textbf{Restricción}\\
+    & \text{urs.} & = & \\
+    \hline
+    \end{array}
+    \]
+
+    \vspace{0.5cm}
+    \textbf{Si el PL primal es un problema de maximización, hazlo de izquierda a derecha.}
+
+    \textbf{Si el PL primal es un problema de minimización, hazlo de derecha a izquierda.}
+
+    \vspace{0.5cm}
+    \begin{block}{\textbf{Proposición 1 (Unicidad y Simetría de la Dualidad)}}
+        \textit{Para cualquier PL primal, existe un único dual, cuyo dual es el primal.}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Ejemplos de Pares Primal-Dual}
+    \textbf{Ejemplo 1:}
+
+    \[
+    \begin{array}{lll}
+    \text{min} & 2x_1 + 3x_2 & \\
+    \text{s.a.} & 4x_1 + x_2 \quad \leq \quad 9 & \\
+    & x_1 \quad \geq \quad 6 & \\
+    & 2x_1 - x_2 \quad \geq \quad 8 & \\
+    & x_1 \leq 0, \, x_2 \quad \text{libre}. &
+    \end{array}
+    \quad \Leftrightarrow \quad
+    \begin{array}{lll}
+    \text{max} & 9y_1 + 6y_2 + 8y_3 & \\
+    \text{s.a.} & 4y_1 + y_2 + 2y_3 \quad \geq \quad 2 & \\
+    & y_1 - y_3 \quad = \quad 3 & \\
+    & y_1 \leq 0, \, y_2 \geq 0, \, y_3 \geq 0. &
+    \end{array}
+    \]
+
+    \vspace{0.5cm}
+    \textbf{Ejemplo 2:}
+
+    \[
+    \begin{array}{lll}
+    \text{max} & 3x_1 - x_2 & \\
+    \text{s.a.} & x_1 + 2x_2 \quad = \quad 6 & \\
+    & 3x_1 + 3x_2 \quad \leq \quad -4 & \\
+    & x_1 \quad \text{libre}, \, x_2 \geq 0. &
+    \end{array}
+    \quad \Leftrightarrow \quad
+    \begin{array}{lll}
+    \text{min} & 6y_1 - 4y_2 & \\
+    \text{s.a.} & y_1 + 3y_2 \quad = \quad 3 & \\
+    & 2y_1 + 3y_2 \quad \geq \quad -1 & \\
+    & y_1 \quad \text{libre}, \, y_2 \geq 0. &
+    \end{array}
+    \]
+\end{frame}
+
+\begin{frame}{Teoremas de Dualidad}
+    \textbf{La dualidad proporciona muchas propiedades interesantes.}
+
+    \vspace{0.3cm}
+    \textbf{Ilustraremos estas propiedades para problemas lineales (PL) primales en \textbf{forma estándar}:}
+    
+    \vspace{0.5cm}
+    \[
+    \begin{array}{c}
+    \text{max} \quad c^T x \\
+    \text{s.a.} \quad Ax = b \\
+    \quad x \geq 0
+    \end{array}
+    \quad \Leftrightarrow \quad
+    \begin{array}{c}
+    \text{min} \quad y^T b \\
+    \text{s.a.} \quad y^T A \geq c^T.
+    \end{array}
+    \quad (1)
+    \]
+
+    \vspace{0.5cm}
+    \textbf{Se puede demostrar que todas las propiedades que introduciremos se aplican a otros pares primal-dual.}
+\end{frame}
+
+\begin{frame}{Dualidad Débil}
+    \[
+    \begin{array}{c}
+    \text{max} \quad c^T x \\
+    \text{s.a.} \quad Ax = b \\
+    \quad x \geq 0
+    \end{array}
+    \quad \Leftrightarrow \quad
+    \begin{array}{c}
+    \text{min} \quad y^T b \\
+    \text{s.a.} \quad y^T A \geq c^T.
+    \end{array}
+    \]
+
+    \vspace{0.3cm}
+    \textbf{El PL dual proporciona un \textcolor{blue}{límite superior} para el PL primal.}
+
+    \vspace{0.5cm}
+    \begin{block}{\textbf{Proposición 2 (Dualidad Débil)}}
+        \textit{Para los PL definidos en (1), si \( x \) e \( y \) son factibles para el primal y el dual, entonces \( c^T x \leq y^T b \).}
+    \end{block}
+
+    \vspace{0.3cm}
+    \textbf{Demostración.} Mientras \( x \) e \( y \) sean factibles para el primal y el dual, tenemos:
+
+    \[
+    c^T x \leq y^T A x \quad (x \geq 0 \, \text{y} \, y^T A \geq c^T) \\
+    \leq y^T b \quad (Ax = b).
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Por lo tanto, se cumple la dualidad débil.}
+\end{frame}
+
+\begin{frame}{Suficiencia de la Optimalidad}
+    \[
+    \begin{array}{c}
+    \text{max} \quad c^T x \\
+    \text{s.a.} \quad Ax = b \\
+    \quad x \geq 0
+    \end{array}
+    \quad \Leftrightarrow \quad
+    \begin{array}{c}
+    \text{min} \quad y^T b \\
+    \text{s.a.} \quad y^T A \geq c^T.
+    \end{array}
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Ahora tenemos una \textcolor{blue}{condición suficiente} para soluciones óptimas.}
+
+    \vspace{0.5cm}
+    \begin{block}{\textbf{Proposición 3 (Condición Suficiente para la Optimalidad)}}
+        \textit{Si \(\bar{x}\) y \(\bar{y}\) son factibles para el primal y el dual y \( c^T \bar{x} = \bar{y}^T b \), entonces \(\bar{x}\) y \(\bar{y}\) son óptimos para el primal y el dual.}
+    \end{block}
+
+    \vspace{0.3cm}
+    \textbf{Demostración.} Para cualquier \( y \) factible para el dual, tenemos \( c^T \bar{x} \leq y^T b \) por dualidad débil. Pero nos dan que \( c^T \bar{x} = \bar{y}^T b \), así que tenemos \( \bar{y}^T b \leq y^T b \) para cualquier \( y \) factible para el dual. Esto solo nos dice que \(\bar{y}\) es óptimo para el dual. Para \(\bar{x}\), es lo mismo.
+
+    \vspace{0.3cm}
+    \textbf{Dada una solución factible para el primal \(\bar{x}\), si podemos encontrar una solución factible para el dual tal que sus valores objetivos sean \textbf{idénticos}, entonces \(\bar{x}\) es óptima.}
+\end{frame}
+
+\begin{frame}{La Solución Óptima Dual}
+    \[
+    \begin{array}{c}
+    \text{max} \quad c^T x \\
+    \text{s.a.} \quad Ax = b \\
+    \quad x \geq 0
+    \end{array}
+    \quad \Leftrightarrow \quad
+    \begin{array}{c}
+    \text{min} \quad y^T b \\
+    \text{s.a.} \quad y^T A \geq c^T.
+    \end{array}
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Si hemos resuelto el PL primal, la \textcolor{blue}{solución óptima dual} está allí.}
+
+    \vspace{0.5cm}
+    \begin{block}{\textbf{Proposición 4 (Solución Óptima Dual)}}
+        \textit{Para los PL definidos en (1), si \(\bar{x}\) es óptima primal con la base \( B \), entonces \(\bar{y}^T = c_B^T A_B^{-1}\) es óptima dual.}
+    \end{block}
+
+    \vspace{0.3cm}
+    \textbf{Demostración.} Dado que \( B \) es óptima, los costos reducidos \( c_B^T A_B^{-1} A_N - c_N^T \geq 0 \). Como \( c_B^T = c_B^T A_B^{-1} A_B \), tenemos
+
+    \[
+    \bar{y}^T A = c_B^T A_B^{-1} A = c_B^T A_B^{-1} \left[ A_B \quad A_N \right] \geq \left[ c_B^T \quad c_N^T \right] = c^T.
+    \]
+
+    \vspace{0.3cm}
+    Por lo tanto, \(\bar{y}\) es factible para el dual. Como \(\bar{y}^T b = c_B^T A_B^{-1} b = c_B^T x_B = c^T x\), \(\bar{x}\) y \(\bar{y}\) tienen el mismo valor objetivo y son ambas óptimas.
+\end{frame}
+
+\begin{frame}{Dualidad Fuerte}
+    \[
+    \begin{array}{c}
+    \text{max} \quad c^T x \\
+    \text{s.a.} \quad Ax = b \\
+    \quad x \geq 0
+    \end{array}
+    \quad \Leftrightarrow \quad
+    \begin{array}{c}
+    \text{min} \quad y^T b \\
+    \text{s.a.} \quad y^T A \geq c^T.
+    \end{array}
+    \]
+
+    \vspace{0.3cm}
+    \textbf{El hecho de que \( c_B^T A_B^{-1} \) sea óptimo dual implica \textcolor{blue}{dualidad fuerte}.}
+
+    \vspace{0.5cm}
+    \begin{block}{\textbf{Proposición 5 (Dualidad Fuerte)}}
+        \textit{Para los PL definidos en (1), \(\bar{x}\) y \(\bar{y}\) son óptimos primal y dual si y solo si \(\bar{x}\) y \(\bar{y}\) son factibles para el primal y el dual y \( c^T \bar{x} = \bar{y}^T b \).}
+    \end{block}
+
+    \vspace{0.3cm}
+    \textbf{Demostración.} Para probar esta afirmación de si y solo si:
+
+    \begin{itemize}
+        \item \((\Leftarrow)\): Por la Proposición 3.
+        \item \((\Rightarrow)\): Dado que \( c_B^T A_B^{-1} \) es una solución óptima dual, el valor objetivo óptimo dual es \( c_B^T A_B^{-1} b \), que es igual al valor objetivo óptimo primal \( c^T \bar{x} \).
+    \end{itemize}
+
+    \vspace{0.3cm}
+    Como \(\bar{y}\) es óptimo dual, \(\bar{y}^T b = c_B^T A_B^{-1} b = c^T \bar{x}\).
+
+    \vspace{0.5cm}
+    \textit{Nota:} Como el PL dual puede o no tener una solución óptima única, \(\bar{y}^T\) y \( c_B^T A_B^{-1} \) pueden o no ser idénticos. En cualquier caso, la afirmación se cumple.
+\end{frame}
+
+\begin{frame}{Implicaciones de la Dualidad Fuerte}
+    \textbf{La dualidad fuerte ciertamente implica dualidad débil.}
+    
+    \begin{itemize}
+        \item La dualidad débil dice que el PL dual proporciona un límite.
+        \item La dualidad fuerte dice que el límite es \textcolor{blue}{ajustado}, es decir, no se puede mejorar.
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    \textbf{Los PL primales y duales son \textcolor{blue}{equivalentes}.}
+
+    \vspace{0.3cm}
+    \textbf{Dado el resultado de un PL, podemos predecir el resultado de su dual:}
+
+    \[
+    \begin{array}{|c|c|c|c|}
+    \hline
+    \textbf{Primal} & \textbf{Dual} & & \\
+    & \text{Inviable} & \text{No Acotado} & \text{Óptimo Finito} \\
+    \hline
+    \text{Inviable} & \checkmark & \checkmark & \times \\
+    \text{No Acotado} & \checkmark & \times & \times \\
+    \text{Óptimo Finito} & \times & \times & \checkmark \\
+    \hline
+    \end{array}
+    \]
+
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item \(\checkmark\) significa posible, \(\times\) significa imposible.
+        \item Primal no acotado \(\Rightarrow\) sin límite superior \(\Rightarrow\) dual inviable.
+        \item Primal óptimo finito \(\Rightarrow\) valor objetivo finito \(\Rightarrow\) dual óptimo finito.
+        \item Si el primal es inviable, el dual aún puede ser inviable (según ejemplos).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo}
+    \textbf{Consideremos los siguientes PL primal y dual:}
+
+    \[
+    \begin{array}{lll}
+    \text{max} & x_1 & \\
+    \text{s.a.} & 2x_1 - x_2 \leq 4 & \\
+    & 2x_1 + x_2 \leq 8 & \quad \Leftrightarrow \quad \text{min} \quad 4y_1 + 8y_2 + 3y_3 \\
+    & x_2 \leq 3 & \text{s.a.} & 2y_1 + 2y_2 \geq 1 \\
+    & x_j \geq 0 \quad \forall j = 1, 2. & & -y_1 + y_2 + y_3 \geq 0 \\
+    & & & y_i \geq 0 \quad \forall i = 1, \ldots, 3.
+    \end{array}
+    \]
+
+    \vspace{0.3cm}
+    \textbf{Para el PL primal en \textbf{forma estándar}, tenemos:}
+
+    \[
+    c^T = \left[ 1 \quad 0 \quad 0 \quad 0 \quad 0 \right] \quad \text{y} \quad A = \left[ \begin{array}{ccccc}
+    2 & -1 & 1 & 0 & 0 \\
+    2 & 1 & 0 & 1 & 0 \\
+    0 & 1 & 0 & 0 & 1
+    \end{array} \right]
+    \]
+
+    \vspace{0.5cm}
+    \textbf{Resolvamos el PL primal para obtener una \textcolor{blue}{solución óptima dual}.}
+\end{frame}
+
+\begin{frame}{Solución Óptima Primal}
+    \textbf{Utilizando el método símplex, obtenemos el siguiente \textbf{tablao óptimo}:}
+
+    \[
+    \left[ \begin{array}{cccccc|c}
+    -1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    2 & -1 & 1 & 0 & 0 & 0 & x_3 = 4 \\
+    2 & 1 & 0 & 1 & 0 & 0 & x_4 = 8 \\
+    0 & 1 & 0 & 0 & 0 & 1 & x_5 = 3
+    \end{array} \right]
+    \quad \rightarrow \ldots \rightarrow \quad
+    \left[ \begin{array}{cccccc|c}
+    0 & 0 & \frac{1}{4} & \frac{1}{4} & 0 & 0 & 3 \\
+    1 & 0 & \frac{1}{4} & \frac{1}{4} & 0 & 0 & x_1 = 3 \\
+    0 & 1 & -\frac{1}{2} & \frac{1}{2} & 0 & 0 & x_2 = 2 \\
+    0 & 0 & \frac{1}{2} & -\frac{1}{2} & 1 & 0 & x_5 = 1
+    \end{array} \right]
+    \]
+
+    \vspace{0.5cm}
+    \textbf{La base óptima asociada es \( B = (1, 2, 5) \).}
+
+    \vspace{0.3cm}
+    \textbf{La solución óptima primal es \(\bar{x} = (3, 2)\).}
+
+    \vspace{0.3cm}
+    \textbf{El valor objetivo asociado es \( z^* = 3 \).}
+\end{frame}
+
+\begin{frame}{Solución Óptima Dual}
+    \textbf{Recordemos que:}
+
+    \[
+    c^T = \left[ 1 \quad 0 \quad 0 \quad 0 \quad 0 \right] \quad \text{y} \quad A = \left[ \begin{array}{ccccc}
+    2 & -1 & 1 & 0 & 0 \\
+    2 & 1 & 0 & 1 & 0 \\
+    0 & 1 & 0 & 0 & 1
+    \end{array} \right].
+    \]
+
+    \vspace{0.5cm}
+    \textbf{Dado \( x_B = (x_1, x_2, x_5) \) y \( x_N = (x_3, x_4) \), tenemos:}
+
+    \[
+    c_B^T = \left[ 1 \quad 0 \quad 0 \right] \quad \text{y} \quad A_B = \left[ \begin{array}{ccc}
+    2 & -1 & 0 \\
+    2 & 1 & 0 \\
+    0 & 1 & 1
+    \end{array} \right].
+    \]
+\end{frame}
+
+\begin{frame}{Solución Óptima Dual}
+    \textbf{Dada la base óptima primal, obtenemos una \textcolor{blue}{solución dual}:}
+
+    \[
+    \bar{y}^T = c_B^T A_B^{-1} = \left[ 1 \quad 0 \quad 0 \right] \left[ \begin{array}{ccc}
+    \frac{1}{4} & \frac{1}{4} & 0 \\
+    -\frac{1}{2} & \frac{1}{2} & 0 \\
+    \frac{1}{2} & -\frac{1}{2} & 1
+    \end{array} \right] = \left[ \frac{1}{4} \quad \frac{1}{4} \quad 0 \right].
+    \]
+
+    \vspace{0.5cm}
+    \textbf{Para \(\bar{y} = \left( \frac{1}{4}, \frac{1}{4}, 0 \right)\):}
+
+    \begin{itemize}
+        \item Es factible para el dual: \( 2 \left( \frac{1}{4} \right) + 2 \left( \frac{1}{4} \right) \geq 1 \) y \( -\frac{1}{4} + \frac{1}{4} + 0 \geq 0 \).
+        \item Su valor objetivo dual es \( w = 4 \left( \frac{1}{4} \right) + 8 \left( \frac{1}{4} \right) = 3 = z^* \).
+    \end{itemize}
+
+    \vspace{0.5cm}
+    \textbf{Por lo tanto, \(\bar{y}\) es \textcolor{blue}{óptimo dual}.}
+\end{frame}
+
+\begin{frame}{Holgura Complementaria}
+    \textbf{Consideremos \( v \), las \textcolor{blue}{variables de holgura} del PL dual:}
+
+    \[
+    \text{min} \quad y^T b \\
+    \text{s.a.} \quad y^T A - v^T = c^T \quad (2) \\
+    \quad v \geq 0.
+    \]
+
+    \vspace{0.5cm}
+    \begin{block}{\textbf{Proposición 6 (Holgura Complementaria)}}
+        \textit{Para los PL definidos en (1) y (2), \(\bar{x}\) y \((\bar{y}, \bar{v})\) son óptimos primal y dual si y solo si son factibles y \(\bar{v}^T \bar{x} = 0\).}
+    \end{block}
+
+    \vspace{0.5cm}
+    \textbf{Demostración.} Tenemos que \( c^T \bar{x} = \left( \bar{y}^T A - \bar{v}^T \right) \bar{x} = \bar{y}^T A \bar{x} - \bar{v}^T \bar{x} = \bar{y}^T b - \bar{v}^T \bar{x} \).
+
+    \vspace{0.3cm}
+    Por lo tanto, \(\bar{v}^T \bar{x} = 0\) si y solo si \( c^T \bar{x} = \bar{y}^T b\), es decir, \(\bar{x}\) y \((\bar{y}, \bar{v})\) son óptimos primal y dual según la dualidad fuerte.
+
+    \begin{itemize}
+        \item Nota que \(\bar{v}^T \bar{x} = 0\) si y solo si \(\bar{v}_i \bar{x}_i = 0\) para todo \( i \) ya que \(\bar{x} \geq 0\) y \(\bar{v} \geq 0\).
+        \item Si una restricción dual (respectivamente primal) no es activa, la variable primal (respectivamente dual) correspondiente es \textbf{cero}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo}
+    \textbf{Consideremos los PL primal y dual que hemos mencionado:}
+
+    \[
+    \begin{array}{lll}
+    \text{max} & x_1 & \\
+    \text{s.a.} & 2x_1 - x_2 \leq 4 & \\
+    & 2x_1 + x_2 \leq 8 & \quad \Leftrightarrow \quad \text{min} \quad 4y_1 + 8y_2 + 3y_3 \\
+    & x_2 \leq 3 & \text{s.a.} & 2y_1 + 2y_2 \geq 1 \\
+    & x_j \geq 0 \quad \forall j = 1, 2. & & -y_1 + y_2 + y_3 \geq 0 \\
+    & & & y_i \geq 0 \quad \forall i = 1, \ldots, 3.
+    \end{array}
+    \]
+\end{frame}
+
+\begin{frame}{Ejemplo}
+    \textbf{Sean \( s_i \) y \( v_j \) las variables de holgura para los PL primal y dual:}
+
+    \[
+    \begin{array}{lll}
+    \text{max} & x_1 & \\
+    \text{s.a.} & 2x_1 - x_2 + s_1 = 4 & \\
+    & 2x_1 + x_2 + s_2 = 8 & \\
+    & x_2 + s_3 = 3 & \\
+    & x_j \geq 0 \quad \forall j = 1, 2, \quad s_i \geq 0 \quad \forall i = 1, \ldots, 3.
+    \end{array}
+    \]
+
+    \vspace{0.5cm}
+    \[
+    \text{min} \quad 4y_1 + 8y_2 + 3y_3
+    \]
+
+    \vspace{0.5cm}
+    \[
+    \begin{array}{lll}
+    \text{s.a.} & 2y_1 + 2y_2 - v_1 = 1 & \\
+    & -y_1 + y_2 + y_3 - v_2 = 0 & \\
+    & y_i \geq 0 \quad \forall i = 1, \ldots, 3, \quad v_j \geq 0 \quad \forall j = 1, 2.
+    \end{array}
+    \]
+\end{frame}
+
+\begin{frame}{Ejemplo}
+    \textbf{Sea \((\bar{x}, \bar{s})\) óptimo primal, tenemos \((\bar{x}, \bar{s}) = (3, 2, 0, 0, 1)\). Vamos a encontrar una solución óptima dual \((\bar{y}, \bar{v})\) sin resolver el PL dual.}
+
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item De acuerdo con la \textbf{holgura complementaria}, \(\bar{x}_1 > 0\), \(\bar{x}_2 > 0\) y \(\bar{s}_3 > 0\) implican que \(\bar{v}_1 = 0\), \(\bar{v}_2 = 0\) y \(\bar{y}_3 = 0\), respectivamente.
+    \end{itemize}
+
+    \vspace{0.5cm}
+    \textbf{Las dos igualdades funcionales del dual se reducen a:}
+
+    \[
+    \begin{cases}
+    2\bar{y}_1 + 2\bar{y}_2 = 1 \\
+    -\bar{y}_1 + \bar{y}_2 = 0.
+    \end{cases}
+    \]
+
+    \vspace{0.5cm}
+    \textbf{Resolver estas ecuaciones resulta en \(\bar{y}_1 = \frac{1}{4}\) y \(\bar{y}_2 = \frac{1}{4}\). \((\bar{y}, \bar{v})\) es entonces óptimo dual garantizado.}
+
+    \vspace{0.5cm}
+    \textbf{Nota que \( z^* = 3 = w^* \).}
+\end{frame}
+
+\begin{frame}{¿Por qué dualidad?}
+    \textbf{¿Por qué dualidad?} Dado un PL:
+    \begin{itemize}
+        \item Podemos resolverlo directamente.
+        \item O podemos resolver el PL dual y luego obtener la solución óptima primal.
+    \end{itemize}
+
+    \vspace{0.5cm}
+    \textbf{¿Por qué molestarse?}
+
+    \vspace{0.3cm}
+    El tiempo de cálculo del método símplex es aproximadamente proporcional a \( m^3 \).
+    \begin{itemize}
+        \item \( m \) es el número de restricciones funcionales del PL original.
+        \item Y \( n \), el número de variables del PL original, no importa mucho.
+    \end{itemize}
+
+    \vspace{0.5cm}
+    Si \( m \gg n \), resolver el PL dual puede tomar un tiempo significativamente \textcolor{blue}{más corto} que resolver el primal.
+
+    \vspace{0.5cm}
+    Hay muchos otros beneficios de tener dualidad. Veremos algunos más en este curso.
+\end{frame}
+
+\end{document}

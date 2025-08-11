@@ -1,0 +1,372 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\geometry{a4paper, margin=1in}
+\usepackage{multicol}
+
+\title{Problemas sobre Dualidad en Programación Lineal}
+\author{Ricardo Largaespada}
+\date{15 de octubre 2024}
+
+\newmdenv[
+  backgroundcolor=blue!5,
+  linecolor=blue,
+  linewidth=1pt,
+  roundcorner=5pt,
+  skipabove=\baselineskip,
+  skipbelow=\baselineskip
+]{problem}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problema 1}
+
+\textbf{Datos:}
+
+\begin{multicols}{2}
+\begin{itemize}
+    \item Horas de desarrollo disponibles: 200 horas.
+    \item Espacio en servidores disponible: 150 GB.
+    \item \textbf{Sistema Operativo:}
+    \begin{itemize}
+        \item Requiere 50 horas de desarrollo por unidad.
+        \item Requiere 30 GB de espacio por unidad.
+        \item Ganancia: \$200 por unidad.
+    \end{itemize}
+    \item \textbf{Aplicación Móvil:}
+    \begin{itemize}
+        \item Requiere 40 horas de desarrollo por unidad.
+        \item Requiere 20 GB de espacio por unidad.
+        \item Ganancia: \$150 por unidad.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Variables de decisión:}
+
+\[
+\begin{aligned}
+x_1 &= \text{Cantidad de Sistemas Operativos producidos} \\
+x_2 &= \text{Cantidad de Aplicaciones Móviles producidas}
+\end{aligned}
+\]
+\end{multicols}
+
+\begin{multicols}{2}
+\textbf{Función objetivo:}
+
+\[
+\max Z = 200x_1 + 150x_2
+\]
+
+\textbf{Sujeto a las restricciones:}
+
+\[
+\begin{aligned}
+50x_1 + 40x_2 &\leq 200 & \text{(Horas de desarrollo)} \\
+30x_1 + 20x_2 &\leq 150 & \text{(Espacio en servidores)} \\
+x_1, x_2 &\geq 0 & \text{(No negatividad)}
+\end{aligned}
+\]
+
+\textbf{Formulación del problema dual:}
+
+Sea \( y_1 \) y \( y_2 \) las variables duales asociadas a las restricciones.
+
+\textbf{Función objetivo dual:}
+
+\[
+\min W = 200y_1 + 150y_2
+\]
+
+\textbf{Sujeto a:}
+
+\[
+\begin{aligned}
+50y_1 + 30y_2 &\geq 200 \\
+40y_1 + 20y_2 &\geq 150 \\
+y_1, y_2 &\geq 0
+\end{aligned}
+\]
+    
+\end{multicols}
+
+\textbf{Resolución del problema dual:}
+
+Resolvemos el sistema de ecuaciones:
+
+Multiplicamos la segunda restricción dual por 1.5:
+
+\[
+1.5(40y_1 + 20y_2) \geq 1.5(150) \implies 60y_1 + 30y_2 \geq 225
+\]
+
+Restamos la primera restricción dual de esta nueva ecuación:
+
+\[
+(60y_1 + 30y_2) - (50y_1 + 30y_2) \geq 225 - 200 \implies 10y_1 \geq 25 \implies y_1 \geq 2.5
+\]
+
+Sustituyendo \( y_1 = 2.5 \) en la primera restricción dual:
+
+\[
+50(2.5) + 30y_2 \geq 200 \implies 125 + 30y_2 \geq 200 \implies 30y_2 \geq 75 \implies y_2 \geq 2.5
+\]
+
+\textbf{Precios sombra:}
+
+\[
+\begin{aligned}
+y_1 &= \$2.5 \text{ por hora de desarrollo} \\
+y_2 &= \$2.5 \text{ por GB de espacio en servidores}
+\end{aligned}
+\]
+
+\textbf{Interpretación económica:}
+
+Los precios sombra indican que por cada unidad adicional de recurso (hora de desarrollo o GB de espacio), la ganancia máxima aumentaría en \$2.5.
+
+\textbf{Recomendación:}
+
+La empresa debería adquirir más horas de desarrollo y espacio en servidores para maximizar sus beneficios, ya que ambos recursos tienen precios sombra positivos.
+
+\newpage
+
+\section*{Problema 2}
+
+\begin{multicols}{2}
+\textbf{Datos:}
+
+\begin{itemize}
+    \item Ancho de banda disponible: 400 Mbps.
+    \item Antenas disponibles: 20 unidades.
+    \item \textbf{Plan Básico} (\( x_1 \)):
+    \begin{itemize}
+        \item Requiere 1 Mbps y 0.5 antenas por usuario.
+        \item Ingreso por usuario: \$30.
+    \end{itemize}
+    \item \textbf{Plan Premium} (\( x_2 \)):
+    \begin{itemize}
+        \item Requiere 3 Mbps y 1 antena por usuario.
+        \item Ingreso por usuario: \$70.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Variables de decisión:}
+
+\[
+\begin{aligned}
+x_1 &= \text{Número de usuarios del Plan Básico} \\
+x_2 &= \text{Número de usuarios del Plan Premium}
+\end{aligned}
+\]
+    
+\end{multicols}
+
+\begin{multicols}{2}
+\textbf{Función objetivo:}
+
+\[
+\max Z = 30x_1 + 70x_2
+\]
+
+\textbf{Sujeto a las restricciones:}
+
+\[
+\begin{aligned}
+1x_1 + 3x_2 &\leq 400 & \text{(Ancho de banda)} \\
+0.5x_1 + 1x_2 &\leq 20 & \text{(Antenas)} \\
+x_1, x_2 &\geq 0 & \text{(No negatividad)}
+\end{aligned}
+\]
+
+\textbf{Formulación del problema dual:}
+
+Sea \( y_1 \) y \( y_2 \) las variables duales.
+
+\textbf{Función objetivo dual:}
+
+\[
+\min W = 400y_1 + 20y_2
+\]
+
+\textbf{Sujeto a:}
+
+\[
+\begin{aligned}
+1y_1 + 0.5y_2 &\geq 30 \\
+3y_1 + 1y_2 &\geq 70 \\
+y_1, y_2 &\geq 0
+\end{aligned}
+\]
+    
+\end{multicols}
+
+\textbf{Resolución del problema dual:}
+
+Resolvemos el sistema de ecuaciones:
+
+Multiplicamos la primera restricción dual por 2:
+
+\[
+2(1y_1 + 0.5y_2) \geq 2(30) \implies 2y_1 + y_2 \geq 60
+\]
+
+Restamos esta ecuación de la segunda restricción dual:
+
+\[
+(3y_1 + y_2) - (2y_1 + y_2) \geq 70 - 60 \implies y_1 \geq 10
+\]
+
+Sustituyendo \( y_1 = 10 \) en la primera restricción dual:
+
+\[
+1(10) + 0.5y_2 \geq 30 \implies 10 + 0.5y_2 \geq 30 \implies 0.5y_2 \geq 20 \implies y_2 \geq 40
+\]
+
+\textbf{Precios sombra:}
+
+\[
+\begin{aligned}
+y_1 &= \$10 \text{ por Mbps de ancho de banda} \\
+y_2 &= \$40 \text{ por antena}
+\end{aligned}
+\]
+
+\textbf{Análisis de rentabilidad:}
+
+- Costo adicional por Mbps: \$250.
+- Precio sombra del Mbps: \$10.
+
+Como el costo es mayor que el precio sombra (\$250 > \$10), no es rentable invertir en ancho de banda adicional.
+
+- Costo adicional por antena: \$2,000.
+- Precio sombra de la antena: \$40.
+
+Como el costo es mayor que el precio sombra (\$2,000 > \$40), no es rentable invertir en antenas adicionales.
+
+\textbf{Conclusión:}
+
+No es rentable invertir en capacidad adicional de ancho de banda ni en antenas, ya que los costos superan a los precios sombra.
+
+\newpage
+
+\section*{Problema 3}
+
+\begin{multicols}{2}
+    
+\textbf{Datos:}
+
+\begin{itemize}
+    \item Personal disponible: 50 empleados.
+    \item Equipos disponibles: 30 unidades.
+    \item \textbf{Proyecto de Software} (\( x_1 \)):
+    \begin{itemize}
+        \item Requiere 2 empleados y 1 equipo por unidad.
+        \item Ingreso por unidad: \$5,000.
+    \end{itemize}
+    \item \textbf{Proyecto de Hardware} (\( x_2 \)):
+    \begin{itemize}
+        \item Requiere 3 empleados y 2 equipos por unidad.
+        \item Ingreso por unidad: \$8,000.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Variables de decisión:}
+
+\[
+\begin{aligned}
+x_1 &= \text{Cantidad de proyectos de Software} \\
+x_2 &= \text{Cantidad de proyectos de Hardware}
+\end{aligned}
+\]
+\end{multicols}
+
+\begin{multicols}{2}
+\textbf{Función objetivo:}
+
+\[
+\max Z = 5,000x_1 + 8,000x_2
+\]
+
+\textbf{Sujeto a las restricciones:}
+
+\[
+\begin{aligned}
+2x_1 + 3x_2 &\leq 50 & \text{(Personal)} \\
+1x_1 + 2x_2 &\leq 30 & \text{(Equipos)} \\
+x_1, x_2 &\geq 0 & \text{(No negatividad)}
+\end{aligned}
+\]
+
+\textbf{Formulación del problema dual:}
+
+Sea \( y_1 \) y \( y_2 \) las variables duales.
+
+\textbf{Función objetivo dual:}
+
+\[
+\min W = 50y_1 + 30y_2
+\]
+
+\textbf{Sujeto a:}
+
+\[
+\begin{aligned}
+2y_1 + 1y_2 &\geq 5,000 \\
+3y_1 + 2y_2 &\geq 8,000 \\
+y_1, y_2 &\geq 0
+\end{aligned}
+\]
+\end{multicols}
+
+\textbf{Resolución del problema dual:}
+
+Multiplicamos la primera restricción dual por 2:
+
+\[
+2(2y_1 + 1y_2) \geq 2(5,000) \implies 4y_1 + 2y_2 \geq 10,000
+\]
+
+Restamos la segunda restricción dual de esta ecuación:
+
+\[
+(4y_1 + 2y_2) - (3y_1 + 2y_2) \geq 10,000 - 8,000 \implies y_1 \geq 2,000
+\]
+
+Sustituyendo \( y_1 = 2,000 \) en la primera restricción dual:
+
+\[
+2(2,000) + y_2 \geq 5,000 \implies 4,000 + y_2 \geq 5,000 \implies y_2 \geq 1,000
+\]
+
+\textbf{Precios sombra:}
+
+\[
+\begin{aligned}
+y_1 &= \$2,000 \text{ por empleado} \\
+y_2 &= \$1,000 \text{ por equipo}
+\end{aligned}
+\]
+
+\textbf{Análisis de rentabilidad:}
+
+- Costo adicional por empleado: \$800.
+- Precio sombra del empleado: \$2,000.
+
+Como el precio sombra es mayor que el costo (\$2,000 > \$800), es rentable contratar más personal.
+
+- Costo adicional por equipo: \$1,500.
+- Precio sombra del equipo: \$1,000.
+
+Como el costo es mayor que el precio sombra (\$1,500 > \$1,000), no es rentable adquirir más equipos.
+
+\textbf{Conclusión:}
+
+La empresa debería contratar más personal para maximizar sus ganancias, pero no es rentable adquirir más equipos.
+
+\end{document}

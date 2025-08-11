@@ -1,0 +1,118 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\geometry{a4paper, margin=1in}
+
+\title{Problemas sobre Dualidad en Programación Lineal}
+\author{Ricardo Largaespada}
+\date{15 de octubre 2024}
+
+\newmdenv[
+  backgroundcolor=blue!5,
+  linecolor=blue,
+  linewidth=1pt,
+  roundcorner=5pt,
+  skipabove=\baselineskip,
+  skipbelow=\baselineskip
+]{problem}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problemas}
+
+\begin{problem}
+\subsection*{Problema 1:} Una empresa de tecnología está desarrollando dos productos de software: un \textbf{sistema operativo} y una \textbf{aplicación móvil}. Cuenta con 200 horas de desarrollo y 150 GB de espacio en servidores para pruebas y despliegue. El objetivo es maximizar las ganancias dadas las siguientes restricciones:
+
+\begin{itemize}
+    \item \textbf{Sistema Operativo:} Requiere 50 horas de desarrollo y 30 GB de espacio por unidad producida.
+    \item \textbf{Aplicación Móvil:} Requiere 40 horas de desarrollo y 20 GB de espacio por unidad producida.
+    \item \textbf{Ganancias:} Sistema Operativo = \$200 por unidad, Aplicación Móvil = \$150 por unidad.
+\end{itemize}
+
+\textbf{Preguntas:}
+\begin{enumerate}
+    \item Identifique y calcule los precios sombra de cada recurso (horas de desarrollo y espacio en servidores).
+    \item Explique el significado económico de los precios sombra en este contexto.
+    \item Determine cuál recurso debería adquirir la empresa para maximizar sus beneficios.
+\end{enumerate}
+
+\end{problem}
+
+\begin{problem}
+\subsection*{Problema 2: Expansión de Infraestructura en un Proveedor de Internet Local}
+
+La empresa \textbf{Redes del Sur} provee servicios de Internet en una ciudad de Nicaragua y está considerando invertir en capacidad adicional para satisfacer la creciente demanda.
+
+\textbf{Datos:}
+\begin{itemize}
+    \item Capacidad actual de ancho de banda: 400 Mbps (costo adicional de 250 dólares por Mbps).
+    \item Número actual de antenas de transmisión: 20 unidades (costo adicional de 2000 dólares por antena).
+    \item Plan Básico \( x_1 \) requiere 1 Mbps y 0.5 antenas por usuario.
+    \item Plan Premium \( x_2 \) requiere 3 Mbps y 1 antena por usuario.
+    \item Ingreso por usuario del Plan Básico: 30 dólares.
+    \item Ingreso por usuario del Plan Premium: 70 dólares.
+\end{itemize}
+
+\textbf{Formulación del Primal:}
+\[
+\max \quad 30x_1 + 70x_2
+\]
+Sujeto a:
+\[
+\begin{aligned}
+    x_1 + 3x_2 &\leq 400 \\
+    0.5x_1 + x_2 &\leq 20 \\
+    x_1, x_2 &\geq 0
+\end{aligned}
+\]
+
+\textbf{Pregunta:}
+\begin{enumerate}
+    \item Determine si es rentable invertir en ancho de banda adicional y antenas para maximizar las ganancias.
+    \item Explique cómo las variables duales reflejan el valor económico de aumentar la capacidad de ancho de banda y el número de antenas. ¿Cómo afectan los precios sombra las decisiones de inversión?
+\end{enumerate}
+
+\end{problem}
+
+\begin{problem}
+\subsection*{Problema 3: Optimización de Recursos en una Empresa Tecnológica Nicaragüense}
+
+La empresa \textbf{TechNica} desarrolla software y hardware y está evaluando la posibilidad de contratar más personal y adquirir más equipos para aumentar su producción.
+
+\textbf{Datos:}
+\begin{itemize}
+    \item Personal actual: 50 empleados (costo adicional de 800 dólares por empleado al mes).
+    \item Equipos actuales: 30 unidades (costo adicional de 1500 dólares por equipo).
+    \item Proyecto de Software \( x_1 \) requiere 2 empleados y 1 equipo por unidad.
+    \item Proyecto de Hardware \( x_2 \) requiere 3 empleados y 2 equipos por unidad.
+    \item Ingreso por unidad del proyecto de Software: 5000 dólares.
+    \item Ingreso por unidad del proyecto de Hardware: 8000 dólares.
+\end{itemize}
+
+\textbf{Formulación del Primal:}
+\[
+\max \quad 5000x_1 + 8000x_2
+\]
+Sujeto a:
+\[
+\begin{aligned}
+    2x_1 + 3x_2 &\leq 50 \\
+    x_1 + 2x_2 &\leq 30 \\
+    x_1, x_2 &\geq 0
+\end{aligned}
+\]
+
+\textbf{Pregunta:}
+\begin{enumerate}
+    \item Decida si es rentable contratar más personal y adquirir más equipos para maximizar las ganancias.
+    \item Analice el significado económico de las variables duales. ¿Cómo influye un precio sombra positivo en las decisiones de expansión de recursos humanos y tecnológicos?
+\end{enumerate}
+
+\end{problem}
+
+\end{document}

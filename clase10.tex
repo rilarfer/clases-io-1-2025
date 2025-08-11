@@ -1,0 +1,371 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage[nosetup]{evan}
+%\usetheme{Goddard}
+\usetheme{Madrid}
+\hypersetup{colorlinks,allcolors=.,urlcolor=magenta}
+\usepackage[table]{xcolor} % Para definir colores en tablas
+\usepackage{graphicx} % Para redimensionar la tabla
+\usepackage{multicol}
+\title{Variantes del Método Simplex}
+\subtitle{Método de las dos fases}
+\author[Ricardo Largaespada]{Ricardo Jesús Largaespada Fernández}
+\institute[UNI]{Ingeniería de Sistemas, DACTIC, UNI}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Objetivos de Aprendizaje}
+    \begin{itemize}
+        \item Comprender el método de las dos fases en la resolución de problemas de programación lineal, identificando cuándo es necesario su uso y aplicando correctamente los pasos para su implementación.
+    \end{itemize}
+\end{frame}
+
+\section{Inicio}
+\begin{frame}{Inicio}
+    \begin{itemize}
+        \item \textbf{Tomar asistencia}
+        \item \textbf{Pregunta orientadora:} ¿Cuál es la importancia del método de las dos fases en la resolución de problemas de programación lineal?
+    \end{itemize}
+\end{frame}
+
+\section{Desarrollo}
+\begin{frame}{Método de las dos fases}
+    \textbf{¿Cuándo se utiliza?}
+    \begin{itemize}
+        \item Se utiliza cuando el problema tiene restricciones de igualdad o desigualdad con términos independientes negativos.
+    \end{itemize}
+    
+    \textbf{Fase 1:}
+    \begin{itemize}
+        \item Introducción de variables artificiales.
+        \item Resolución del problema auxiliar para minimizar la suma de las variables artificiales.
+    \end{itemize}
+    
+    \textbf{Fase 2:}
+    \begin{itemize}
+        \item Eliminar las variables artificiales y resolver el problema original utilizando el método simplex.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Método de dos fases}
+    En el método \( M \), el uso de la penalización, \( M \), puede conducir a un error de redondeo. El método de dos fases elimina el uso de la constante \( M \). Como su nombre lo indica, el método resuelve la PL en dos fases; en la fase I se trata de encontrar la solución factible básica inicial y, si se halla una, se invoca la fase II para resolver el problema original.
+
+    \begin{block}{Resumen del método de dos fases}
+        \textbf{Fase I.} Ponga el problema en forma de ecuación y agregue las variables artificiales necesarias a las restricciones (exactamente como en el método \( M \)), para tener la certeza de una solución básica. A continuación, determine una solución básica de la ecuación resultante que \emph{siempre minimice} la suma de las variables artificiales, independientemente de si la PL es de maximización o minimización. Si el valor mínimo de la suma es positivo, el problema de PL no tiene una solución factible. De lo contrario, si el valor mínimo es cero, prosiga con la fase II.
+
+        \textbf{Fase II.} Use la solución factible de la fase I como una solución factible básica inicial para el problema \emph{original}.
+    \end{block}
+\end{frame}
+
+\subsection{Ejemplos}
+\begin{frame}{Ejemplo I}
+    \[
+    \text{Minimizar } z = 4x_1 + x_2
+    \]
+    sujeto a
+    \[
+    \begin{aligned}
+    3x_1 + x_2 &= 3 \\
+    4x_1 + 3x_2 &\geq 6 \\
+    x_1 + 2x_2 &\leq 4 \\
+    x_1, x_2 &\geq 0
+    \end{aligned}
+    \]
+    Se convierte a forma estándar:
+    \[
+    \text{Minimizar } z = 4x_1 + x_2
+    \]
+    sujeto a
+    \[
+    \begin{aligned}
+    3x_1 + x_2 + A_1&= 3 \\
+    4x_1 + 3x_2 - S_1 + A_2&\geq 6 \\
+    x_1 + 2x_2 +S_2 &\leq 4 \\
+    x_1, x_2, A_1, S_1, A_2, S_2 &\geq 0
+    \end{aligned}
+    \]
+    
+\end{frame}
+
+\begin{frame}{Fase I}
+    \[
+    \text{Minimizar } w = A_1 + A_2
+    \]
+    sujeto a
+    \[
+    \begin{aligned}
+    3x_1 + x_2 + A_1 &= 3 \\
+    4x_1 + 3x_2 - S_1 + A_2 &= 6 \\
+    x_1 + 2x_2 + S_2 &= 4 \\
+    x_1, x_2, S_1, S_2, A_1, A_2 &\geq 0
+    \end{aligned}
+    \]
+
+La tabla asociada es:
+    \begin{table}
+    \centering
+    \begin{tabular}{c|c c c c c c|c}
+    Básica & $x_1$ & $x_2$ & $S_1$ & $A_1$ & $A_2$ & $S_2$ & RHS \\
+    \hline
+    $w$   & 0 & 0 & 0 & -1 & -1 & 0 & 0 \\
+    $A_1$ & 3 & 1 & 0 & 1 & 0 & 0 & 3 \\
+    $A_2$ & 4 & 3 & -1 & 0 & 1 & 0 & 6 \\
+    $S_2$ & 1 & 2 & 0 & 0 & 0 & 1 & 4 \\
+    \end{tabular}
+    \end{table}
+    Nueva fila \( w = \) Anterior fila \( w + (1 \times \text{fila } A_1) + (1\times \text{fila } A_2) \)
+
+    La nueva fila \( w \) se utiliza para resolver la fase I del problema
+\end{frame}
+
+\begin{frame}
+    \begin{table}
+    \centering
+    \begin{tabular}{c|c c c c c c|c}
+    Básica & $x_1$ & $x_2$ & $S_1$ & $A_1$ & $A_2$ & $S_2$ & RHS \\
+    \hline
+    $w$   & 7 & 4 & -1 & 0 & 0 & 0 & 9 \\ \hline
+    $A_1$ & \fbox{3} & 1 & 0 & 1 & 0 & 0 & 3 \\
+    $A_2$ & 4 & 3 & -1 & 0 & 1 & 0 & 6 \\
+    $S_2$ & 1 & 2 & 0 & 0 & 0 & 1 & 4 \\ \hline \hline
+    $w$ & 0 & $\frac{5}{3}$ & -1 & $-\frac{7}{3}$ & 0 & 0 & 2 \\ \hline
+    $x_1$ & 1 & $\frac{1}{3}$ & 0 & $\frac{1}{3}$ & 0 & 0 & 1\\
+    $A_2$ & 0 & \fbox{$\frac{5}{3}$} & -1 & 0 & $-\frac{4}{3}$ & 1 & 2\\
+    $S_2$ & 0 & $\frac{5}{3}$ & 0 & 1 & $-\frac{1}{3}$ & 0 & 3\\ \hline \hline
+    $w$   & 0 & 0 & 0 & -1 & -1 & 0 & 0 \\ \hline
+    $x_1$ & 1 & 0 & $\frac{1}{5}$ & $\frac{3}{5}$ & $-\frac{5}{5}$ & 0 & $\frac{3}{5}$ \\
+    $x_2$ & 0 & 1 & -$\frac{3}{5}$ & $-\frac{4}{5}$ & $\frac{3}{5}$ & 0 & $\frac{6}{5}$ \\
+    $S_2$ & 0 & 0 & 1 & 1 & -1 & 1 & 1 \\
+    \end{tabular}
+    \end{table}
+
+    Con el mínimo \( w = 0 \), la fase I produce la solución factible básica \( x_1 = \frac{3}{5}, x_2 = \frac{6}{5}, S_2 = 1 \). En este punto, las variables artificiales ya completaron su misión y podemos eliminar sus columnas de la tabla y continuar con la fase II.
+\end{frame}
+
+\begin{frame}{Fase II: Planteamiento del problema original}
+    Después de eliminar las columnas artificiales, escribimos el problema \emph{original} como:
+
+    \[
+    \text{Minimizar } z = 4x_1 + x_2
+    \]
+    sujeto a
+    \[
+    \begin{aligned}
+    x_1 + \frac{1}{5}S_1 &= \frac{3}{5} \\
+    x_2 - \frac{3}{5}S_1 &= \frac{6}{5} \\
+    S_1 + S_2 &= 1 \\
+    x_1, x_2, S_1, S_2 &\geq 0
+    \end{aligned}
+    \]
+\end{frame}
+
+\begin{frame}{Fase II: Tabla inicial}
+    En esencia, la fase I ha transformado las ecuaciones de restricciones originales de tal forma que proporciona una solución factible básica inicial para el problema, si es que existe una. La tabla asociada con la fase II del problema es por consiguiente:
+
+    \begin{table}
+    \centering
+    \begin{tabular}{c|c c c c|c}
+    Básica & $x_1$ & $x_2$ & $S_1$ & $S_2$ & RHS \\
+    \hline
+    $z$   & -4 & -1 & 0 & 0 & 0 \\
+    $x_1$ & 1 & 0 & $\frac{1}{5}$ & 0 & $\frac{3}{5}$ \\
+    $x_2$ & 0 & 1 & $-\frac{3}{5}$ & 0 & $\frac{6}{5}$ \\
+    $S_2$ & 0 & 0 & 1 & 1 & 1 \\
+    \end{tabular}
+    \end{table}
+\end{frame}
+
+\begin{frame}{Fase II: Operaciones y tabla final}
+    Una vez más, como las variables básicas $x_1$ y $x_2$ tienen coeficientes diferentes a cero en la fila $z$, deben ser sustituidas mediante las siguientes operaciones:
+
+    \[
+    \text{Nueva fila } z = \text{Anterior fila } z + (4 \times \text{fila } x_1 + 1 \times \text{fila } x_2)
+    \]
+
+    La tabla inicial de la fase II es por consiguiente:
+
+    \begin{table}
+    \centering
+    \begin{tabular}{c|c c c c|c}
+    Básica & $x_1$ & $x_2$ & $S_1$ & $S_2$ & RHS \\
+    \hline
+    $z$   & 0 & 0 & $\frac{1}{5}$ & 0 & $\frac{18}{5}$ \\
+    $x_1$ & 1 & 0 & $\frac{1}{5}$ & 0 & $\frac{3}{5}$ \\
+    $x_2$ & 0 & 1 & $-\frac{3}{5}$ & 0 & $\frac{6}{5}$ \\
+    $S_2$ & 0 & 0 & 1 & 1 & 1 \\
+    \end{tabular}
+    \end{table}
+
+    Como estamos minimizando, $S_1$ debe entrar en la solución. La aplicación del método simplex producirá el óptimo en una iteración. $z^*=17/5$.
+\end{frame}
+
+\begin{frame}{Ejemplo II}
+    \textbf{Maximizar} $z = 5x_1 + 8x_2$
+
+    \textbf{Sujeto a:}
+    \[
+    \begin{aligned}
+    3x_1 + 2x_2 &\geq 3 \\
+    x_1 + 4x_2 &\geq 4 \\
+    x_1 + x_2 &\leq 5 \\
+    x_1, x_2 &\geq 0
+    \end{aligned}
+    \]
+
+Forma estándar:
+\textbf{Maximizar} $z = 5x_1 + 8x_2$ \textbf{sujeto a:}
+    \[
+    \begin{aligned}
+    3x_1 + 2x_2 - S_1 + A_1 &= 3 \\
+    x_1 + 4x_2 - S_2 + A_2 &= 4 \\
+    x_1 + x_2 + S_3 &= 5 \\
+    x_1, x_2, S_1, S_2, S_3, A_1, A_2 &\geq 0
+    \end{aligned}
+    \]
+\end{frame}
+
+\begin{frame}{Fase I}
+    \textbf{Minimizar} $w = A_1 +A_2$ \textbf{sujeto a:}
+    \[
+    \begin{aligned}
+    3x_1 + 2x_2 - S_1 + A_1 &= 3 \\
+    x_1 + 4x_2 - S_2 + A_2 &= 4 \\
+    x_1 + x_2 + S_3 &= 5 \\
+    x_1, x_2, S_1, S_2, S_3, A_1, A_2 &\geq 0
+    \end{aligned}
+    \]
+
+    Despejando:
+    \[A_1 = 3 - 3x_1 - 2x_2 + S_1\]
+    \[A_2 = 4 - x_1 - 4x_2 + S_2\]
+
+    La función objetivo es:
+
+    \[ w = 7 - 4x_1 - 6x_2 + S_1 + S_2\]
+    \[ w + 4x_1 + 6x_2 -S_1 - S_2 = 7\]
+\end{frame}
+
+\begin{frame}{Tabla Fase I}
+    \begin{table}[]
+    \centering
+    \begin{tabular}{c|c c c c c c c|c}
+    \textbf{Var. Bás.} & $x_1$ & $x_2$ & $S_1$ & $S_2$ & $S_3$ & $A_1$ & $A_2$ & \textbf{RHS} \\
+    \hline
+    \hline
+    $w$ & 4 & 6 & -1 & -1 & 0 & 0 & 0 & 7 \\
+    $A_1$ & 3 & 2 & -1 & 0 & 0 & 1 & 0 & 3 \\
+    $A_2$ & 1 & \fbox{4} & 0 & -1 & 0 & 0 & 1 & 4 \\
+    $S_3$ & 1 & 1 & 0 & 0 & 1 & 0 & 0 & 5 \\
+    \hline
+    \hline
+    $w$ & 5/2 & 0 & -1 & 1/2 & 0 & 0 & -3/2 &1 \\
+    $A_1$ & 5/2 & 0 & -1 & 1/2 & 0 & 1 & -1/2 & 1\\
+    $x_2$ & 1/4 & 1 & 0 & -1/4 & 0 & 0 & 1/4 & 1\\
+    $S_3$ & 3/4 & 0 & 0 & 1/4 & 1 & 0 & -1/4 & 4 \\
+    \hline
+    \hline
+    $w^*$ & 0 & 0 & 0 & 0 & 0 & -1 & -1 & 0 \\
+    $x_1$ & 1 & 0 & -2/5 & 1/5 & 0 & 2/5 & -1/5 & 2/5 \\
+    $x_2$ & 0 & 1 & 1/10 & -3/10 & 0 & -1/10 & 3/10 & 9/10 \\
+    $S_3$ & 0 & 0 & 3/10 & 1/10 & 1 & -3/10 & -1/10 & 37/10 \\
+    \end{tabular}
+    \end{table}
+
+    Como todo $w \geq 0$, min $w^* = 0$, y no aparece ningún vector artificial en la base, pasamos a la fase II.
+\end{frame}
+
+\begin{frame}{Fase II}
+    \[
+    \text{Nueva fila } z = \text{Anterior fila } z + (5 \times \text{fila } x_1 + 8 \times \text{fila } x_2)
+    \]
+    \begin{table}[]
+    \centering
+    \begin{tabular}{c|c c c c c|c}
+    \hline
+    \textbf{Var. Bás.} & $x_1$ & $x_2$ & $S_1$ & $S_2$ & $S_3$ & RHS\\
+    \hline
+    $z$ & 0 & 0 & -6/5 & -7/5 & 0 & 46/5 \\
+    $x_1$ & 1 & 0 & -2/5 & 1/5 & 0 & 2/5 \\
+    $x_2$ & 0 & 1 & 1/10 & -3/10 & 0 & 9/10 \\
+    $S_3$ & 0 & 0 & 3/10 & 1/10 & 1 & 37/10 \\
+    \hline
+    \hline
+    $z$ & 7 & 0 & -4 & 0 & 0 & 12 \\
+    $S_2$ & 5 & 0 & -2 & 1 & 0 & 2 \\
+    $x_2$ & 3/2 & 1 & -1/2 & 0 & 0 & 3/2 \\
+    $S_3$ & -1/2 & 0 & 1/2 & 0 & 1 & 7/2 \\
+    \hline
+    \hline
+    $z$ & 3 & 0 & 0 & 0 & 0 & 40 \\
+    $S_3$ & 3 & 0 & 1 & 2 & 0 & 16 \\
+    $x_2$ & 1 & 1 & 0 & 1/2 & 0 & 5 \\
+    $S_1$ & -1 & 0 & 2 & 0 & 1 & 7 \\
+    \end{tabular}
+    \end{table}
+\end{frame}
+
+\begin{frame}{Comentarios sobre la eliminación de variables artificiales}
+    La eliminación de las variables artificiales y sus columnas al final de la fase I sólo puede ocurrir cuando todas son \textbf{no básicas}. Si una o más variables son \textbf{básicas} al final de la fase I, entonces su eliminación requiere los siguientes pasos adicionales:
+    
+    \textbf{Paso 1.} Seleccione una variable artificial cero que salga de la solución básica y designe su fila como \emph{fila pivote}. La variable de entrada puede ser \textbf{cualquier} variable no básica (y no artificial) con un coeficiente \emph{diferente de cero} (positivo o negativo) en la fila pivote. Realice la iteración simplex asociada.
+\end{frame}
+
+\begin{frame}{Paso 2 para la eliminación de variables artificiales}
+    \textbf{Paso 2.} Elimine la columna de la variable artificial (que acaba de salir) de la tabla. Si ya se eliminaron todas las variables artificiales, continúe con la fase II. De lo contrario, regrese al paso 1.
+
+    La lógica detrás del paso I es que la factibilidad de las variables básicas restantes no se verá afectada cuando una variable artificial cero se vuelva no básica independientemente de si el elemento pivote es positivo o negativo. 
+\end{frame}
+
+\begin{frame}{Problemas Propuestos}
+    \begin{enumerate}
+        \item Escriba la fase I para el siguiente problema, y luego resuélvalo para demostrar que el problema no tiene una solución factible.
+        \[
+        \text{Maximizar } z = 2x_1 + 5x_2
+        \]
+        sujeto a
+        \[
+        \begin{aligned}
+        3x_1 + 2x_2 &\geq 6 \\
+        2x_1 + x_2 &\leq 2 \\
+        x_1, x_2 &\geq 0
+        \end{aligned}
+        \]
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \begin{enumerate}
+    \item Considere el siguiente problema:
+    \[
+    \text{Maximizar } z = 2x_1 + 2x_2 + 4x_3
+    \]
+    sujeto a
+    \[
+    \begin{aligned}
+    2x_1 + x_2 + x_3 &\leq 2 \\
+    3x_1 + 4x_2 + 2x_3 &\geq 8 \\
+    x_1, x_2, x_3 &\geq 0
+    \end{aligned}
+    \]
+    \begin{enumerate}
+        \item Demuestre que la fase I terminará con una variable artificial \emph{básica} en el nivel cero.
+        \item Elimine la variable artificial cero antes de iniciar la fase II; luego realice las iteraciones.
+    \end{enumerate}
+    \end{enumerate}
+\end{frame}
+\section{Cierre}
+\begin{frame}{Cierre}
+    \begin{itemize}
+        \item Resumen de los conceptos: Método de las dos fases.
+        \item Orientación para el trabajo independiente: Resolver problemas adicionales aplicando el método de las dos fases.
+        \item Despedida: Agradecimiento y motivación.
+    \end{itemize}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,108 @@
+\documentclass{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\title{Problemas de Programación Lineal\\{\small Método de la Big M y Método de 2 Fases}}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\author{Ricardo Largaespada}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Problema 1}
+Considere el siguiente problema.
+
+\textbf{Minimizar} \quad $Z = 2x_1 + 3x_2 + x_3$,\\
+
+sujeta a 
+
+\[
+\begin{aligned}
+x_1 + 4x_2 + 2x_3 & \geq 8, \\
+3x_1 + 2x_2 & \geq 6, \\
+x_1, x_2, x_3 &\geq 0.
+\end{aligned}
+\]
+
+\begin{enumerate}
+    \item[(a)] Reformule este problema para que se ajuste a nuestra forma estándar del modelo de programación lineal.
+    \item[(b)] Utilice el método de la gran $M$ para aplicar el método símplex paso a paso y resolver el problema.
+    \item[(c)] Utilice el método de las dos fases para aplicar el método símplex paso a paso y resolver el problema.
+    \item[(d)] Compare la secuencia de soluciones BF que obtuvo en los incisos \textbf{b)} y \textbf{c)}. ¿Cuáles de estas soluciones son factibles sólo para el problema artificial que obtuvo al introducir las variables artificiales y cuáles son de hecho factibles para el problema real?
+    \item[(e)] Utilice un software basado en el método símplex para resolver el problema.
+\end{enumerate}
+
+\section{Problema 2}
+Considere el siguiente problema.
+
+\textbf{Maximizar} \quad $Z = 5x_1 + 4x_2$,\\
+
+sujeto a 
+
+\[
+\begin{aligned}
+3x_1 + 2x_2 & \leq 6, \\
+2x_1 - x_2 & \geq 6, \\
+x_1, x_2 & \geq 0.
+\end{aligned}
+\]
+
+\begin{enumerate}
+    \item[(a)] Demuestre en una gráfica que este problema no tiene soluciones factibles.
+    \item[(b)] Utilice el método de la gran $M$ para aplicar el método símplex paso a paso y demostrar que el problema no tiene soluciones factibles.
+    \item[(c)] Repita el inciso \textbf{c)} para la fase 1 del método de dos fases.
+    \item[(d)] Utilice un paquete de computadora basado en el método símplex para determinar que el problema no tiene soluciones factibles.
+\end{enumerate}
+
+\section{Problema 3}
+
+Considere el siguiente problema.
+
+\textbf{Minimizar} \quad $Z = 2x_1 + x_2 + 3x_3$,\\
+
+sujeto a 
+
+\[
+\begin{aligned}
+5x_1 + 2x_2 + 7x_3 &= 420, \\
+3x_1 + 2x_2 + 5x_3 &\geq 280, \\
+x_1, x_2, x_3 & \geq 0.
+\end{aligned}
+\]
+
+\begin{enumerate}
+    \item[(a)] Utilice el método de las dos fases y aplique la fase 1 paso a paso.
+    \item[(b)] Emplee un paquete de software basado en el método símplex para formular y resolver la fase 1 del problema.
+    \item[(c)] Aplique la fase 2 paso a paso para resolver el problema original.
+    \item[(d)] Utilice un programa de computadora basado en el método símplex para resolver el problema original.
+\end{enumerate}
+
+\section{Problema 4}
+
+Considere el siguiente problema.
+
+\textbf{Maximizar} \quad $Z = -2x_1 + x_2 - 4x_3 + 3x_4$,\\
+
+sujeto a 
+
+\[
+\begin{aligned}
+x_1 + x_2 + 3x_3 + 2x_4 &\leq 4, \\
+x_1 - x_3 + x_4 &\geq -1, \\
+2x_1 + x_2 &\leq 2, \\
+x_1 + 2x_2 + x_3 + 2x_4 &= 2, \\
+x_2, x_3, x_4 & \geq 0.
+\end{aligned}
+\]
+(sin restricciones de no negatividad para $x_1$).
+
+\begin{enumerate}
+    \item[(a)] Formule de nuevo este problema para que se ajuste a nuestra forma estándar del modelo de programación lineal.
+    \item[(b)] Utilice el método de la gran $M$ para construir la primera tabla símplex completa para el método símplex e identifique la solución BF inicial (artificial). Identifique también la variable básica entrante y la variable básica saliente.
+    \item[(c)] Use el método de las dos fases para construir el renglón 0 de la primera tabla símplex de la fase 1.
+    \item[(d)] Utilice un paquete de computadora basado en el método símplex para resolver este problema.
+\end{enumerate}
+
+\end{document}

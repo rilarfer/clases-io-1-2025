@@ -1,0 +1,217 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage[nosetup]{evan}
+\usetheme{Goddard}
+\hypersetup{colorlinks,allcolors=.,urlcolor=magenta}
+\usepackage[table]{xcolor} % Para definir colores en tablas
+\usepackage{graphicx} % Para redimensionar la tabla
+
+\title{Investigación de Operaciones I}
+\subtitle{Geometría Introductoria al Método Simplex}
+\author{Ricardo Jesús Largaespada Fernández}
+\institute{Ingeniería de Sistemas, DACTIC, UNI}
+\date{02 de Septiembre, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Agenda}
+\tableofcontents
+\end{frame}
+
+\section{Inicio}
+\begin{frame}
+    \frametitle{Inicio}
+    \begin{itemize}
+        \item \textbf{Tomar asistencia}
+        \item \textbf{Pregunta orientadora:} ¿Qué saben sobre conjuntos de puntos, rectas e hiperplanos en el contexto de la programación lineal y su relación con el Método Simplex?
+    \end{itemize}
+\end{frame}
+
+\section{Desarrollo}
+\begin{frame}
+    \frametitle{Introducción a los conceptos de conjuntos de puntos, rectas e hiperplanos}
+    \begin{itemize}
+        \item Conjuntos de puntos en programación lineal: representación de soluciones posibles.
+        \item Rectas: representación gráfica de ecuaciones lineales en 2D.
+        \item Hiperplanos: generalización de rectas en dimensiones superiores.
+    \end{itemize}
+\end{frame}
+
+\section{Conjuntos de puntos, rectas e hiperplanos}
+
+\begin{frame}{Conjuntos de puntos, rectas e hiperplanos}
+    \begin{itemize}
+        \item \textbf{Conjuntos de puntos:} Un conjunto de puntos es una colección de puntos en un espacio euclidiano.
+        \item \textbf{Rectas:} Una recta en un espacio bidimensional o tridimensional puede definirse como la intersección de dos planos o como el lugar geométrico de los puntos que satisfacen una ecuación lineal.
+        \item \textbf{Hiperplanos:} Un hiperplano es una generalización de un plano en dimensiones superiores. Es una subvariedad de dimensión \(n-1\) en un espacio de dimensión \(n\).
+    \end{itemize}
+    
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \draw[thick, ->] (-2,0) -- (2,0) node[anchor=north west] {x};
+            \draw[thick, ->] (0,-2) -- (0,2) node[anchor=south east] {y};
+            \draw[thick] (-1.5,-1) -- (1.5,1) node[anchor=west] {Recta};
+            \filldraw[blue] (0.5,0.5) circle (2pt) node[anchor=west] {Punto};
+        \end{tikzpicture}
+        \caption{Ejemplo de un punto y una recta en 2D.}
+    \end{figure}
+\end{frame}
+
+\section{Conjuntos conexos y sus propiedades}
+
+\begin{frame}{Conjuntos conexos, propiedades}
+    \begin{itemize}
+        \item \textbf{Conjunto conexo:} Un conjunto es conexo si no puede ser dividido en dos subconjuntos disjuntos no vacíos que sean abiertos en la topología inducida.
+        \item \textbf{Propiedades:}
+        \begin{itemize}
+            \item La unión de conjuntos conexos que tienen un punto en común también es conexa.
+            \item En el espacio euclidiano, un conjunto es conexo si y solo si es un intervalo.
+        \end{itemize}
+    \end{itemize}
+    
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \draw[thick] (0,0) circle (1.5);
+            \filldraw[red] (0.5,0) circle (2pt) node[anchor=west] {Conjunto A};
+            \filldraw[red] (-0.5,0) circle (2pt) node[anchor=east] {Conjunto B};
+        \end{tikzpicture}
+        \caption{Unión de dos conjuntos conexos.}
+    \end{figure}
+\end{frame}
+
+\section{Soluciones Factibles y Región Factible}
+
+\begin{frame}{Soluciones Factibles y Región Factible}
+    \begin{itemize}
+        \item \textbf{Soluciones Factibles:} En un problema de optimización, una solución factible es un conjunto de valores que satisface todas las restricciones del problema.
+        \item \textbf{Región Factible:} La región factible es el conjunto de todas las soluciones factibles. Gráficamente, es la intersección de todos los conjuntos definidos por las restricciones del problema.
+    \end{itemize}
+    
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \draw[thick, ->] (-0.5,0) -- (4.5,0) node[anchor=north west] {x};
+            \draw[thick, ->] (0,-0.5) -- (0,4.5) node[anchor=south east] {y};
+            \fill[green, opacity=0.5] (0,0) -- (4,0) -- (2,3) -- cycle;
+            \node at (2,1) {Región Factible};
+        \end{tikzpicture}
+        \caption{Ejemplo de una región factible en 2D.}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{1.5.1 Conjuntos de puntos, rectas e hiperplanos}
+    \begin{itemize}
+        \item \textbf{Conjuntos de puntos}: Son colecciones de puntos en un espacio vectorial.
+        \pause
+        \item \textbf{Rectas}: Conjunto de puntos que satisfacen una ecuación lineal \( ax + by = c \) en 2D o \( ax + by + cz = d \) en 3D.
+        \pause
+        \item \textbf{Hiperplanos}: Generalización de una recta en un espacio \( n \)-dimensional, definido por una ecuación lineal del tipo \( a_1x_1 + a_2x_2 + \dots + a_nx_n = b \).
+    \end{itemize}
+    
+    \pause
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \draw[->] (-2,0) -- (2,0) node[right] {$x$};
+            \draw[->] (0,-2) -- (0,2) node[above] {$y$};
+            \draw[red, thick] (-1.5,-1.5) -- (1.5,1.5);
+            \node at (1,1.3) {$ax + by = c$};
+        \end{tikzpicture}
+        \caption{Ejemplo de una recta en \( \mathbb{R}^2 \).}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{1.5.2 Conjuntos conexos, propiedades}
+    \begin{itemize}
+        \item \textbf{Conjunto conexo}: Un conjunto es conexo si no se puede dividir en dos subconjuntos disjuntos no vacíos que sean abiertos en el espacio topológico.
+        \pause
+        \item \textbf{Propiedad}: Cualquier combinación lineal convexa de puntos dentro de un conjunto conexo permanece dentro del conjunto.
+    \end{itemize}
+    
+    \pause
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \draw[fill=gray!20] (0,0) circle (1.5);
+            \draw[thick, blue] (-1,-1) -- (1,1);
+            \node at (-0.7,-0.7) {$A$};
+            \node at (0.7,0.7) {$B$};
+            \node at (0,-1.7) {Conjunto conexo en \( \mathbb{R}^2 \)};
+        \end{tikzpicture}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{1.5.3 Soluciones Factibles. Región Factible}
+    \begin{itemize}
+        \item \textbf{Solución factible}: Un punto en el espacio de soluciones que satisface todas las restricciones de un problema de optimización.
+        \pause
+        \item \textbf{Región factible}: El conjunto de todas las soluciones factibles. Puede ser un poliedro en el caso de problemas de programación lineal.
+    \end{itemize}
+    
+    \pause
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \draw[->] (-0.5,0) -- (3.5,0) node[right] {$x_1$};
+            \draw[->] (0,-0.5) -- (0,3.5) node[above] {$x_2$};
+            \draw[thick, blue] (0,3) -- (3,0) -- (2.5,3) -- cycle;
+            \node at (1.5,1.5) {Región factible};
+        \end{tikzpicture}
+        \caption{Ejemplo de una región factible en programación lineal.}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Importancia en la determinación de soluciones factibles y región factible}
+    \begin{itemize}
+        \item Región factible: conjunto de soluciones que cumplen todas las restricciones.
+        \item Soluciones factibles: puntos dentro de la región factible.
+        \item Relación con el Método Simplex: movimiento a lo largo de vértices para encontrar soluciones óptimas.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Análisis de las propiedades de conjuntos conexos}
+    \begin{itemize}
+        \item Definición de conjuntos conexos: conexión sin salirse del conjunto.
+        \item Importancia en la programación lineal: garantiza continuidad en la región factible.
+        \item Relevancia en el Método Simplex: asegura un camino continuo para encontrar la solución óptima.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Ejemplos prácticos}
+    \begin{itemize}
+        \item Ejemplo 1: Dos restricciones y dos variables, región factible en 2D.
+        \item Ejemplo 2: Tres variables, región factible en 3D, poliedro.
+        \item Ejemplo 3: Conjuntos conexos, visualización del Método Simplex.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Espacio para preguntas}
+    \begin{itemize}
+        \item Abierto a preguntas y aclaraciones.
+        \item Los estudiantes pueden presentar ejemplos adicionales.
+    \end{itemize}
+\end{frame}
+
+\section{Cierre}
+\begin{frame}
+    \frametitle{Cierre}
+    \begin{itemize}
+        \item \textbf{Resumen de los conceptos aprendidos en la clase.}
+        \item \textbf{Orientación para el trabajo independiente:} revisar la teoría presentada y realizar ejercicios relacionados con conjuntos de puntos, rectas e hiperplanos en el contexto de la programación lineal.
+        \item \textbf{Despedida y recordatorio de la próxima clase.}
+    \end{itemize}
+\end{frame}
+
+\end{document}

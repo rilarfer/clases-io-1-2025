@@ -1,0 +1,110 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\geometry{a4paper, margin=1in, bottom=1cm}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{adjustbox}
+
+\title{Problemas de Transporte}
+\author{Ricardo Largaespada}
+\date{12 de noviembre 2024}
+
+\newmdenv[
+  backgroundcolor=blue!5,
+  linecolor=blue,
+  linewidth=1pt,
+  roundcorner=5pt,
+  skipabove=\baselineskip,
+  skipbelow=\baselineskip
+]{problem}
+
+\begin{document}
+
+\maketitle
+
+\vspace{-1cm}
+\begin{problem}
+\textbf{Problema 1: Asignación de Recursos en Centros de Datos}
+
+Una empresa de tecnología tiene tres centros de datos (CD1, CD2, CD3) y debe distribuir cargas de trabajo (tareas) a cinco servidores (S1, S2, S3, S4, S5). Cada centro de datos tiene una capacidad máxima de procesamiento y cada servidor tiene una demanda de carga específica. Los costos en la tabla representan el tiempo de transmisión (en milisegundos) entre cada centro de datos y cada servidor.
+
+\[
+\begin{array}{|c|c|c|c|c|c|c|}
+\hline
+           & \text{S1} & \text{S2} & \text{S3} & \text{S4} & \text{S5} & \text{Capacidad} \\
+\hline
+\text{CD1} & 3         & 5         & 2         & 6         & 4         & 40        \\
+\text{CD2} & 4         & 2         & 7         & 3         & 6         & 50        \\
+\text{CD3} & 5         & 3         & 4         & 5         & 7         & 60        \\
+\hline
+\text{Demanda} & 20    & 30        & 40        & 35        & 25        &           \\
+\hline
+\end{array}
+\]
+
+1. Calcula la solución inicial básica factible utilizando el \textbf{Método de la Esquina Noroeste}.
+2. Optimiza la solución para minimizar el tiempo de transmisión total entre los centros de datos y los servidores.
+
+\end{problem}
+
+\vspace{-0.5cm}
+
+\begin{problem}
+\textbf{Problema 2: Optimización de la Distribución de Datos en Servidores en la Nube}
+
+Una empresa de ingeniería de sistemas necesita replicar archivos de datos entre tres ubicaciones en la nube (C1, C2, C3) y distribuirlos a cuatro oficinas remotas (O1, O2, O3, O4). Cada ubicación en la nube tiene una capacidad máxima de transferencia y cada oficina remota tiene una demanda específica de datos. Los costos de transporte en la tabla representan el costo en dólares por gigabyte (GB) transferido desde cada ubicación en la nube hacia cada oficina remota.
+
+\[
+\begin{array}{|c|c|c|c|c|c|}
+\hline
+           & \text{O1} & \text{O2} & \text{O3} & \text{O4} & \text{Capacidad} \\
+\hline
+\text{C1}  & 2         & 6         & 4         & 3         & 60        \\
+\text{C2}  & 5         & 3         & 7         & 4         & 40        \\
+\text{C3}  & 3         & 5         & 6         & 2         & 50        \\
+\hline
+\text{Demanda} & 20    & 30        & 40        & 60        &           \\
+\hline
+\end{array}
+\]
+
+1. Calcula la solución inicial básica factible utilizando el \textbf{Método de Costo Mínimo}.
+2. Optimiza la solución para minimizar el costo total de transferencia de datos.
+
+\end{problem}
+
+\vspace{-0.5cm}
+
+\begin{problem}
+\textbf{Problema 3: Asignación de Tareas en un Centro de Procesamiento de Datos}
+
+Un centro de procesamiento de datos en una empresa de Ingeniería de Sistemas tiene que asignar tareas entre cuatro clústeres de servidores (C1, C2, C3, C4) y tres conjuntos de aplicaciones (A1, A2, A3) para equilibrar la carga de trabajo y reducir el tiempo de procesamiento. Cada clúster de servidores tiene una capacidad máxima en términos de tareas que puede procesar, y cada conjunto de aplicaciones tiene un número específico de tareas que debe ser atendido. Los costos en la tabla representan el tiempo estimado (en minutos) para procesar cada tarea entre cada clúster de servidores y cada conjunto de aplicaciones.
+
+\[
+\begin{array}{|c|c|c|c|c|}
+\hline
+           & \text{A1} & \text{A2} & \text{A3} & \text{Capacidad} \\
+\hline
+\text{C1}  & 10        & 15        & 20        & 30        \\
+\text{C2}  & 25        & 10        & 15        & 40        \\
+\text{C3}  & 20        & 25        & 10        & 30        \\
+\text{C4}  & 15        & 30        & 25        & 20        \\
+\hline
+\text{Demanda} & 20    & 50        & 50        &           \\
+\hline
+\end{array}
+\]
+
+1. Calcula la solución inicial básica factible utilizando el \textbf{Método de Aproximación de Vogel}.
+2. Optimiza la solución para minimizar el tiempo total de procesamiento de tareas entre los clústeres de servidores y los conjuntos de aplicaciones.
+
+\end{problem}
+
+
+\end{document}

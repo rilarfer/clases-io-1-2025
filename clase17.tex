@@ -1,0 +1,78 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\geometry{a4paper, margin=1in}
+
+\title{Análisis Postóptimo}
+\author{Ricardo Largaespada}
+\date{22 de octubre 2024}
+
+\newmdenv[
+  backgroundcolor=blue!5,
+  linecolor=blue,
+  linewidth=1pt,
+  roundcorner=5pt,
+  skipabove=\baselineskip,
+  skipbelow=\baselineskip
+]{problem}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+Una empresa fabrica dos productos, \textbf{P1} y \textbf{P2}, utilizando dos recursos limitados: \textbf{mano de obra} y \textbf{material}. La siguiente tabla muestra los recursos requeridos por unidad de producto y la disponibilidad total de los recursos:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Recurso} & \textbf{Disponibilidad} & \textbf{Requerimiento por P1} & \textbf{Requerimiento por P2} \\
+\midrule
+Mano de obra (horas) & 400 horas & 2 horas & 1 hora \\
+Material (kg)        & 300 kg    & 1 kg    & 2 kg  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Los beneficios por unidad son: \textbf{P1}: \$50 por unidad, \textbf{P2}: \$40 por unidad.
+
+\textbf{a)} Formule y resuelva un modelo de programación lineal para determinar cuántas unidades de cada producto deben producirse para maximizar el beneficio total, considerando las restricciones de recursos.
+
+\textbf{b)} La empresa está considerando introducir un nuevo producto, \textbf{P3}.
+
+\begin{itemize}
+    \item \textbf{Datos de P3:}
+    \begin{itemize}
+        \item \textbf{Beneficio por unidad:} \$45
+        \item \textbf{Requerimientos de recursos por unidad:} Mano de obra: 1 hora, Material: 1 kg.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Tareas:}
+
+\begin{enumerate}
+    \item \textbf{Agregar la nueva variable \( x_3 \) correspondiente al producto P3 al modelo de programación lineal original.}
+
+    \item \textbf{Encontrar la columna de restricciones asociada a la nueva variable \( x_3 \) (producto P3) en el modelo. Es decir, identificar los coeficientes de \( x_3 \) en cada restricción existente.}
+
+    \item \textbf{Determinar si es rentable introducir el producto P3 al modelo, calculando el costo reducido de la nueva variable.}
+
+    \item \textbf{Explicar si la nueva actividad (producción del producto P3) incrementará el beneficio total, aplicando la condición de optimalidad.}
+\end{enumerate}
+
+\textbf{c)} La empresa tiene una restricción adicional: debido a compromisos contractuales, debe producir al menos 100 unidades combinadas de \textbf{P1} y \textbf{P2}.\\
+
+\textbf{Tareas:}
+
+\begin{enumerate}
+    \item \textbf{Formule el modelo de programación lineal incluyendo la nueva restricción.}
+    \item \textbf{Resuelva el modelo y determine la cantidad óptima de cada producto a producir.}
+    \item \textbf{Calcule el beneficio total óptimo.}
+    \item \textbf{Analice cómo la nueva restricción afecta la solución óptima y discuta su impacto en el beneficio total.}
+\end{enumerate}
+
+\end{problem}
+\end{document}

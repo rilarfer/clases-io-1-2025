@@ -1,0 +1,78 @@
+\documentclass{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\title{Problemas de Programación Lineal usando el Método Simplex}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\author{Ricardo Largaespada}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problema 1}
+
+Un ingeniero de sistemas tiene a su disposición dos proyectos de desarrollo de software, los cuales generan ingresos mediante la asignación de tres recursos principales: programación, pruebas, e implementación, con contribuciones de \$18, \$8 y \$14 por hora respectivamente.
+
+La distribución de los recursos a los proyectos se resume en la siguiente tabla:
+
+\[
+\begin{array}{|c|c|c|c|}
+\hline
+ & \textbf{Proyecto 1} & \textbf{Proyecto 2} & \textbf{Disponibilidad} \\
+\hline
+\textbf{Programación} & 1 & 3 & 18 \, \text{horas} \\
+\textbf{Pruebas} & 1 & 1 & 8 \, \text{horas} \\
+\textbf{Implementación} & 2 & 1 & 14 \, \text{horas} \\
+\hline
+\textbf{Beneficio} & 1 & 2 & \\
+\hline
+\end{array}
+\]
+
+Determinar la combinación de proyectos a desarrollar que maximice los beneficios.
+
+\section{Problema 2}
+
+Un ingeniero de sistemas tiene 100 horas disponibles para dedicar a dos proyectos de desarrollo de software: Proyecto A y Proyecto B. El costo de los recursos para el Proyecto A es de \$4 por hora y para el Proyecto B es de \$6 por hora. El costo total de mano de obra es de \$20 y \$10 por hora respectivamente.
+
+El ingreso esperado es de \$110 por hora de trabajo en el Proyecto A y \$150 por hora de trabajo en el Proyecto B. No se desea gastar más de \$480 en recursos ni más de \$1500 en mano de obra. ¿Cuántas horas se deben dedicar a cada uno de los proyectos para obtener la máxima ganancia?
+
+\[
+\begin{array}{|c|c|c|c|}
+\hline
+ & \textbf{Proyecto A} & \textbf{Proyecto B} & \textbf{Disponibilidad} \\
+\hline
+\textbf{Recursos} & 4 & 6 & 480 \, \text{USD} \\
+\textbf{Mano de Obra} & 20 & 10 & 1500 \, \text{USD} \\
+\hline
+\textbf{Beneficio} & 110 & 150 & \\
+\hline
+\end{array}
+\]
+
+Determinar la combinación de horas a asignar a cada proyecto para maximizar los beneficios.
+
+\section{Problema 3}
+
+Una empresa de desarrollo de software produce dos aplicaciones: Aplicación A y Aplicación B. La utilidad por unidad es de \$7 para la Aplicación A y de \$10 para la Aplicación B. La Aplicación A requiere 4 horas de desarrollo y 6 horas de pruebas. La Aplicación B requiere 5 horas de desarrollo y 3 horas de pruebas.
+
+Si se dispone de 200 horas para desarrollo y de 240 horas para pruebas, calcule la máxima utilidad que se puede obtener.
+
+\[
+\begin{array}{|c|c|c|c|}
+\hline
+ & \textbf{Aplicación A} & \textbf{Aplicación B} & \textbf{Disponibilidad} \\
+\hline
+\textbf{Desarrollo} & 4 & 5 & 200 \, \text{horas} \\
+\textbf{Pruebas} & 6 & 3 & 240 \, \text{horas} \\
+\hline
+\textbf{Utilidad (\$)} & 7 & 10 & \\
+\hline
+\end{array}
+\]
+
+\end{document}
+
+\end{document}

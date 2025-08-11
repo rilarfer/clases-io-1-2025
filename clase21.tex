@@ -1,0 +1,84 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\title{Problema de Transporte: Representación Gráfica y Formulación Matemática}
+\author{Ricardo Largaespada}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Objetivo de la Clase}
+    \begin{itemize}
+        \item Comprender y describir la estructura de un problema de transporte.
+        \item Formular el problema de transporte como un modelo matemático.
+        \item Aplicar la representación gráfica para resolver problemas básicos de transporte.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Descripción General del Problema de Transporte}
+    \begin{itemize}
+        \item \textbf{Ejemplo:} Distribuir productos desde varios almacenes a diferentes tiendas.
+        \item \textbf{Objetivo:} Minimizar el costo de transporte.
+        \item \textbf{Elementos clave:} Orígenes (almacenes), destinos (tiendas), rutas y costos.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Representación Gráfica}
+    \begin{itemize}
+        \item \textbf{Nodos:} Representan los puntos de origen y destino.
+        \item \textbf{Arcos:} Conectan los orígenes y destinos, mostrando rutas y costos.
+        \item \textbf{Ejemplo:} Graficar un esquema de transporte simple.
+    \end{itemize}
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{ruta_de_transporte.png} % Imagen ilustrativa
+    \end{center}
+\end{frame}
+
+\begin{frame}{Modelo Matemático del Problema de Transporte}
+    \textbf{Variables:}
+    \begin{itemize}
+        \item $x_{ij}$: Cantidad transportada desde el origen $i$ al destino $j$.
+    \end{itemize}
+    \textbf{Función Objetivo:}
+    \begin{equation*}
+        \min \sum_{i} \sum_{j} c_{ij} x_{ij}
+    \end{equation*}
+    \textbf{Restricciones:}
+    \begin{itemize}
+        \item Restricción de oferta: $\sum_{j} x_{ij} \leq s_i$
+        \item Restricción de demanda: $\sum_{i} x_{ij} \geq d_j$
+        \item $x_{ij} \geq 0$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Pregunta Orientadora}
+    \textit{"¿Cómo podríamos representar un problema de distribución de productos entre varios destinos de manera que podamos encontrar la solución más eficiente?"}
+\end{frame}
+
+\begin{frame}{Actividad Independiente: Formulación y Representación Gráfica}
+    \textbf{Descripción:} Resuelve un problema de transporte básico que incluye la formulación matemática y la representación gráfica.
+    \begin{itemize}
+        \item Incluir varios orígenes y destinos.
+        \item Representar gráficamente el problema y formular matemáticamente.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Recursos y Medios}
+    \begin{itemize}
+        \item \textbf{Medios:} Pizarra, Marcadores, Entorno Virtual de Aprendizaje (EVA).
+        \item \textbf{Recursos:} Diapositivas, Hojas de trabajo, Ejercicios prácticos.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusión}
+    \begin{itemize}
+        \item El problema de transporte permite optimizar la distribución de productos.
+        \item La representación gráfica facilita la comprensión del modelo matemático.
+        \item Aplicar estos conceptos ayuda a resolver problemas prácticos en logística y distribución.
+    \end{itemize}
+\end{frame}
+
+\end{document}
