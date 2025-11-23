@@ -1,0 +1,280 @@
+\documentclass[11pt,paper=a4,answers, addpoints]{exam}
+\usepackage{graphicx,lastpage,comment}
+\usepackage{upgreek}
+\usepackage{censor}
+\censorruledepth=-.2ex
+\censorruleheight=.1ex
+\hyphenpenalty 10000
+\usepackage[paperheight=10.5in,paperwidth=8.27in,bindingoffset=0in,left=0.8in,right=1in, top=1.3in,bottom=1in,headsep=.5\baselineskip]{geometry}
+\flushbottom
+\usepackage[normalem]{ulem}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\renewcommand\ULthickness{2pt}
+\setlength\ULdepth{1.5ex}
+\renewcommand{\baselinestretch}{1}
+\pagestyle{empty}
+
+\pagestyle{headandfoot}
+\headrule
+\newcommand{\continuedmessage}{%
+  \ifcontinuation{\footnotesize Pregunta \ContinuedQuestion\ continua\ldots}{}%
+}
+\runningheader{\footnotesize Programa de Ingeniería de Sistemas}
+{\footnotesize Prueba Diagnóstica — Día 1}
+{\footnotesize Página \thepage\ de \numpages}
+\footrule
+\footer{\footnotesize }
+{}
+{\ifincomplete{\footnotesize Pregunta \IncompleteQuestion\ continua en la siguiente página \ldots}
+  {\iflastpage{\footnotesize Final del examen}{\footnotesize Por favor vea la siguiente página\ldots}}}
+\usepackage{amsfonts,amsmath}
+\usepackage{cleveref}
+\crefname{figure}{figura}{figuras}
+\crefname{question}{pregunta}{preguntas}
+\renewcommand\thequestion{\arabic{question}}
+\renewcommand{\questionlabel}{\thequestion)}
+\renewcommand{\questionshook}{%
+  \setlength{\leftmargin}{0pt}%
+  \setlength{\labelwidth}{-\labelsep}%
+}
+\decimalpoint
+\nopointsinmargin
+\pointpoints{Punto}{Punto}
+\marginpointname{\points}
+\pointformat{\boldmath\themarginpoints}
+\bracketedpoints
+\usepackage{quoting,xparse}
+\pointpoints{punto}{puntos}
+\bonuspointpoints{punto extra}{puntos extra}
+\totalformat{Pregunta \thequestion: \totalpoints puntos}
+\hqword{Pregunta}
+\hpgword{Página}
+\hpword{Puntos}
+\hsword{Puntos obtenidos}
+\htword{Total}
+\usepackage{circuitikz}
+\usepackage{color}
+\usepackage{pgfplots,graphicx}
+\pgfplotsset{compat=1.18}
+
+\usepackage{mathrsfs}
+\newcommand{\Laplace}[1]{\ensuremath{\mathscr{L}{\left\lbrace #1\right\rbrace}}}
+\newcommand{\InvLap}[1]{\ensuremath{\mathscr{L}^{-1}{\left\lbrace #1\right\rbrace}}}
+
+\usepackage{background}
+\backgroundsetup{
+  scale=1,
+  color=black,
+  opacity=1,
+  angle=0,
+  pages=all,
+  position=current page.south west,
+  nodeanchor=south west,
+  vshift=0mm,
+  hshift=0mm,
+  contents={\includegraphics[width=\paperwidth,height=\paperheight]{fondo.pdf}}
+}
+
+\begin{document}
+\printanswers
+%\noprintanswers
+\shorthandoff{<>}
+\thispagestyle{empty}
+
+%==================== CABECERA ====================
+\begin{center}
+    \textit{\textbf{Prueba Diagnóstica — Día 1}}
+\end{center}
+\vspace{-.1cm}
+\noindent
+\begin{minipage}[t]{.6\textwidth}%
+  {\bfseries Nombres}: \makebox[.75\textwidth]{\hrulefill} \par
+  {\bfseries Apellidos}: \makebox[.75\textwidth]{\hrulefill} \par
+  {\bfseries Docente}: Ricardo Largaespada
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{.4\textwidth}%
+  {\bfseries Curso}: investigación de Operaciones I \par
+  {\bfseries Fecha}: 11 de agosto de 2025 \par
+  {\bfseries Grupo:} \rule{2.8cm}{.4pt}
+\end{minipage}
+\par\noindent\rule{\textwidth}{1pt}
+
+%==================== INICIO PREGUNTAS ====================
+\begin{questions}
+
+%-------- BLOQUE 1: IO e IO-1 ------------
+\titledquestion{Diagnóstico para IO-1}[10]
+Resuelva los siguientes casos.
+
+\begin{parts}
+  \part[1] Grafique la recta \(5x+3y=25\). Intercepte y rotule ambos ejes.
+ \begin{solution}
+Intersecciones: al fijar $y=0\Rightarrow x=5,(5,0)$; al fijar $x=0\Rightarrow y=\tfrac{25}{3},\bigl(0,\tfrac{25}{3}\bigr)$. Ecuación: $y=\dfrac{25-5x}{3}$. Gráfica:
+
+{\centering
+\begin{tikzpicture}
+\begin{axis}[
+axis lines=middle, xlabel={$x$}, ylabel={$y$},
+xmin=-1, xmax=6, ymin=-1, ymax=10,
+grid=both, samples=200, width=.85\linewidth, height=6.2cm]
+\addplot[domain=-1:8, thick] {(25 - 5*x)/3};
+\addplot[only marks] coordinates {(5,0) (0,25/3)};
+\node[above right] at (axis cs:0,25/3) {$\left(0,\tfrac{25}{3}\right)$};
+\node[below] at (axis cs:5,0) {$(5,0)$};
+\end{axis}
+\end{tikzpicture}\par}
+\end{solution} 
+  \part[3] En un mismo sistema cartesiano, grafique el sistema
+  \[
+  \begin{aligned}
+  40F+50S&=200,\\
+  20S&=50,\\
+  60F+30S&=210.
+  \end{aligned}
+  \]
+  Use \(F\) en el eje \(x\) y \(S\) en el eje \(y\). Indique el punto de intersección (si existe).
+\begin{solution}
+Despejando:
+\[
+\begin{aligned}
+40F+50S&=200 &&\Rightarrow&& S=4-0.8F,\\
+20S&=50      &&\Rightarrow&& S=2.5,\\
+60F+30S&=210 &&\Rightarrow&& S=7-2F.
+\end{aligned}
+\]
+
+Las dos primeras se cortan en \((F,S)=\left(\tfrac{75}{40},\,\tfrac{5}{2}\right)=(1.875,\,2.5)\).
+Al sustituir en la tercera: \(60(1.875)+30(2.5)=187.5\neq210\), por tanto \emph{no hay intersección común de las tres}.
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  axis lines=middle,
+  xlabel={$F$}, ylabel={$S$},
+  xmin=-1, xmax=5, ymin=-1, ymax=7,
+  grid=both, samples=200, width=.9\linewidth, height=7cm,
+  legend style={at={(0.98,0.98)},anchor=north east}]
+  \addplot[thick, blue] {4 - 0.8*x};
+  \addlegendentry{$40F+50S=200$}
+  \addplot[thick, red, dashed] {2.5};
+  \addlegendentry{$20S=50$}
+  \addplot[thick, green!50!black, dotted] {7 - 2*x};
+  \addlegendentry{$60F+30S=210$}
+  \addplot[only marks, mark=*, mark size=2pt, black] coordinates {(1.875,2.5)};
+  \node[above right] at (axis cs:1.875,2.5) {$(1.875,\,2.5)$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{solution}
+
+  \part[3] Resuelva el modelo anterior por el método de Gauss–Jordan (muestre las operaciones elementales).
+%\fillwithdottedlines{3.5cm}
+\begin{solution}
+Matriz aumentada y operaciones elementales:
+\[
+\left[
+\begin{array}{cc|c}
+40 & 50 & 200\\
+0  & 20 & 50\\
+60 & 30 & 210
+\end{array}
+\right]
+\;\xrightarrow{R_2\leftarrow \tfrac{1}{20}R_2}\;
+\left[
+\begin{array}{cc|c}
+40 & 50 & 200\\
+0  & 1  & 2.5\\
+60 & 30 & 210
+\end{array}
+\right]
+\;\xrightarrow{R_1\leftarrow R_1-50R_2}\;
+\left[
+\begin{array}{cc|c}
+40 & 0 & 75\\
+0  & 1 & 2.5\\
+60 & 30 & 210
+\end{array}
+\right]
+\]
+\[
+\xrightarrow{R_1\leftarrow \tfrac{1}{40}R_1}\;
+\left[
+\begin{array}{cc|c}
+1 & 0 & \tfrac{75}{40}\\
+0 & 1 & 2.5\\
+60 & 30 & 210
+\end{array}
+\right]
+\;\xrightarrow{R_3\leftarrow R_3-30R_2}\;
+\left[
+\begin{array}{cc|c}
+1 & 0 & \tfrac{75}{40}\\
+0 & 1 & 2.5\\
+60 & 0 & 135
+\end{array}
+\right]
+\;\xrightarrow{R_3\leftarrow R_3-60R_1}\;
+\left[
+\begin{array}{cc|c}
+1 & 0 & \tfrac{75}{40}\\
+0 & 1 & 2.5\\
+0 & 0 & \tfrac{45}{2}
+\end{array}
+\right].
+\]
+Como aparece la fila $[\,0\ \ 0\mid \tfrac{45}{2}\,]$ (contradicción), el sistema de tres ecuaciones es \textbf{inconsistente}.
+\end{solution}
+
+  \part[3] Sea
+  \[
+  A=\begin{pmatrix}
+  3&8&0\\
+  5&-1&4\\
+  1&2&-3
+  \end{pmatrix}.
+  \]
+  \begin{enumerate}
+    \item[{\bf a)}] Determine \(A^{-1}\), si existe.
+    \item[{\bf b)}] Halle \(A^{\mathsf T}\).
+  \end{enumerate}
+\begin{solution}
+Sea $A=\begin{pmatrix}3&8&0\\[2pt]5&-1&4\\[2pt]1&2&-3\end{pmatrix}$. 
+Calculando (por cofactores o Gauss), $\det(A)=137\neq0\Rightarrow A$ es invertible.
+Una inversión (vía adjunta o $[A\,|\,I]$) da
+\[
+A^{-1}=\frac{1}{137}\begin{pmatrix}
+-5 & 24 & 32\\[2pt]
+19 & -9 & -12\\[2pt]
+11 & 2 & -43
+\end{pmatrix}.
+\]
+La transpuesta:
+\[
+A^{\mathsf T}=
+\begin{pmatrix}
+3 & 5 & 1\\[2pt]
+8 & -1 & 2\\[2pt]
+0 & 4 & -3
+\end{pmatrix}.
+\]
+\end{solution}
+\end{parts}
+
+% (Opcional, sin puntaje o con bonus)
+\bonusquestion[0]{Reflexión (sin puntaje)}
+\begin{parts}
+  \part ¿Qué desea que \textbf{ocurra} en su aprendizaje en este curso?
+\fillwithdottedlines{2cm}
+  \part ¿Qué desea que \textbf{no ocurra} en su aprendizaje en este curso?
+\fillwithdottedlines{2cm}
+  \part ¿Desea trabajar en equipo? Fundamente brevemente.
+\fillwithdottedlines{2cm}
+  \part ¿Qué está dispuesto(a) a ofrecer para alcanzar los objetivos del curso?
+\fillwithdottedlines{2cm}
+\end{parts}
+
+\end{questions}
+
+\end{document}

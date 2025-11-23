@@ -1,211 +1,237 @@
-\documentclass{beamer}
+\documentclass[11pt]{article}
 
+% --------- Idioma y tipografía ----------
+\usepackage[spanish, es-nodecimaldot]{babel}
+\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage[spanish]{babel}
-\usepackage{amsmath}
-\usepackage[nosetup]{evan}
-\usetheme{Goddard}
-\hypersetup{colorlinks,allcolors=.,urlcolor=magenta}
-\usepackage[table]{xcolor} % Para definir colores en tablas
-\usepackage{graphicx} % Para redimensionar la tabla
+\usepackage{microtype}
+\usepackage{newpxtext,newpxmath} % Palatino + matemáticas
+\usepackage[a4paper,margin=1in]{geometry}
 
-\title{Retos y Desafíos en Olimpiadas de Matemática}
-\subtitle{Principio de Inducción Matemática}
-\author{Ricardo Jesús Largaespada Fernández}
-\institute{Ingeniería de Sistemas, DACTIC, UNI}
-\date{30 de Agosto, 2024}
+% --------- Matemática y utilidades -------
+\usepackage{amsmath,mathtools} % (sin amssymb para evitar conflicto)
+
+% --------- Colores, enlaces, refs --------
+\usepackage{xcolor}
+\definecolor{accent}{RGB}{10,80,160}
+\usepackage[
+  colorlinks,
+  linkcolor=accent,
+  urlcolor=accent,
+  citecolor=accent
+]{hyperref}
+\usepackage[nameinlink]{cleveref}
+
+% --------- Encabezados/Pies --------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textit{Problemas de Programación Lineal}}
+\rhead{Ricardo Largaespada}
+\cfoot{\thepage}
+\setlength{\headheight}{14pt} % Soluciona el warning
+
+% --------- Tablas bonitas ----------------
+\usepackage{booktabs,tabularx}
+\renewcommand{\arraystretch}{1.15}
+
+% --------- Cajas para "Problema" ---------
+\usepackage[most]{tcolorbox}
+\tcbset{
+  boxsep=5pt,
+  arc=2mm,
+  colback=gray!2!white,
+  colframe=accent!60!black,
+  boxrule=0.6pt
+}
+\newtcbtheorem[auto counter]{problema}{Problema}{
+  fonttitle=\bfseries,
+  coltitle=white
+}{prob}
+
+% --- TikZ/pgfplots para gráficas ---
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% --- Entorno de solución con fondo distinto al de 'problema' ---
+% 'problema' usa colback=gray!2!white; aquí usamos un azul muy claro
+\newenvironment{solucion}[1][]%
+{\begin{tcolorbox}[title=Solución, breakable,
+  colback=accent!6!white, colframe=accent!80!black,
+  boxrule=0.6pt, fonttitle=\bfseries, #1]}%
+{\end{tcolorbox}}
+
+% --------- Título ------------------------
+\title{\textbf{Problemas de Programación Lineal}}
+\author{Ricardo Largaespada}
+\date{\today}
 
 \begin{document}
+\maketitle
+\thispagestyle{fancy}
 
-\frame{\titlepage}
+\begin{problema}{Método gráfico}{}
+Resuelva mediante el método gráfico el siguiente modelo de \emph{maximización}:
+\begin{alignat*}{2}
+\text{Maximizar}\quad & Z = 10x_1 + 20x_2 \\
+\text{sujeto a}\quad
+& -x_1 + 2x_2 &&\le 15,\\
+& x_1 + x_2 &&\le 12,\\
+& 5x_1 + 3x_2 &&\le 45,\\
+& x_1,\; x_2 &&\ge 0.
+\end{alignat*}
+\end{problema}
 
-\begin{frame}
-\frametitle{Agenda}
-\tableofcontents
-\end{frame}
+\begin{solucion}
+Modelo:
+\[
+\max Z=10x_1+20x_2\quad
+\text{s.a.}\;
+\begin{cases}
+-x_1+2x_2\le 15,\\
+x_1+x_2\le 12,\\
+5x_1+3x_2\le 45,\\
+x_1,x_2\ge 0.
+\end{cases}
+\]
+Vértices factibles (primer cuadrante): 
+$(0,0)$, $(0,7.5)$, $(3,9)$, $(4.5,7.5)$, $(9,0)$.
+Evaluando $Z$: $0,\,150,\,\mathbf{210},\,195,\,90$ respectivamente.
+Óptimo en $\boxed{(x_1,x_2)=(3,9)}$ con $\boxed{Z^*=210}$.
 
-\section{Introducción a la IMO}
-\begin{frame}{Historia y Origen}
-    \begin{itemize}
-        \item La Olimpiada Internacional de Matemáticas (IMO) se celebró por primera vez en 1959 en Rumania.
-        \item Es la competencia de matemáticas más prestigiosa.
-        \item Cada año, más de 100 países participan, enviando a sus mejores jóvenes matemáticos.
-        \item Nicaragua participa por primera vez en 1987.
-        \item Nicaragua tiene 4 medallas de bronce y 18 menciones honoríficas.
-    \end{itemize}
-\end{frame}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  axis lines=left, xlabel={$x_1$}, ylabel={$x_2$},
+  xmin=0, xmax=12, ymin=0, ymax=16,
+  grid=both, width=.95\linewidth, height=8cm,
+  legend pos=north east]
+  % Restricciones (líneas frontera)
+\addplot[thick, blue, domain=0:12, samples=2] {(15 + x)/2};             % -x1+2x2=15
+\addlegendentry{$-x_1+2x_2=15$}
+\addplot[thick, red,  domain=0:12, samples=2] {12 - x};                  % x1+x2=12
+\addlegendentry{$x_1+x_2=12$}
+\addplot[thick, green!50!black, domain=0:9, samples=2] {(45 - 5*x)/3};   % 5x1+3x2=45 (x-intercept = 9)
+\addlegendentry{$5x_1+3x_2=45$}
+  % Región factible (relleno)
+  \addplot[fill=accent!30!white, fill opacity=0.25, draw=none]
+    coordinates {(0,0) (9,0) (4.5,7.5) (3,9) (0,7.5)} -- cycle;
+  % Puntos vértice
+  \addplot[only marks, mark=*, mark size=1.8pt] coordinates {(0,0) (0,7.5) (3,9) (4.5,7.5) (9,0)};
+  % Punto óptimo y recta de isobeneficio
+  \addplot[only marks, mark=*, mark size=2.2pt, black] coordinates {(3,9)};
+  \node[above right] at (axis cs:3,9) {$(3,9)$};
+  \node[above right] at (axis cs:4.5,7.5) {$(4.5,7.5)$};
+  \node[above right] at (axis cs:9,0) {$(9,0)$};
+  \node[above right] at (axis cs:3,9) {$(3,9)$};
+  \node[above right] at (axis cs:0,0) {$(0,0)$};
+  \node[above right] at (axis cs:0,7.5) {$(0,7.5)$};
+  \addplot[thick, gray!70, dash dot,domain=0:12] {10.5 - 0.5*x}; % 10x1+20x2=210
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{solucion}
 
-\section{Tipos de Problemas}
-\subsection{Álgebra}
-\begin{frame}{Álgebra}
-    \begin{itemize}
-        \item Ecuaciones y desigualdades.
-        \item Polinomios y sus raíces.
-        \item Funciones y Sucesiones.
-    \end{itemize}
-\end{frame}
+\begin{problema}{Cuotas de venta (Primo Seguros)}{}
+La compañía de seguros \emph{Primo} planea introducir dos líneas: riesgo especial y hipotecas.
+La ganancia esperada es de \$5 por unidad de riesgo especial y \$2 por hipoteca.
+Formule un modelo de programación lineal que \textbf{maximice} la ganancia total y resuélvalo por el método gráfico.
 
-\subsection{Geometría}
-\begin{frame}{Geometría}
-    \begin{itemize}
-        \item Figuras geométricas: triángulos, círculos, etc.
-        \item Propiedades angulares, teoremas y corolarios.
-        \item Uso de coordenadas y vectores.
-    \end{itemize}
-\end{frame}
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}l *{2}{>{\centering\arraybackslash}X} >{\centering\arraybackslash}X @{}}
+\toprule
+\textbf{Departamento} & \textbf{Riesgo especial (h/u)} & \textbf{Hipoteca (h/u)} & \textbf{Disponibles (h)}\\
+\midrule
+Suscripciones & 3 & 2 & 2400\\
+Administración & 0 & 1 & 800\\
+Reclamaciones & 2 & 0 & 1200\\
+\bottomrule
+\end{tabularx}
+\end{center}
+\end{problema}
 
-\subsection{Combinatoria}
-\begin{frame}{Combinatoria}
-    \begin{itemize}
-        \item Conteo: combinaciones, permutaciones.
-        \item Principios de inclusión-exclusión.
-        \item Problemas de probabilidad.
-    \end{itemize}
-\end{frame}
+\begin{solucion}
+Variables: $R$ (riesgo especial), $H$ (hipotecas).
+\[
+\max Z=5R+2H\quad
+\text{s.a.}\;
+\begin{cases}
+3R+2H\le 2400 & (\text{Suscripciones})\\
+H\le 800      & (\text{Administración})\\
+R\le 600      & (\text{Reclamaciones})\\
+R,H\ge 0.
+\end{cases}
+\]
+Vértices: $(0,0)$, $(0,800)$, $(\tfrac{800}{3},800)$, $(600,300)$, $(600,0)$.
+Valores de $Z$: $0,\,1600,\,\frac{8800}{3}\!\approx\!2933.33,\,\mathbf{3600},\,3000$.
+Óptimo en $\boxed{(R,H)=(600,300)}$ con $\boxed{Z^*=3600}$.
 
-\subsection{Teoría de Números}
-\begin{frame}{Teoría de Números}
-    \begin{itemize}
-        \item Propiedades de los números enteros.
-        \item Teoremas como el de Fermat, Euler, etc.
-        \item Congruencias y aritmética modular.
-    \end{itemize}
-\end{frame}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  axis lines=left, xlabel={$R$}, ylabel={$H$},
+  xmin=0, xmax=650, ymin=0, ymax=900,
+  grid=both, width=.95\linewidth, height=8cm,
+  legend pos=north east]
+  % Líneas frontera
+  \addplot[thick, blue,domain=0:650] {1200 - 1.5*x};     \addlegendentry{$3R+2H=2400$}
+  \addplot[thick, red, domain=0:650] {800};       \addlegendentry{$H=800$}
+  \addplot[thick, green!50!black, domain=0:650] coordinates {(600,0) (600,900)}; \addlegendentry{$R=600$}
+  % Región factible
+  \addplot[fill=accent!30!white, fill opacity=0.25, draw=none]
+    coordinates {(0,0) (0,800) (266.6667,800) (600,300) (600,0)} -- cycle;
+  % Vértices
+  \addplot[only marks, mark=*, mark size=1.8pt] 
+    coordinates {(0,800) (266.6667,800) (600,300) (600,0)};
+  % Óptimo + isoganancia
+  \addplot[only marks, mark=*, mark size=2.2pt, black] coordinates {(600,300)};
+  \node[above left] at (axis cs:600,300) {$(600,300)$};
+  \addplot[thick, gray!70, dash dot,domain=0:650] {(3600 - 5*x)/2}; % 5R+2H=3600
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{solucion}
 
-\section{Retos Académicos}
-\begin{frame}{Nivel de Dificultad}
-    \begin{itemize}
-        \item Los problemas de la IMO son extremadamente desafiantes y requieren un pensamiento profundo y creativo.
-        \item Se necesitan años de preparación para alcanzar el nivel requerido.
-    \end{itemize}
-\end{frame}
+\begin{problema}{Desarrollo de aplicaciones móviles}{}
+Una empresa desarrolla dos tipos de aplicaciones móviles.
+La aplicación tipo 1 requiere el doble de tiempo de desarrollo que la tipo 2.
+Si todo el tiempo disponible se dedica a la tipo 2, se pueden producir 400 aplicaciones tipo 2 al día.
+Los límites de mercado para tipo 1 y tipo 2 son 150 y 200 por día, respectivamente.
+Las ganancias son \$8 (tipo 1) y \$5 (tipo 2).
+Determine las cantidades de cada tipo que \textbf{maximizan} la ganancia total.
+\end{problema}
 
-\begin{frame}{Preparación}
-    \begin{itemize}
-        \item Los estudiantes deben dedicar tiempo y esfuerzo consistentemente.
-        \item Es necesario practicar con problemas de años anteriores y entrenar con expertos.
-    \end{itemize}
-\end{frame}
+\begin{solucion}
+Variables: $x_1$ (tipo 1), $x_2$ (tipo 2).  
+Tiempo: $2x_1+x_2\le 400$; límites de mercado: $x_1\le 150,\ x_2\le 200$; $x_1,x_2\ge0$.
+Vértices: $(0,200)$, $(150,0)$, $(150,100)$, $(100,200)$.
+Ganancias: $1000,\,1200,\,1700,\,\mathbf{1800}$.
+Óptimo en $\boxed{(x_1,x_2)=(100,200)}$ con $\boxed{Z^*=1800}$.
 
-\begin{frame}{Innovación}
-    \begin{itemize}
-        \item Resolver problemas de la IMO a menudo requiere soluciones novedosas y originales.
-        \item La creatividad es clave para abordar los desafíos presentados.
-    \end{itemize}
-\end{frame}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  axis lines=left, xlabel={$x_1$}, ylabel={$x_2$},
+  xmin=0, xmax=180, ymin=0, ymax=220,
+  grid=both, width=.95\linewidth, height=8cm,
+  legend pos=north east]
+  % Líneas frontera
+  \addplot[thick, blue,domain=0:180] {400 - 2*x};        \addlegendentry{$2x_1+x_2=400$}
+  \addplot[thick, red, domain=0:180] {200};       \addlegendentry{$x_2=200$}
+  \addplot[thick, green!50!black, domain=0:180] coordinates {(150,0) (150,220)}; \addlegendentry{$x_1=150$}
+  % Región factible
+  \addplot[fill=accent!30!white, fill opacity=0.25, draw=none]
+    coordinates {(0,0) (150,0) (150,100) (100,200) (0,200)} -- cycle;
+  % Vértices
+  \addplot[only marks, mark=*, mark size=1.8pt] 
+    coordinates {(0,200) (150,0) (150,100) (100,200)};
+  % Óptimo + isoganancia
+  \addplot[only marks, mark=*, mark size=2.2pt, black] coordinates {(100,200)};
+  \node[above right] at (axis cs:100,200) {$(100,200)$};
+  \addplot[thick, gray!70, dash dot,domain=0:180] {(1800 - 8*x)/5}; % 8x1+5x2=1800
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{solucion}
 
-\section{Desafíos Personales}
-\begin{frame}{Manejo del Estrés}
-    \begin{itemize}
-        \item La presión de competir a nivel internacional es significativa.
-        \item Los competidores deben aprender a manejar el estrés para rendir al máximo.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Trabajo en Equipo}
-    \begin{itemize}
-        \item Aunque la competencia es individual, el apoyo y la preparación en equipo son fundamentales.
-        \item Compartir conocimientos y técnicas entre compañeros fortalece el desempeño general.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Motivación}
-    \begin{itemize}
-        \item Mantener la motivación es crucial, especialmente frente a los fracasos.
-        \item La perseverancia y el amor por las matemáticas impulsan a los competidores a seguir adelante.
-    \end{itemize}
-\end{frame}
-
-\section{Impacto y Beneficios}
-\begin{frame}{Desarrollo de Habilidades}
-    \begin{itemize}
-        \item Mejora en el pensamiento crítico y en la capacidad de resolver problemas.
-        \item Estimula la creatividad y la innovación.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Oportunidades Futuras}
-    \begin{itemize}
-        \item Participar en la IMO abre puertas a becas, reconocimientos y oportunidades académicas y profesionales.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Red de Contactos}
-    \begin{itemize}
-        \item Conexiones con otros jóvenes talentosos y con profesionales del campo de las matemáticas.
-        \item Interacción con una comunidad global de matemáticos.
-    \end{itemize}
-\end{frame}
-
-\section{Una herramienta necesaria: Principio de Inducción Matemática}
-\subsection{Introducción}
-\begin{frame}{Introducción}
-    \begin{itemize}
-        \item El Principio de Inducción Matemática es crucial para demostrar que una afirmación es verdadera para todos los números naturales.
-    \end{itemize}
-    \begin{center}
-        \includegraphics[scale=.1]{images/dominos.png}
-    \end{center}
-\end{frame}
-
-\subsection{¿En qué consiste?}
-\begin{frame}{¿En qué consiste?}
-    \begin{itemize}
-        \item Sea \( P_n \), una familia de proposiciones que involucran al entero \( n \), con \( n \geq m \), donde \( m \) es un entero no negativo.
-        \item Si:
-        \begin{itemize}
-            \item (i) \( P_m \) puede ser probado cierto.
-            \item (ii) \( P_{k+1} \) debe ser probado a partir de que \( P_k \) es cierto para cualquier \( k \geq m \).
-        \end{itemize}
-        \item Entonces \( P_n \) es cierto para todo \( n \geq m \).
-    \end{itemize}
-    \begin{center}
-    \includegraphics[width=3cm]{images/ladder.png}
-    \end{center}
-\end{frame}
-
-\subsection{Ejemplo 1. Suma de los primeros \( n \) números enteros positivos}
-\begin{frame}{Ejemplo 1. Suma de los primeros \( n \) números enteros positivos}
-    \begin{itemize}
-        \item Queremos demostrar que: \[ 1 + 2 + 3 + \cdots + n = \frac{n(n+1)}{2} \]
-        \item Base de inducción: Para \( n = 1 \):
-        \[ 1 = \frac{1(1+1)}{2} = 1 \]
-        \item Paso de inducción: Supongamos que la fórmula es cierta para algún \( n = k \), es decir:
-        \[ 1 + 2 + 3 + \cdots + k = \frac{k(k+1)}{2} \]
-    \end{itemize}
-    % Insertar imagen relacionada
-\end{frame}
-
-\begin{frame}
-    \begin{itemize}
-        \item Demostrar que es cierta para \( n = k+1 \):
-        \[ 1 + 2 + 3 + \cdots + k + (k+1) = \frac{k(k+1)}{2} + (k+1) \]
-        \[ = \frac{k(k+1) + 2(k+1)}{2} = \frac{(k+1)(k+2)}{2} \]
-        \item Por lo tanto, la fórmula es verdadera para todo \( n \).
-    \end{itemize}
-    \begin{center}
-        \includegraphics[width=4cm]{images/sum-of-first-n-natural-numbers-proof-3.png}
-    \end{center}
-\end{frame}
-
-\subsection{Ejemplo 2. La suma de los primeros \( n \) números impares es \( n^2 \)}
-\begin{frame}{Ejemplo 2. La suma de los primeros \( n \) números impares es \( n^2 \)}
-    \begin{itemize}
-        \item Queremos demostrar que: \[ 1 + 3 + 5 + \cdots + (2n-1) = n^2 \]
-        \item Base de inducción: Para \( n = 1 \):
-        \[ 1 = 1^2 \]
-        \item Paso de inducción: Supongamos que la fórmula es cierta para algún \( n = k \), es decir:
-        \[ 1 + 3 + 5 + \cdots + (2k-1) = k^2 \]
-    \end{itemize}
-    % Insertar imagen relacionada
-\end{frame}
-
-\begin{frame}
-    \begin{itemize}
-        \item Demostrar que es cierta para \( n = k+1 \):
-        \begin{align*} 1 + 3 + \cdots + (2k-1) + (2(k+1)-1) &= k^2 + 2k+1 \\&= (k+1)^2 \end{align*}
-        \item Por lo tanto, la fórmula es verdadera para todo \( n \).
-    \end{itemize}
-    % Insertar imagen relacionada
-\end{frame}
 \end{document}

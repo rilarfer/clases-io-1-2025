@@ -14,7 +14,7 @@
 \subtitle{Unidad 2: Aspectos de Dualidad y Análisis de Sensibilidad}
 \author[Ricardo Largaespada]{Ricardo Jesús Largaespada Fernández}
 \institute[UNI]{Ingeniería de Sistemas, DACTIC, UNI}
-\date{07 de Octubre, 2024}
+\date{29 de Septiembre, 2025}
 
 \begin{document}
 
@@ -408,29 +408,26 @@
 \begin{frame}{La Regla General, Unicidad y Simetría}
     \textbf{La regla general para encontrar el PL dual:}
 
-    \vspace{0.3cm}
     \[
     \begin{array}{|c|c|c|c|c|}
     \hline
     \textbf{Función Obj.} & \text{max} & \text{min} & \textbf{Función Obj.} \\
     \hline
-    & \leq & \geq & \\
-    \textbf{Restricción}& \geq & \leq & \textbf{Variable}\\
+    & \leq & \geq 0 & \\
+    \textbf{Restricción}& \geq  & \leq 0& \textbf{Variable}\\
     & = & \text{urs.} & \\
     \hline
-    & \geq 0 & \geq 0 & \\
-    \textbf{Variable}& \leq 0 & \leq 0 & \textbf{Restricción}\\
+    & \geq 0 & \geq & \\
+    \textbf{Variable}& \leq 0 & \leq & \textbf{Restricción}\\
     & \text{urs.} & = & \\
     \hline
     \end{array}
     \]
 
-    \vspace{0.5cm}
-    \textbf{Si el PL primal es un problema de maximización, hazlo de izquierda a derecha.}
-
+    \textbf{Si el PL primal es un problema de maximización, hazlo de izquierda a derecha.}\\
     \textbf{Si el PL primal es un problema de minimización, hazlo de derecha a izquierda.}
 
-    \vspace{0.5cm}
+    \vspace{-0.3cm}
     \begin{block}{\textbf{Proposición 1 (Unicidad y Simetría de la Dualidad)}}
         \textit{Para cualquier PL primal, existe un único dual, cuyo dual es el primal.}
     \end{block}
@@ -515,15 +512,12 @@
     \end{array}
     \]
 
-    \vspace{0.3cm}
     \textbf{El PL dual proporciona un \textcolor{blue}{límite superior} para el PL primal.}
 
-    \vspace{0.5cm}
     \begin{block}{\textbf{Proposición 2 (Dualidad Débil)}}
         \textit{Para los PL definidos en (1), si \( x \) e \( y \) son factibles para el primal y el dual, entonces \( c^T x \leq y^T b \).}
     \end{block}
 
-    \vspace{0.3cm}
     \textbf{Demostración.} Mientras \( x \) e \( y \) sean factibles para el primal y el dual, tenemos:
 
     \[
@@ -531,7 +525,6 @@
     \leq y^T b \quad (Ax = b).
     \]
 
-    \vspace{0.3cm}
     \textbf{Por lo tanto, se cumple la dualidad débil.}
 \end{frame}
 
@@ -549,18 +542,14 @@
     \end{array}
     \]
 
-    \vspace{0.3cm}
     \textbf{Ahora tenemos una \textcolor{blue}{condición suficiente} para soluciones óptimas.}
 
-    \vspace{0.5cm}
     \begin{block}{\textbf{Proposición 3 (Condición Suficiente para la Optimalidad)}}
         \textit{Si \(\bar{x}\) y \(\bar{y}\) son factibles para el primal y el dual y \( c^T \bar{x} = \bar{y}^T b \), entonces \(\bar{x}\) y \(\bar{y}\) son óptimos para el primal y el dual.}
     \end{block}
 
-    \vspace{0.3cm}
     \textbf{Demostración.} Para cualquier \( y \) factible para el dual, tenemos \( c^T \bar{x} \leq y^T b \) por dualidad débil. Pero nos dan que \( c^T \bar{x} = \bar{y}^T b \), así que tenemos \( \bar{y}^T b \leq y^T b \) para cualquier \( y \) factible para el dual. Esto solo nos dice que \(\bar{y}\) es óptimo para el dual. Para \(\bar{x}\), es lo mismo.
 
-    \vspace{0.3cm}
     \textbf{Dada una solución factible para el primal \(\bar{x}\), si podemos encontrar una solución factible para el dual tal que sus valores objetivos sean \textbf{idénticos}, entonces \(\bar{x}\) es óptima.}
 \end{frame}
 
@@ -578,22 +567,18 @@
     \end{array}
     \]
 
-    \vspace{0.3cm}
     \textbf{Si hemos resuelto el PL primal, la \textcolor{blue}{solución óptima dual} está allí.}
 
-    \vspace{0.5cm}
     \begin{block}{\textbf{Proposición 4 (Solución Óptima Dual)}}
         \textit{Para los PL definidos en (1), si \(\bar{x}\) es óptima primal con la base \( B \), entonces \(\bar{y}^T = c_B^T A_B^{-1}\) es óptima dual.}
     \end{block}
 
-    \vspace{0.3cm}
     \textbf{Demostración.} Dado que \( B \) es óptima, los costos reducidos \( c_B^T A_B^{-1} A_N - c_N^T \geq 0 \). Como \( c_B^T = c_B^T A_B^{-1} A_B \), tenemos
 
     \[
     \bar{y}^T A = c_B^T A_B^{-1} A = c_B^T A_B^{-1} \left[ A_B \quad A_N \right] \geq \left[ c_B^T \quad c_N^T \right] = c^T.
     \]
 
-    \vspace{0.3cm}
     Por lo tanto, \(\bar{y}\) es factible para el dual. Como \(\bar{y}^T b = c_B^T A_B^{-1} b = c_B^T x_B = c^T x\), \(\bar{x}\) y \(\bar{y}\) tienen el mismo valor objetivo y son ambas óptimas.
 \end{frame}
 
@@ -611,27 +596,20 @@
     \end{array}
     \]
 
-    \vspace{0.3cm}
     \textbf{El hecho de que \( c_B^T A_B^{-1} \) sea óptimo dual implica \textcolor{blue}{dualidad fuerte}.}
 
-    \vspace{0.5cm}
     \begin{block}{\textbf{Proposición 5 (Dualidad Fuerte)}}
         \textit{Para los PL definidos en (1), \(\bar{x}\) y \(\bar{y}\) son óptimos primal y dual si y solo si \(\bar{x}\) y \(\bar{y}\) son factibles para el primal y el dual y \( c^T \bar{x} = \bar{y}^T b \).}
     \end{block}
 
-    \vspace{0.3cm}
     \textbf{Demostración.} Para probar esta afirmación de si y solo si:
 
     \begin{itemize}
         \item \((\Leftarrow)\): Por la Proposición 3.
-        \item \((\Rightarrow)\): Dado que \( c_B^T A_B^{-1} \) es una solución óptima dual, el valor objetivo óptimo dual es \( c_B^T A_B^{-1} b \), que es igual al valor objetivo óptimo primal \( c^T \bar{x} \).
+        \item \((\Rightarrow)\): Dado que \( c_B^T A_B^{-1} \) es una solución óptima dual, el valor objetivo óptimo dual es \( c_B^T A_B^{-1} b \), que es igual al valor objetivo óptimo primal \( c^T \bar{x} \). Como \(\bar{y}\) es óptimo dual, \(\bar{y}^T b = c_B^T A_B^{-1} b = c^T \bar{x}\).
     \end{itemize}
 
-    \vspace{0.3cm}
-    Como \(\bar{y}\) es óptimo dual, \(\bar{y}^T b = c_B^T A_B^{-1} b = c^T \bar{x}\).
-
-    \vspace{0.5cm}
-    \textit{Nota:} Como el PL dual puede o no tener una solución óptima única, \(\bar{y}^T\) y \( c_B^T A_B^{-1} \) pueden o no ser idénticos. En cualquier caso, la afirmación se cumple.
+  \textit{Nota:} Como el PL dual puede o no tener una solución óptima única, \(\bar{y}^T\) y \( c_B^T A_B^{-1} \) pueden o no ser idénticos. En cualquier caso, la afirmación se cumple.
 \end{frame}
 
 \begin{frame}{Implicaciones de la Dualidad Fuerte}
@@ -642,10 +620,8 @@
         \item La dualidad fuerte dice que el límite es \textcolor{blue}{ajustado}, es decir, no se puede mejorar.
     \end{itemize}
     
-    \vspace{0.3cm}
     \textbf{Los PL primales y duales son \textcolor{blue}{equivalentes}.}
 
-    \vspace{0.3cm}
     \textbf{Dado el resultado de un PL, podemos predecir el resultado de su dual:}
 
     \[
@@ -661,18 +637,17 @@
     \end{array}
     \]
 
-    \vspace{0.5cm}
     \begin{itemize}
         \item \(\checkmark\) significa posible, \(\times\) significa imposible.
         \item Primal no acotado \(\Rightarrow\) sin límite superior \(\Rightarrow\) dual inviable.
         \item Primal óptimo finito \(\Rightarrow\) valor objetivo finito \(\Rightarrow\) dual óptimo finito.
-        \item Si el primal es inviable, el dual aún puede ser inviable (según ejemplos).
+        \item Si el primal es inviable, el dual aún puede ser inviable.
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Ejemplo}
     \textbf{Consideremos los siguientes PL primal y dual:}
-
+\vspace{-0.3cm}
     \[
     \begin{array}{lll}
     \text{max} & x_1 & \\
@@ -684,7 +659,6 @@
     \end{array}
     \]
 
-    \vspace{0.3cm}
     \textbf{Para el PL primal en \textbf{forma estándar}, tenemos:}
 
     \[
@@ -695,13 +669,12 @@
     \end{array} \right]
     \]
 
-    \vspace{0.5cm}
     \textbf{Resolvamos el PL primal para obtener una \textcolor{blue}{solución óptima dual}.}
 \end{frame}
 
 \begin{frame}{Solución Óptima Primal}
-    \textbf{Utilizando el método símplex, obtenemos el siguiente \textbf{tablao óptimo}:}
-
+    \textbf{Utilizando el método símplex, obtenemos la siguiente \textbf{tabla óptima}:}
+{\tiny
     \[
     \left[ \begin{array}{cccccc|c}
     -1 & 0 & 0 & 0 & 0 & 0 & 0 \\
@@ -709,7 +682,7 @@
     2 & 1 & 0 & 1 & 0 & 0 & x_4 = 8 \\
     0 & 1 & 0 & 0 & 0 & 1 & x_5 = 3
     \end{array} \right]
-    \quad \rightarrow \ldots \rightarrow \quad
+    \quad \rightarrow \quad
     \left[ \begin{array}{cccccc|c}
     0 & 0 & \frac{1}{4} & \frac{1}{4} & 0 & 0 & 3 \\
     1 & 0 & \frac{1}{4} & \frac{1}{4} & 0 & 0 & x_1 = 3 \\
@@ -717,9 +690,9 @@
     0 & 0 & \frac{1}{2} & -\frac{1}{2} & 1 & 0 & x_5 = 1
     \end{array} \right]
     \]
-
+}
     \vspace{0.5cm}
-    \textbf{La base óptima asociada es \( B = (1, 2, 5) \).}
+    \textbf{La base óptima asociada es \( B = (x_1, x_2, x_5) \).}
 
     \vspace{0.3cm}
     \textbf{La solución óptima primal es \(\bar{x} = (3, 2)\).}
@@ -783,20 +756,17 @@
     \quad v \geq 0.
     \]
 
-    \vspace{0.5cm}
     \begin{block}{\textbf{Proposición 6 (Holgura Complementaria)}}
         \textit{Para los PL definidos en (1) y (2), \(\bar{x}\) y \((\bar{y}, \bar{v})\) son óptimos primal y dual si y solo si son factibles y \(\bar{v}^T \bar{x} = 0\).}
     \end{block}
 
-    \vspace{0.5cm}
     \textbf{Demostración.} Tenemos que \( c^T \bar{x} = \left( \bar{y}^T A - \bar{v}^T \right) \bar{x} = \bar{y}^T A \bar{x} - \bar{v}^T \bar{x} = \bar{y}^T b - \bar{v}^T \bar{x} \).
 
-    \vspace{0.3cm}
     Por lo tanto, \(\bar{v}^T \bar{x} = 0\) si y solo si \( c^T \bar{x} = \bar{y}^T b\), es decir, \(\bar{x}\) y \((\bar{y}, \bar{v})\) son óptimos primal y dual según la dualidad fuerte.
 
     \begin{itemize}
         \item Nota que \(\bar{v}^T \bar{x} = 0\) si y solo si \(\bar{v}_i \bar{x}_i = 0\) para todo \( i \) ya que \(\bar{x} \geq 0\) y \(\bar{v} \geq 0\).
-        \item Si una restricción dual (respectivamente primal) no es activa, la variable primal (respectivamente dual) correspondiente es \textbf{cero}.
+        \item Si una restricción dual no es activa, la variable primal correspondiente es \textbf{cero}.
     \end{itemize}
 \end{frame}
 
@@ -804,13 +774,12 @@
     \textbf{Consideremos los PL primal y dual que hemos mencionado:}
 
     \[
-    \begin{array}{lll}
-    \text{max} & x_1 & \\
-    \text{s.a.} & 2x_1 - x_2 \leq 4 & \\
-    & 2x_1 + x_2 \leq 8 & \quad \Leftrightarrow \quad \text{min} \quad 4y_1 + 8y_2 + 3y_3 \\
-    & x_2 \leq 3 & \text{s.a.} & 2y_1 + 2y_2 \geq 1 \\
-    & x_j \geq 0 \quad \forall j = 1, 2. & & -y_1 + y_2 + y_3 \geq 0 \\
-    & & & y_i \geq 0 \quad \forall i = 1, \ldots, 3.
+    \begin{array}{lllll}
+    \text{max} & x_1 & & \text{min}& 4y_1 + 8y_2 + 3y_3\\
+    \text{s.a.}& 2x_1 - x_2 \leq 4 & & \text{s.a.}& 2y_1 + 2y_2 \geq 1\\
+    & 2x_1 + x_2 \leq 8 & \quad \Leftrightarrow  && -y_1 + y_2 + y_3 \geq 0 \\
+    & x_2 \leq 3 &  \\
+    & x_j \geq 0 \quad \forall j = 1, 2. & & & y_i \geq 0 \quad \forall i = 1, \ldots, 3. 
     \end{array}
     \]
 \end{frame}

@@ -1,118 +1,194 @@
-\documentclass{article}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{geometry}
+\documentclass[11pt]{article}
+
+% --------- Idioma y tipografía ----------
+\usepackage[spanish, es-nodecimaldot]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{newpxtext,newpxmath} % Palatino + matemáticas
+\usepackage[a4paper,margin=1in]{geometry}
+
+% --------- Matemática y utilidades -------
+\usepackage{amsmath,mathtools}
+
+% --------- Colores, enlaces, refs --------
 \usepackage{xcolor}
-\usepackage{mdframed}
-\geometry{a4paper, margin=1in}
+\definecolor{accent}{RGB}{10,80,160}
+\usepackage[
+  colorlinks,
+  linkcolor=accent,
+  urlcolor=accent,
+  citecolor=accent
+]{hyperref}
+\usepackage[nameinlink]{cleveref}
 
-\title{Problemas sobre Dualidad en Programación Lineal}
+% --------- Encabezados/Pies --------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textit{Problemas de Programación Lineal}}
+\rhead{Ricardo Largaespada}
+\cfoot{\thepage}
+\setlength{\headheight}{14pt}
+
+% --------- Tablas bonitas ----------------
+\usepackage{booktabs,tabularx}
+\renewcommand{\arraystretch}{1.12}
+
+% --------- Cajas para "Problema" ---------
+\usepackage[most]{tcolorbox}
+\tcbset{
+  boxsep=5pt,
+  arc=2mm,
+  colback=gray!2!white,
+  colframe=accent!60!black,
+  boxrule=0.6pt
+}
+\newtcbtheorem[auto counter]{problema}{Problema}{
+  fonttitle=\bfseries,
+  coltitle=white
+}{prob}
+
+% --------- Entorno de solución (toggle) ----------
+\newif\ifshowsolutions
+\showsolutionsfalse % pon \showsolutionstrue para mostrar soluciones
+
+\newenvironment{solucion}[1][]%
+{\ifshowsolutions\begin{tcolorbox}[title=Solución, breakable,
+  colback=accent!6!white, colframe=accent!80!black,
+  boxrule=0.6pt, fonttitle=\bfseries, #1]}%
+{\end{tcolorbox}\fi}
+
+% --------- Título ------------------------
+\title{\textbf{Problemas sobre Dualidad en Programación Lineal}}
 \author{Ricardo Largaespada}
-\date{15 de octubre 2024}
-
-\newmdenv[
-  backgroundcolor=blue!5,
-  linecolor=blue,
-  linewidth=1pt,
-  roundcorner=5pt,
-  skipabove=\baselineskip,
-  skipbelow=\baselineskip
-]{problem}
+\date{06 de octubre de 2025}
 
 \begin{document}
-
 \maketitle
+\thispagestyle{fancy}
 
-\section*{Problemas}
+% =====================================================
+\begin{problema}{Precios sombra en desarrollo y servidores (2 variables)}{}
+Una empresa de tecnología está desarrollando dos productos de software: un \textbf{sistema operativo} (\(x_1\)) y una \textbf{aplicación móvil} (\(x_2\)). Cuenta con 200 horas de desarrollo y 150~GB de espacio en servidores para pruebas y despliegue. El objetivo es maximizar las ganancias.
 
-\begin{problem}
-\subsection*{Problema 1:} Una empresa de tecnología está desarrollando dos productos de software: un \textbf{sistema operativo} y una \textbf{aplicación móvil}. Cuenta con 200 horas de desarrollo y 150 GB de espacio en servidores para pruebas y despliegue. El objetivo es maximizar las ganancias dadas las siguientes restricciones:
+\medskip
+\textbf{Datos por unidad producida}
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+& \textbf{Sistema Operativo} (\(x_1\)) & \textbf{Aplicación Móvil} (\(x_2\)) & \textbf{Disponibilidad} \\
+\midrule
+Horas de desarrollo & 50 & 40 & 200 \\
+Espacio en servidores (GB) & 30 & 20 & 150 \\
+Ganancia (USD) & 200 & 150 & \\
+\bottomrule
+\end{tabular}
+\end{center}
 
-\begin{itemize}
-    \item \textbf{Sistema Operativo:} Requiere 50 horas de desarrollo y 30 GB de espacio por unidad producida.
-    \item \textbf{Aplicación Móvil:} Requiere 40 horas de desarrollo y 20 GB de espacio por unidad producida.
-    \item \textbf{Ganancias:} Sistema Operativo = \$200 por unidad, Aplicación Móvil = \$150 por unidad.
-\end{itemize}
-
-\textbf{Preguntas:}
-\begin{enumerate}
-    \item Identifique y calcule los precios sombra de cada recurso (horas de desarrollo y espacio en servidores).
-    \item Explique el significado económico de los precios sombra en este contexto.
-    \item Determine cuál recurso debería adquirir la empresa para maximizar sus beneficios.
-\end{enumerate}
-
-\end{problem}
-
-\begin{problem}
-\subsection*{Problema 2: Expansión de Infraestructura en un Proveedor de Internet Local}
-
-La empresa \textbf{Redes del Sur} provee servicios de Internet en una ciudad de Nicaragua y está considerando invertir en capacidad adicional para satisfacer la creciente demanda.
-
-\textbf{Datos:}
-\begin{itemize}
-    \item Capacidad actual de ancho de banda: 400 Mbps (costo adicional de 250 dólares por Mbps).
-    \item Número actual de antenas de transmisión: 20 unidades (costo adicional de 2000 dólares por antena).
-    \item Plan Básico \( x_1 \) requiere 1 Mbps y 0.5 antenas por usuario.
-    \item Plan Premium \( x_2 \) requiere 3 Mbps y 1 antena por usuario.
-    \item Ingreso por usuario del Plan Básico: 30 dólares.
-    \item Ingreso por usuario del Plan Premium: 70 dólares.
-\end{itemize}
-
-\textbf{Formulación del Primal:}
+\textbf{Primal (max):}
 \[
-\max \quad 30x_1 + 70x_2
-\]
-Sujeto a:
-\[
+\max\; 200x_1+150x_2
+\quad \text{s.a.}\quad
 \begin{aligned}
-    x_1 + 3x_2 &\leq 400 \\
-    0.5x_1 + x_2 &\leq 20 \\
-    x_1, x_2 &\geq 0
+50x_1+40x_2 &\le 200,\\
+30x_1+20x_2 &\le 150,\\
+x_1,x_2 &\ge 0.
 \end{aligned}
 \]
 
-\textbf{Pregunta:}
+\textbf{Tareas:}
 \begin{enumerate}
-    \item Determine si es rentable invertir en ancho de banda adicional y antenas para maximizar las ganancias.
-    \item Explique cómo las variables duales reflejan el valor económico de aumentar la capacidad de ancho de banda y el número de antenas. ¿Cómo afectan los precios sombra las decisiones de inversión?
+  \item Formule el \textbf{dual} e identifique las variables duales \(y_1\) (horas) y \(y_2\) (GB).
+  \item \textbf{Calcule} los \emph{precios sombra} óptimos de cada recurso (\(y_1^\star, y_2^\star\)).
+  \item Explique el \emph{significado económico} de \(y_1^\star\) y \(y_2^\star\) (variación marginal en la ganancia óptima por una unidad adicional del recurso).
+  \item Dado que la empresa puede comprar:
+    \begin{itemize}
+      \item horas de desarrollo a un costo de \(\$c_h\) por hora,
+      \item GB de servidor a un costo de \(\$c_s\) por GB,
+    \end{itemize}
+    determine \emph{cuál recurso conviene adquirir} comparando \(y^\star\) con los costos \(c_h, c_s\) (regla: invierta si \(y^\star\) supera el costo marginal).
 \end{enumerate}
+\end{problema}
 
-\end{problem}
+% =====================================================
+\begin{problema}{Expansión de infraestructura en un ISP local (dualidad e inversión)}{}
+La empresa \textbf{Redes del Sur} provee Internet en una ciudad de Nicaragua y considera invertir en capacidad adicional para satisfacer demanda.
 
-\begin{problem}
-\subsection*{Problema 3: Optimización de Recursos en una Empresa Tecnológica Nicaragüense}
-
-La empresa \textbf{TechNica} desarrolla software y hardware y está evaluando la posibilidad de contratar más personal y adquirir más equipos para aumentar su producción.
-
-\textbf{Datos:}
+\medskip
+\textbf{Datos}
 \begin{itemize}
-    \item Personal actual: 50 empleados (costo adicional de 800 dólares por empleado al mes).
-    \item Equipos actuales: 30 unidades (costo adicional de 1500 dólares por equipo).
-    \item Proyecto de Software \( x_1 \) requiere 2 empleados y 1 equipo por unidad.
-    \item Proyecto de Hardware \( x_2 \) requiere 3 empleados y 2 equipos por unidad.
-    \item Ingreso por unidad del proyecto de Software: 5000 dólares.
-    \item Ingreso por unidad del proyecto de Hardware: 8000 dólares.
+  \item Capacidad actual de ancho de banda: 400 Mbps (costo adicional: \(\$250\) por Mbps).
+  \item Antenas de transmisión: 20 unidades (costo adicional: \(\$2000\) por antena).
+  \item Plan Básico \(x_1\): requiere 1 Mbps y 0.5 antenas por usuario; ingreso \(\$30\) por usuario.
+  \item Plan Premium \(x_2\): requiere 3 Mbps y 1 antena por usuario; ingreso \(\$70\) por usuario.
 \end{itemize}
 
-\textbf{Formulación del Primal:}
+\textbf{Primal (max):}
 \[
-\max \quad 5000x_1 + 8000x_2
-\]
-Sujeto a:
-\[
+\max\; 30x_1+70x_2
+\quad \text{s.a.}\quad
 \begin{aligned}
-    2x_1 + 3x_2 &\leq 50 \\
-    x_1 + 2x_2 &\leq 30 \\
-    x_1, x_2 &\geq 0
+x_1+3x_2 &\le 400 && \text{(ancho de banda, dual \(y_1\))},\\
+0.5x_1+x_2 &\le 20 && \text{(antenas, dual \(y_2\))},\\
+x_1,x_2 &\ge 0.
 \end{aligned}
 \]
 
-\textbf{Pregunta:}
+\textbf{Tareas:}
 \begin{enumerate}
-    \item Decida si es rentable contratar más personal y adquirir más equipos para maximizar las ganancias.
-    \item Analice el significado económico de las variables duales. ¿Cómo influye un precio sombra positivo en las decisiones de expansión de recursos humanos y tecnológicos?
+  \item Formule el \textbf{dual} (min) e interprete \(y_1\) y \(y_2\) como \emph{precios sombra} por Mbps y por antena.
+  \item \textbf{Determine} a precios sombra óptimos si es \emph{rentable} invertir en:
+    \begin{itemize}
+      \item ancho de banda adicional a \(\$250\)/Mbps,
+      \item antenas adicionales a \(\$2000\)/unidad.
+    \end{itemize}
+    (Regla: invierta si \(y_i^\star >\) costo marginal del recurso \(i\).)
+  \item Analice cómo \(y_1^\star\) y \(y_2^\star\) guían decisiones de \emph{pricing} y \emph{mix} de planes (Básico vs. Premium) bajo restricciones activas/holgadas.
 \end{enumerate}
+\end{problema}
 
-\end{problem}
+% =====================================================
+\begin{problema}{Optimización de recursos en TechNica (dualidad y expansión)}{}
+La empresa \textbf{TechNica} desarrolla software y hardware, y evalúa contratar más personal y adquirir más equipos para aumentar producción.
 
+\medskip
+\textbf{Datos}
+\begin{itemize}
+  \item Personal: 50 empleados (costo adicional de referencia: \(\$800\) por empleado/mes).
+  \item Equipos: 30 unidades (costo adicional de referencia: \(\$1500\) por equipo).
+  \item Proyecto Software \(x_1\): requiere 2 empleados y 1 equipo por unidad; ingreso \(\$5000\) por unidad.
+  \item Proyecto Hardware \(x_2\): requiere 3 empleados y 2 equipos por unidad; ingreso \(\$8000\) por unidad.
+\end{itemize}
+
+\textbf{Primal (max):}
+\[
+\max\; 5000x_1+8000x_2
+\quad \text{s.a.}\quad
+\begin{aligned}
+2x_1+3x_2 &\le 50 && \text{(empleados, dual \(y_1\))},\\
+x_1+2x_2 &\le 30 && \text{(equipos, dual \(y_2\))},\\
+x_1,x_2 &\ge 0.
+\end{aligned}
+\]
+
+\textbf{Tareas:}
+\begin{enumerate}
+  \item Formule el \textbf{dual} y determine \(y_1^\star, y_2^\star\).
+  \item \textbf{Decida} si es rentable \emph{contratar más personal} (\$800/empleado) y/o \emph{adquirir más equipos} (\$1500/equipo) comparando con \(y_1^\star\) y \(y_2^\star\).
+  \item Explique el \emph{significado económico} de un precio sombra positivo y el papel de la \emph{complementariedad holgura–dual} en la selección del portafolio \(x_1, x_2\).
+\end{enumerate}
+\end{problema}
+
+% ======== (Opcional) esqueletos de solución para activar con \showsolutionstrue ========
+\begin{solucion}
+\textbf{Pautas generales de corrección (para los tres problemas):}
+\begin{itemize}
+  \item Verificar formulación dual correcta y unidades de \(y_i\).
+  \item Aplicar condición de \emph{inversión marginal}: invertir si \(y_i^\star\) supera el costo marginal del recurso.
+  \item Usar complementariedad: si una restricción está holgada, su \(y_i^\star=0\).
+\end{itemize}
+\end{solucion}
+
+\fi
 \end{document}

@@ -1,0 +1,299 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage[nosetup]{evan}
+\usetheme{Madrid}
+%\usetheme{Goddard}
+\hypersetup{colorlinks,allcolors=.,urlcolor=magenta}
+\usepackage[table]{xcolor} % Para definir colores en tablas
+\usepackage{graphicx} % Para redimensionar la tabla
+\usepackage{multicol}
+
+\title{Investigación de Operaciones I}
+\subtitle{Unidad 2: Aspectos de Dualidad y Análisis de Sensibilidad\\Método Dual Simplex \\[2mm] Introducción al Análisis Gráfico de Sensibilidad}
+\author[Ricardo Largaespada]{Ricardo Jesús Largaespada Fernández}
+\institute[UNI]{Ingeniería de Sistemas, DACTIC, UNI}
+\date{\today}
+
+% ===== Cajas personalizadas =====
+\tcbset{colback=white,colframe=black!60,boxrule=0.6pt,arc=2pt}
+\newtcolorbox{definicion}{title=\textbf{Definición},colframe=blue!60!black}
+\newtcolorbox{algoritmo}{title=\textbf{Algoritmo},colframe=orange!70!black}
+\newtcolorbox{nota}{title=\textbf{Nota},colframe=purple!70!black}
+\newtcolorbox{ejemplo}{title=\textbf{Ejemplo},colframe=green!50!black}
+\newtcolorbox{resultado}{title=\textbf{Resultado},colframe=teal!70!black}
+
+
+\begin{document}
+\begin{frame}\titlepage\end{frame}
+
+% ===== Agenda =====
+\begin{frame}{Agenda}
+\tableofcontents
+\end{frame}
+
+\section{2.3 Método Dual Simplex}
+
+\begin{frame}{Objetivos de aprendizaje}
+\begin{itemize}
+  \item Reconocer cuándo aplicar \textbf{Dual Simplex}: solución dual factible pero primal infactible.
+  \item Ejecutar el \textbf{algoritmo} y certificar optimalidad.
+  \item Interpretar el resultado en un \textit{caso postóptimo} (cambio en RHS/añadir restricción).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Idea central}
+\begin{definicion}
+El \textbf{método Dual Simplex} busca una solución \emph{primal factible} partiendo de una base cuya \emph{solución dual ya es factible}. En cada iteración:
+\begin{enumerate}
+  \item Se corrige la \emph{inviabilidad primal} (variables básicas negativas).
+  \item Se mantiene la \emph{factibilidad dual} (costos reducidos no negativos para un problema de minimización estándar).
+\end{enumerate}
+\end{definicion}
+\begin{nota}
+Es especialmente útil en \textbf{análisis postóptimo}: tras cambios en \(\bm{b}\) (RHS), agregar cotas o nuevas restricciones.
+\end{nota}
+\end{frame}
+
+\begin{frame}{Condiciones típicas (forma estándar de minimización)}
+\begin{itemize}
+  \item Problema en forma: \(\min \; \bm{c}^\top \bm{x}\) s.a. \(A\bm{x}=\bm{b},\; \bm{x}\ge 0\).
+  \item \textbf{Dual factible}: todos los \emph{costos reducidos} \(\bar{c}_j \ge 0\).
+  \item \textbf{Primal infactible}: alguna \emph{variable básica} \(\bar{x}_i<0\).
+\end{itemize}
+\begin{nota}
+En maximizaciones (con \(\le\)) la señal de las pruebas se invierte. Aquí seguimos el caso \textbf{min} típico en textos de IO.
+\end{nota}
+\end{frame}
+
+\begin{frame}{Regla de pivoteo (Dual Simplex)}
+\begin{algoritmo}
+Dado un tableau con \(\bar{c}_j \ge 0\) y alguna \(\bar{x}_i<0\):
+\begin{enumerate}
+  \item \textbf{Fila saliente} \(r\): elige la \emph{más negativa} \(\bar{x}_r = \min_i \{\bar{x}_i\}\).
+  \item \textbf{Columna entrante} \(s\): entre entradas \(a_{rs}<0\), minimiza \(\dfrac{\bar{c}_s}{|a_{rs}|}\).
+  \item Pivotea en \((r,s)\). Tras el pivote, conservar \(\bar{c}_j\ge 0\).
+  \item Repite hasta que todas \(\bar{x}_i\ge 0\). Entonces la solución es \textbf{óptima}.
+\end{enumerate}
+\end{algoritmo}
+\end{frame}
+
+\begin{frame}{Ejemplo (postóptimo, asignación de turnos)}
+\begin{ejemplo}
+Empresa de \textit{Service Desk}: se requieren al menos \(10\) operadores turno día y \(6\) turno noche. Costos por operador: día \(=2\) u.m., noche \(=3\) u.m. Además, se contrata al menos \(4\) \emph{polivalentes} (pueden cubrir cualquiera) con costo \(1\) u.m. (bono parcial por polivalencia ya asignado). Modelo (mín. costo):
+\[
+\min Z=2x_D+3x_N+1x_P
+\]
+\[
+\begin{aligned}
+x_D+x_P &\ge 10,\\
+x_N+x_P &\ge 6,\\
+x_D,x_N,x_P &\ge 0.
+\end{aligned}
+\]
+Partimos de solución óptima previa. Un cambio en requerimientos deja \(\bm{b}'=(9,6)\) (baja demanda diurna). La base previa genera \(\bar{c}_j\ge 0\) pero \(\bar{x}_D=-1\): \textbf{aplica Dual Simplex}.
+\end{ejemplo}
+\end{frame}
+
+\begin{frame}{Tabla inicial (ilustrativa)}
+\small
+\[
+\begin{array}{c|rrr|r}
+ & x_D & x_N & x_P & \text{RHS}\\\hline
+\text{(B) }s_1 & 1 & 0 & 1 & 9\\
+\text{(B) }s_2 & 0 & 1 & 1 & 6\\\hline
+\bar{c}_j      & 2 & 3 & 1 & \\
+\end{array}
+\]
+Supón que tras llevar a base \((s_1,s_2)\) y actualizar, la variable básica equivalente a \(x_D\) queda \(\bar{x}_D=-1\) (representa violación por el cambio de RHS). Tomamos fila \(r\) con \(\bar{x}_r=-1\).
+\begin{itemize}
+\item Candidatas entrantes: columnas con \(a_{rs}<0\). (Se muestran al docente durante el paso en pizarra).
+\item Selecciona \(s\) que minimiza \(\bar{c}_s/|a_{rs}|\).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Iteración y óptimo}
+\begin{resultado}
+Tras 1–2 pivotes, se obtiene \(\bar{x}_i\ge 0\) y \(\bar{c}_j\ge 0\). Solución típica para \(b'=(9,6)\): por ejemplo,
+\[
+x_D=9,\quad x_N=0,\quad x_P=6,\quad Z^*=2(9)+3(0)+1(6)=24.
+\]
+(\emph{Los valores exactos dependen de la base previa y el orden de pivoteo; el instructor puede reproducir la aritmética en pizarra paso a paso.})
+\end{resultado}
+\begin{nota}
+Mensaje operativo: el método \textbf{repara factibilidad} sin recalcular desde cero, ideal en escenarios de programación semanal.
+\end{nota}
+\end{frame}
+
+\begin{frame}{Comparación rápida: Simplex vs Dual Simplex}
+\begin{itemize}
+  \item \textbf{Simplex}: parte primal factible, arregla factibilidad dual hasta \(\bar{c}_j\ge 0\).
+  \item \textbf{Dual Simplex}: parte dual factible, arregla factibilidad primal hasta \(\bar{x}_i\ge 0\).
+  \item \textbf{Uso}: cambios en RHS, nuevas restricciones, cotas que vuelven negativa alguna básica.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejercicios (rápidos, orientados a SIS)}
+\begin{enumerate}
+  \item \textbf{Staffing}: cambia \(b=(10,6)\to(11,5)\). Repara con Dual Simplex y reporta \(Z^*\).
+  \item \textbf{Soporte 24/7}: agrega restricción \(x_P\le 7\). Partiendo de la base óptima, re-optimiza con Dual Simplex.
+\end{enumerate}
+\end{frame}
+
+% ===== Sensibilidad gráfica =====
+\section{2.4 Introducción al Análisis Gráfico de Sensibilidad}
+
+\begin{frame}{Objetivos}
+\begin{itemize}
+  \item Usar el plano (\(x_1,x_2\)) para \textbf{visualizar} región factible, isocostos y solución óptima.
+  \item Calcular \textbf{rangos de optimalidad} (coeficientes de la FO) y \textbf{rangos de factibilidad} (RHS).
+  \item Interpretar \textbf{precios sombra} y \textbf{holguras} en problemas de 2 variables.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Recordatorio visual (maximización)}
+\begin{definicion}
+Para \( \max z=c_1x_1+c_2x_2 \) con restricciones lineales:
+\begin{itemize}
+  \item La \textbf{recta isocosto} \(c_1x_1+c_2x_2=z\) se desplaza paralelamente.
+  \item El óptimo ocurre en un \textbf{vértice} factible; el rango de \( (c_1,c_2) \) que no cambia el vértice define el \textbf{rango de optimalidad}.
+\end{itemize}
+\end{definicion}
+\end{frame}
+
+\begin{frame}{Ejemplo gráfico (2 variables)}
+\begin{ejemplo}
+\[
+\max z=3x_1+2x_2\quad
+\text{s.a. }\;\begin{cases}
+x_1+2x_2\le 8\\
+2x_1+x_2\le 8\\
+x_1,x_2\ge 0
+\end{cases}
+\]
+\end{ejemplo}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+\begin{axis}[xmin=0,xmax=9,ymin=0,ymax=9,axis lines=middle,grid=both,
+xlabel={$x_1$},ylabel={$x_2$},ticks=none]
+% Restricciones
+\addplot[name path=A,domain=0:8]{(8 - x)/2};
+\addplot[name path=B,domain=0:4]{8 - 2*x};
+\path[name path=axis] (axis cs:0,0) -- (axis cs:9,0);
+\addplot[fill=gray!20,draw=none]
+  fill between[of=A and axis,soft clip={domain=0:8}];
+\addplot[fill=gray!20,draw=none]
+  fill between[of=B and axis,soft clip={domain=0:4}];
+% Vértices
+\addplot[only marks,mark=*] coordinates {(0,0) (0,8) (4,0) (8/3,8/3)};
+\node at (axis cs:0,8.3) {\small(0,8)};
+\node at (axis cs:4.2,0) {\small(4,0)};
+\node at (axis cs:2.8,2.8) {\small$(\tfrac{8}{3},\tfrac{8}{3})$};
+% Isocosto
+\addplot[dashed,domain=0:8]{(12 - 3*x)/2}; % z=12
+\node at (axis cs:3,3.2) {\small $z=12$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}{Rango de optimalidad (coeficientes FO)}
+\begin{algoritmo}
+Si el óptimo está en el vértice \(V\) (intersección de dos rectas activas):
+\begin{enumerate}
+  \item Calcula \(\bm{d}_1,\bm{d}_2\): direcciones de aristas incidentes en \(V\).
+  \item El vértice sigue óptimo mientras \(\bm{c}\) permanezca entre las normales a esas aristas:
+  \[
+  \bm{c}\cdot \bm{d}_1 \ge 0 \quad \text{y}\quad \bm{c}\cdot \bm{d}_2 \ge 0
+  \]
+  (ajustando signos según max/min).
+  \item En 2D: equivale a mantener la \emph{pendiente} de isocostos entre pendientes de las restricciones activas.
+\end{enumerate}
+\end{algoritmo}
+\begin{resultado}
+Para el ejemplo, el óptimo está en \((\tfrac{8}{3},\tfrac{8}{3})\). El rango de \(\frac{c_1}{c_2}\) que lo preserva es:
+\[
+1 \le \frac{c_1}{c_2} \le 2.
+\]
+\end{resultado}
+\end{frame}
+
+\begin{frame}{Rangos de factibilidad (RHS) y precio sombra}
+\begin{definicion}
+El \textbf{precio sombra} de una restricción activa es la tasa de cambio óptimo \( \frac{\partial z^*}{\partial b_i}\) mientras el \textbf{conjunto activo} no cambie.
+\end{definicion}
+\begin{algoritmo}
+\begin{enumerate}
+  \item Identifica restricciones \textbf{activas} en el óptimo.
+  \item Perturba \(b_i \to b_i+\Delta\) y resuelve (gráfica/álgebra) manteniendo el mismo vértice activo.
+  \item Determina el \textbf{intervalo} de \(\Delta\) en el que el vértice no cambia (rango de factibilidad).
+\end{enumerate}
+\end{algoritmo}
+\end{frame}
+
+\begin{frame}{Cálculo rápido (para el ejemplo)}
+\small
+Óptimo en intersección:
+\[
+\begin{cases}
+x_1+2x_2=b_1\\
+2x_1+x_2=b_2
+\end{cases}
+\Rightarrow
+\begin{bmatrix}x_1\\x_2\end{bmatrix}
+=
+\frac{1}{3}
+\begin{bmatrix}
+1 & -2\\
+-2 & 1
+\end{bmatrix}
+\begin{bmatrix}b_1\\b_2\end{bmatrix}.
+\]
+Con \(\bm{c}=(3,2)\):
+\[
+z^* = 3x_1+2x_2 = \frac{1}{3}\,(3,2)\!\begin{bmatrix}
+1 & -2\\
+-2 & 1
+\end{bmatrix}\!\begin{bmatrix}b_1\\b_2\end{bmatrix}
+= \frac{1}{3}\,( -1, -4 )\!\begin{bmatrix}b_1\\b_2\end{bmatrix}.
+\]
+Por lo tanto, \(\frac{\partial z^*}{\partial b_1}=-\tfrac{1}{3}\), \(\frac{\partial z^*}{\partial b_2}=-\tfrac{4}{3}\).
+\begin{nota}
+Los signos dependen de orientación (max) y forma de escritura. En la práctica, verifica contra el tableau óptimo (fila de costos reducidos/valores duales).
+\end{nota}
+\end{frame}
+
+\begin{frame}{Checklist para clase (2.4)}
+\begin{itemize}
+  \item Dibuja región factible y \textbf{marca vértices}.
+  \item Traza varias \textbf{isocostos} y localiza el óptimo.
+  \item Cambia \(c_1,c_2\) para hallar el \textbf{rango de optimalidad}.
+  \item Perturba \(b_i\) y calcula el \textbf{precio sombra} y rango de factibilidad (mismo vértice activo).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Mini–ejercicios (para discusión)}
+\begin{enumerate}
+  \item Cambia la FO a \( \max z=(3+\delta)x_1+2x_2\). Encuentra \(\delta\) que preserva el óptimo actual.
+  \item Incrementa \(b_1\) en \(+1\). ¿Sigue siendo óptimo el mismo vértice? Estima \(\Delta z\).
+\end{enumerate}
+\end{frame}
+
+\section*{Cierre}
+\begin{frame}{Conclusiones}
+\begin{itemize}
+  \item \textbf{Dual Simplex}: herramienta ágil para re-optimizar ante cambios que rompen factibilidad primal.
+  \item \textbf{Sensibilidad gráfica}: intuición fuerte en 2D sobre rangos de optimalidad y precios sombra.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Tarea sugerida}
+\begin{itemize}
+  \item Caso real corto: \emph{dimensionamiento de agentes de soporte} con demandas variables por franja (\(b\)). Simula 3 cambios y re-optimiza con Dual Simplex.
+\end{itemize}
+\end{frame}
+
+\end{document}
