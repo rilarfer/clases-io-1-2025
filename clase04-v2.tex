@@ -1,0 +1,165 @@
+\documentclass[11pt]{article}
+
+% --------- Idioma y tipografía ----------
+\usepackage[spanish, es-nodecimaldot]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{newpxtext,newpxmath} % Palatino + matemáticas
+\usepackage[a4paper,margin=1in]{geometry}
+
+% --------- Matemática y utilidades -------
+\usepackage{amsmath,mathtools}
+
+% --------- Colores, enlaces, refs --------
+\usepackage{xcolor}
+\definecolor{accent}{RGB}{10,80,160}
+\usepackage[
+  colorlinks,
+  linkcolor=accent,
+  urlcolor=accent,
+  citecolor=accent
+]{hyperref}
+\usepackage[nameinlink]{cleveref}
+
+% --------- Encabezados/Pies --------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textit{Problemas de Programación Lineal — Grupo B}}
+\rhead{Ricardo Largaespada}
+\cfoot{\thepage}
+\setlength{\headheight}{14pt}
+
+% --------- Tablas bonitas ----------------
+\usepackage{booktabs,tabularx}
+\renewcommand{\arraystretch}{1.15}
+
+% --------- Cajas para "Problema" ---------
+\usepackage[most]{tcolorbox}
+\tcbset{
+  boxsep=5pt,
+  arc=2mm,
+  colback=gray!2!white,
+  colframe=accent!60!black,
+  boxrule=0.6pt
+}
+\newtcbtheorem[auto counter]{problema}{Problema}{
+  fonttitle=\bfseries,
+  coltitle=white
+}{prob}
+
+% --------- Título ------------------------
+\title{\textbf{Problemas de Programación Lineal — Grupo B}}
+\author{Ricardo Largaespada}
+\date{\today}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+% ---------------------------------------------------
+\begin{problema}{Método gráfico}{}
+Resuelva mediante el método gráfico el siguiente modelo de \emph{maximización}:
+\begin{alignat*}{2}
+\text{Maximizar}\quad & Z = 11x_1 + 9x_2 \\
+\text{sujeto a}\quad
+& x_1 + 2x_2 &&\le 16,\\
+& 2x_1 + x_2 &&\le 14,\\
+-& x_1 + x_2 &&\le 5,\\
+& x_1,\; x_2 &&\ge 0.
+\end{alignat*}
+\end{problema}
+
+% ---------------------------------------------------
+\begin{problema}{Cuotas de venta (Primo Seguros)}{}
+La compañía de seguros \emph{Primo} planea introducir dos líneas: \emph{riesgo especial} ($x_1$) e \emph{hipotecas} ($x_2$).
+Las ganancias unitarias son de \$7 por riesgo especial y \$3 por hipoteca.
+Formule un modelo de programación lineal que \textbf{maximice} la ganancia total y resuélvalo por el método gráfico.
+
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}l *{2}{>{\centering\arraybackslash}X} >{\centering\arraybackslash}X @{}}
+\toprule
+\textbf{Departamento} & \textbf{Riesgo especial (h/u)} & \textbf{Hipoteca (h/u)} & \textbf{Disponibles (h)}\\
+\midrule
+Suscripciones & 2 & 3 & 2000\\
+Administración & 1 & 0 & 700\\
+Reclamaciones & 0 & 1 & 600\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\end{problema}
+
+% ---------------------------------------------------
+\begin{problema}{Desarrollo de aplicaciones móviles}{}
+Una empresa desarrolla dos tipos de aplicaciones móviles, tipo 1 ($x_1$) y tipo 2 ($x_2$).
+La aplicación tipo 1 requiere el doble de tiempo de desarrollo que la tipo 2. 
+Si todo el tiempo disponible se dedica a la tipo 2, se pueden producir 420 aplicaciones tipo 2 al día.
+Los límites de mercado para tipo 1 y tipo 2 son 160 y 180 por día, respectivamente.
+Las ganancias son \$9 (tipo 1) y \$4 (tipo 2).
+Formule el modelo y determine las cantidades de cada tipo que \textbf{maximizan} la ganancia total.
+\end{problema}
+
+% =================== VERIFICACIÓN DOCENTE ===================
+\iffalse
+VERIFICACIÓN (no imprimir al estudiante)
+
+Problema 1:
+Restricciones:
+R1: x1 + 2x2 ≤ 16
+R2: 2x1 + x2 ≤ 14
+R3: -x1 + x2 ≤ 5
+x1, x2 ≥ 0
+
+Vértices factibles (intersecciones enteras):
+(0,0), (7,0) [R2 con eje], (0,5) [R3 con eje], (4,6) [R1∩R2].
+R2∩R3 = (?,?) no factible (viola R2), R1∩R3 = (2,7).
+
+Evaluación FO Z=11x1+9x2:
+(0,0)->0; (7,0)->77; (0,5)->45; (4,6)->98; (2,7)->85.
+Óptimo único en (x1,x2)=(4,6) con Z*=98.
+
+Problema 2:
+Variables: x1=riegos especiales, x2=hipotecas.
+FO: Max Z=7x1+3x2
+Sujeto a:
+2x1+3x2 ≤ 2000   (Suscripciones)
+x1 ≤ 700         (Administración)
+x2 ≤ 600         (Reclamaciones)
+x1,x2 ≥ 0
+
+Vértices factibles (enteros):
+(0,0), (700,0), (0,600),
+Intersecciones con 2x1+3x2=2000:
+- con x1=700 → x2=200 → (700,200) factible
+- con x2=600 → x1=100 → (100,600) factible
+
+Valores:
+(700,200): Z=7*700+3*200=4900+600=5500
+(100,600): Z=700+1800=2500
+(700,0): 4900; (0,600):1800; (0,0):0
+Óptimo único en (700,200) con Z*=5500.
+
+Problema 3:
+Tiempo total equivalente: si todo es tipo 2 → 420 ⇒
+Restricción de tiempo: 2x1 + x2 ≤ 420.
+Mercado: x1 ≤ 160, x2 ≤ 180.
+FO: Max Z=9x1+4x2; x1,x2 ≥ 0.
+
+Vértices relevantes:
+(0,0), (160,0), (0,180),
+Intersecciones con 2x1+x2=420:
+- con x1=160 → x2=100 ⇒ (160,100) factible
+- con x2=180 → x1=120 ⇒ (120,180) factible
+(160,180) es infeasible (2*160+180=500>420).
+
+Valores:
+(160,100): Z=9*160+4*100=1440+400=1840
+(120,180): Z=9*120+4*180=1080+720=1800
+(160,0):1440; (0,180):720; (0,0):0
+Óptimo único en (160,100) con Z*=1840.
+\fi
+% =================== FIN VERIFICACIÓN ===================
+
+\end{document}

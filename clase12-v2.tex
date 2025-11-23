@@ -1,0 +1,108 @@
+\documentclass{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\title{Problemas de Programación Lineal\\{\small Método de la Big M y Método de 2 Fases (Versión 2)}}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\author{Ricardo Largaespada}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Problema 1}
+Considere el siguiente problema.
+
+\textbf{Minimizar} \quad $Z = 3x_1 + 2x_2 + 2x_3$,\\
+
+sujeta a 
+
+\[
+\begin{aligned}
+2x_1 + 3x_2 + x_3 & \geq 10, \\
+4x_1 + x_2 & \geq 5, \\
+x_1, x_2, x_3 &\geq 0.
+\end{aligned}
+\]
+
+\begin{enumerate}
+    \item[(a)] Reformule este problema para que se ajuste a la forma estándar.
+    \item[(b)] Resuelva con el método de la gran $M$.
+    \item[(c)] Resuelva con el método de las dos fases.
+    \item[(d)] Compare las soluciones básicas factibles de ambos métodos.
+    \item[(e)] Verifique con un software de programación lineal.
+\end{enumerate}
+
+\section{Problema 2}
+Considere el siguiente problema.
+
+\textbf{Maximizar} \quad $Z = 6x_1 + 3x_2$,\\
+
+sujeto a 
+
+\[
+\begin{aligned}
+2x_1 + 5x_2 & \leq 8, \\
+x_1 - 3x_2 & \geq 5, \\
+x_1, x_2 & \geq 0.
+\end{aligned}
+\]
+
+\begin{enumerate}
+    \item[(a)] Demuestre gráficamente que no existen soluciones factibles.
+    \item[(b)] Utilice el método de la gran $M$ para justificar la infactibilidad.
+    \item[(c)] Aplique la fase 1 del método de dos fases para corroborar el resultado.
+    \item[(d)] Verifique con un paquete de software basado en el método símplex.
+\end{enumerate}
+
+\section{Problema 3}
+
+Considere el siguiente problema.
+
+\textbf{Minimizar} \quad $Z = x_1 + 2x_2 + 4x_3$,\\
+
+sujeto a 
+
+\[
+\begin{aligned}
+4x_1 + 3x_2 + 6x_3 &= 360, \\
+2x_1 + 3x_2 + 5x_3 &\geq 250, \\
+x_1, x_2, x_3 & \geq 0.
+\end{aligned}
+\]
+
+\begin{enumerate}
+    \item[(a)] Aplique la fase 1 del método de dos fases paso a paso.
+    \item[(b)] Formule y resuelva con un software la fase 1.
+    \item[(c)] Ejecute la fase 2 manualmente para resolver el problema original.
+    \item[(d)] Verifique con un programa basado en el método símplex.
+\end{enumerate}
+
+\section{Problema 4}
+
+Considere el siguiente problema.
+
+\textbf{Maximizar} \quad $Z = -x_1 + 2x_2 - 3x_3 + 4x_4$,\\
+
+sujeto a 
+
+\[
+\begin{aligned}
+2x_1 + x_2 + 2x_3 + x_4 &\leq 5, \\
+x_1 - 2x_3 + x_4 &\geq 0, \\
+x_1 + x_2 &\leq 3, \\
+x_1 + 3x_2 + 2x_3 + x_4 &= 4, \\
+x_2, x_3, x_4 & \geq 0.
+\end{aligned}
+\]
+(sin restricciones de no negatividad para $x_1$).
+
+\begin{enumerate}
+    \item[(a)] Reformule este problema en la forma estándar.
+    \item[(b)] Construya la primera tabla símplex con el método de la gran $M$ e identifique la solución básica inicial.
+    \item[(c)] Construya el renglón 0 de la primera tabla de la fase 1 con el método de las dos fases.
+    \item[(d)] Resuelva con un software basado en el método símplex.
+\end{enumerate}
+
+\end{document}
